@@ -51,7 +51,7 @@ services:
         container_name: mariadb-container
         restart: unless-stopped
         environment: 
-            MYSQL_ROOT_PASSWORD: ramoi3ecefetrj
+            MYSQL_ROOT_PASSWORD: woIHsOXDm6&o7m7O
             MYSQL_DATABASE: bd_ramo
         ports: 
             - "3306:3306"
