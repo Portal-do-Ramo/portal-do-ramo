@@ -20,7 +20,7 @@ export default function OutputProjectRequest() {
     e.preventDefault();
     const date = document.getElementById('output-date').value.split('-');
     const date_pattern = date[2] + '/' + date[1] + '/' + date[0];
-    console.log(document.getElementById('select-project').value)
+
     api.post('/api/pedidos/pedido-de-saida-de-projeto', {
       nome_projeto: document.getElementById('select-project').value,
       justificativa: document.getElementById('reason').value,
@@ -33,7 +33,7 @@ export default function OutputProjectRequest() {
   useEffect(() => {
     api.get('/api/projetos/select-projetos', { headers: { Authorization: access_token } })
     .then(response => setListProjects(response.data))
-    .catch(error => console.log(error))
+    .catch(() => window.location.href = '/error')
   }, [])
 
   useEffect(() => {

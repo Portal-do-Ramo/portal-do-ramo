@@ -2,6 +2,22 @@ import styled from 'styled-components';
 
 export const Screen = styled.div`
   padding-bottom: 50px;
+
+  .area-alert {
+    display: flex;
+    justify-content: center;
+    top: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 5;
+  }
+
+  .loader-area {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `
 
 export const Content = styled.div`
@@ -31,6 +47,13 @@ export const Content = styled.div`
 
   button {
     margin-bottom: 30px;
+  }
+
+  .loader-area {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `
 

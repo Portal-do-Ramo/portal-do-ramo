@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Menu, MenuOption, Search } from './styles';
 
@@ -14,6 +15,8 @@ import strike_icon from './images/strike_icon.png';
 import finance_icon from './images/finance_icon.png';
 import search_icon from './images/search.png';
 import arrow from './images/arrow.png';
+
+import Dropdown from 'react-bootstrap/Dropdown';
 
 export default function Top_Left_Side_Menu() {
   const username = (useSelector(state => state.data[1])).split(' ')[0];
@@ -91,86 +94,92 @@ export default function Top_Left_Side_Menu() {
                 <button className="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit"><img src={search_icon} id="img-search" alt="search"/></button>
               </Search>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={user_icon} className="Icon" alt="icon"/>
                   {username}
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-my-absences" onClick={() => window.location.href='/absences/myabsences'}>Minhas faltas</button>
-                  <button className="menu-dropdown-option" id="btn-my-teams" onClick={() => window.location.href='/teams/myteams'}>Minhas equipes</button>
-                  <button className="menu-dropdown-option" id="btn-my-projects" onClick={() => window.location.href='/projects/myprojects'}>Meus projetos</button>
-                  <button className="menu-dropdown-option" id="btn-my-strikes" onClick={() => window.location.href='/strikes/mystrikes'}>Meus strikes</button>
-                  <button className="menu-dropdown-option" id="btn-requests" onClick={() => window.location.href='/requests'}>Pedidos</button>
-                  <button className="menu-dropdown-option" id="btn-selective-process" onClick={() => window.location.href='/selectiveprocess'} disabled>Processos seletivos</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/absences/myabsences" id="btn-my-absences">Minhas Faltas</Dropdown.Item>
+                  <Dropdown.Item href="/teams/myteams" id="btn-my-teams">Minhas equipes</Dropdown.Item>
+                  <Dropdown.Item href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
+                  <Dropdown.Item href="/strikes/mystrikes" id="btn-my-strikes">Meus strikes</Dropdown.Item>
+                  <Dropdown.Item href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
+                  <Dropdown.Item href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={person_icon} className="Icon" alt="icon"/>
                   Pessoas
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-message" onClick={() => window.location.href='/message'}>Mensagem</button>
-                  <button className="menu-dropdown-option" id="btn-manage-members" onClick={() => window.location.href='/managemembers'} disabled={statusGPButtons()}>Gerenciar Membros</button>
-                  <button className="menu-dropdown-option" id="btn-manage-absences" onClick={() => window.location.href='/manageabsences'} disabled={statusGPButtons()}>Gerenciar Faltas</button>
-                  <button className="menu-dropdown-option" id="btn-manage-psi" onClick={() => window.location.href='/managepsi'} disabled>Gerenciar PSI</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/message" id="btn-message">Mensagem</Dropdown.Item>
+                  <Dropdown.Item href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
+                  <Dropdown.Item href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
+                  <Dropdown.Item href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={team_icon} className="Icon" alt="icon"/>
                   Equipes
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-my-teams-2" onClick={() => window.location.href='/team/myteams'}>Minhas equipes</button>
-                  <button className="menu-dropdown-option" id="btn-manage-teams" onClick={() => window.location.href='/team/manageteams'} disabled={statusTeamsButtons()}>Gerenciar equipes</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/teams/myteams" id="btn-my-teams-2">Minhas equipes</Dropdown.Item>
+                  <Dropdown.Item href="/team/manageteams" id="btn-manage-teams" disabled={ statusGPButtons() }>Gerenciar equipes</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={project_icon} className="Icon" alt="icon"/>
                   Projetos
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-my-projects" onClick={() => window.location.href='/myprojects'}>Meus projetos</button>
-                  <button className="menu-dropdown-option" id="btn-manage-projects" onClick={() => window.location.href='/projects/manage'} disabled={statusProjectsButtons()}>Gerenciar projetos</button>
-                  <button className="menu-dropdown-option" id="btn-historic-projects" onClick={() => window.location.href='/projects/historic'} disabled={statusProjectsButtons()}>Histórico</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
+                  <Dropdown.Item href="/projects/manage" id="btn-manage-projects" disabled={statusProjectsButtons()}>Gerenciar projetos</Dropdown.Item>
+                  <Dropdown.Item href="/projects/historic" id="btn-historic-projects" disabled={statusProjectsButtons()}>Histórico de projetos</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={strike_icon} className="Icon" alt="icon"/>
                   Strikes
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-my-strikes-2" onClick={() => window.location.href='/strike/my'}>Meus strikes</button>
-                  <button className="menu-dropdown-option" id="btn-apply-strike" onClick={() => window.location.href='/strike'}>Aplicar strike</button>
-                  <button className="menu-dropdown-option" id="btn-manage-strikes" onClick={() => window.location.href='/strike/manage'} disabled={statusGPButtons()}>Gerenciar strikes</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
 
-              <MenuOption className="nav-item dropdown dropright">
-                <a className="nav-link" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/strike/my" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
+                  <Dropdown.Item href="/strike" id="btn-apply-strike">Aplicar strikes</Dropdown.Item>
+                  <Dropdown.Item href="/strike/manage" id="btn-manage-strikes" disabled={statusGPButtons()}>Gerenciar strikes</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={finance_icon} className="Icon" alt="icon"/>
                   Financeiro
                   <img src={arrow} className="Arrow" alt="arrow"/>
-                </a>
-                <div className="dropdown-menu" aria-labelledby="dropdownId">
-                  <button className="menu-dropdown-option" id="btn-finances" onClick={() => window.location.href='/finances'} disabled>Ver caixa</button>
-                  <button className="menu-dropdown-option" id="btn-manage-finances" onClick={() => window.location.href='/finances/manage'} disabled={statusFinanceButtons()}>Gerenciar caixa</button>
-                  <button className="menu-dropdown-option" id="btn-requests-2" onClick={() => window.location.href='/requests'}>Pedidos</button>
-                </div>
-              </MenuOption>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu  >
+                  <Dropdown.Item href="/finances" id="btn-finances">Ver caixa</Dropdown.Item>
+                  <Dropdown.Item href="/finances/manage" id="btn-manage-finances" disabled={statusFinanceButtons()}>Gerenciar caixa</Dropdown.Item>
+                  <Dropdown.Item href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </ul>
             <div className="logo-menu">
               <img src={logo_portal} className="logo-portal" alt="logo-portal"/>

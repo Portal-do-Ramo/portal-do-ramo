@@ -75,6 +75,62 @@ export const Menu = styled.div`
     width: 260px;
   }
 
+  .menu-option {
+    color: #E5E5E5;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 11pt;
+    margin-bottom: 8px;
+    width: 200px;
+
+    .Icon {
+      float: left;
+      margin-top: 4px;
+      width: 20px;
+    }
+
+    .Arrow {
+      float: right;
+      margin-top: 4px;
+    }
+
+
+    a:hover {
+      background: rgba(0,0,0,0.2);
+      transition: 0.8s;
+    }
+
+    .dropdown-menu {
+      background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
+      margin-left: 10px;
+      color: white;
+
+      .menu-dropdown-option {
+        margin-left: 7px;
+        background-color: #1D5EA8;
+        padding: 10px;
+        width: 94%;
+        border: none;
+        color: #FFF;
+        border-radius: 5px;
+        margin-bottom: 7px;
+        font-size: 11pt;
+      }
+
+      .menu-dropdown-option:hover {
+        background: rgba(0,0,0,0.2);
+        transition: .8s;
+      }
+
+      .menu-dropdown-option:disabled {
+        background: rgba(255,255,255,0.2);
+        cursor: default;
+      }
+    }
+  }
+
   @media (min-width: 319px) and (max-width: 767.98px) {
     ul {
       margin-top: -140px;

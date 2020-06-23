@@ -31,6 +31,7 @@ export default function ManageFinances () {
   const [isLoadedCaixas, setIsLoadedCaixas] = useState(false);
   const [purchaseOrderSelected, setPurchaseOrderSelected] = useState();
   const [refundRequestSelected, setRefundRequestSelected] = useState();
+  const [monthsToRegister, setMonthsToRegister] = useState(1);
 
   // IN/OUT CASH
   const [isInputExclusive, setIsInputExclusive] = useState(false);
@@ -80,7 +81,7 @@ export default function ManageFinances () {
 
 
   useEffect(() => {
-    api.get('/api/registros-de-caixa?meses=1', { headers: { Authorization: access_token } })
+    api.get(`/api/registros-de-caixa?meses=${monthsToRegister}`, { headers: { Authorization: access_token } })
     .then(response => setRegisters(response.data))
     // .catch(() => window.location.href = '/error')
     .catch(error => console.log(error.response))
@@ -107,7 +108,8 @@ export default function ManageFinances () {
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setListTeams(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
@@ -372,7 +374,6 @@ export default function ManageFinances () {
 
 
   function getNovosRegistrosDeCaixaAnual(year) {
-    console.log('1')
     api.get(`/api/registros-de-caixa/registros-anuais?ano=${year}`, { headers: { Authorization: access_token } })
     .then(response => {
       setEntradasAnuais(response.data.entrada)
@@ -385,7 +386,6 @@ export default function ManageFinances () {
 
 
   function getNovosGastosAnuais(year) {
-    console.log('2')
     api.get(`/api/registros-de-caixa/gastos-anuais?ano=${year}`, { headers: { Authorization: access_token } })
     .then(response => {
       setGastosMensais(response.data)
@@ -397,12 +397,22 @@ export default function ManageFinances () {
 
 
   function getGastosAnuaisBotzSocial(year) {
-    console.log('3')
     api.get(`/api/registros-de-caixa/gastos-anuais-equipes?ano=${year}`, { headers: { Authorization: access_token } })
     .then(response => {
       setDataWolfBotz(response.data.wolfbotz)
       setDataSocialWolf(response.data.socialwolf)
       setSelectedYear(year)
+    })
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
+  }
+
+
+  function getExtrato(time) {
+    api.get(`/api/registros-de-caixa?meses=${time}`, { headers: { Authorization: access_token } })
+    .then(response => {
+      setRegisters(response.data)
+      setMonthsToRegister(time)
     })
     // .catch(() => window.location.href = '/error')
     .catch(error => console.log(error.response))
@@ -510,7 +520,7 @@ export default function ManageFinances () {
                       </div>
                     : '' }
                     <br />
-                    <button className="btn-option-box" disabled>Ver extrato completo</button><br />
+                    <button className="btn-option-box" onClick={() => document.getElementById('extract-complete').style.display='block'}>Ver extrato completo</button><br />
                     <hr />
                     <div className="row">
                       <div className="col-md-6">
@@ -582,6 +592,40 @@ export default function ManageFinances () {
               </div>
             </div>
           </div>
+
+          <ModalScreen id="extract-complete" className="modal">
+            <BoxModalScreen className="container box-modal-screen">
+              <div className="modal-content animate view">
+                <div className='row'>
+                  <h1 className="title">Extrato</h1>
+                </div>
+                <div className="inside-area">
+                  <select className="form-control" defaultValue={monthsToRegister} onChange={e => getExtrato(e.target.value)}>
+                    <option value="1">Último mês</option>
+                    <option value="6">Últimos 6 meses</option>
+                    <option value="12">Último ano</option>
+                    <option value="">Todos</option>
+                  </select>
+                  <div className="view-extract-complete">
+                    {(registers) ?
+                      registers.map(register => (
+                        <div className="register-box">
+                          <Register color={(register.valor < 0) ? '#FF0000' : '#222'}><strong>{register.data}</strong> {'---->'} R$ {register.valor}</Register>
+                        </div>
+                      ))
+                    : ''}
+                  </div>
+                  <div className="row buttons-area">
+                    <button className="btn btn-primary back" onClick={() => {
+                      document.getElementById('extract-complete').style.display='none'
+                    }}>
+                      Voltar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </BoxModalScreen>
+          </ModalScreen>
 
           <ModalScreen id="new-input" className="modal">
             <BoxModalScreen className="container box-modal-screen">

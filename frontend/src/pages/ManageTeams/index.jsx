@@ -22,7 +22,8 @@ export default function ManageTeams() {
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setTeams(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
     .finally(() => setIsLoaded(true))
   }, [])
 

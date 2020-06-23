@@ -141,7 +141,9 @@ export default function RegisterMembers () {
           window.location.href = '/error';
           break;
         default:
-          setAlert('<div class="alert alert-danger" role="alert">Não foi possível cadastrar o membro! <strong>Confira os dados digitados!</strong></div>');
+          for(let erro in error.response.data.errors) {
+            setAlert(`<div class="alert alert-danger" role="alert">${error.response.data.errors[erro]}</div>`)
+          }
           break;
       }
     })
