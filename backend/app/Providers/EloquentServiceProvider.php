@@ -6,6 +6,7 @@ use App\Models\DoacaoVaquinha;
 use App\Models\Equipe;
 use App\Models\Falta;
 use App\Models\InscricaoPsi;
+use App\Models\Parceria;
 use App\Models\Pedidos\PedidoDeCompra;
 use App\Models\Pedidos\PedidoDeDesligamento;
 use App\Models\Pedidos\PedidoDeInatividade;
@@ -20,6 +21,7 @@ use App\Observers\DoacaoVaquinhaObserver;
 use App\Observers\EquipeObserver;
 use App\Observers\FaltaObserver;
 use App\Observers\InscricaoPsiObserver;
+use App\Observers\ParceriaObserver;
 use App\Observers\Pedidos\PedidoDeCompraObserver;
 use App\Observers\Pedidos\PedidoDeDesligamentoObserver;
 use App\Observers\Pedidos\PedidoDeInatividadeObserver;
@@ -66,6 +68,7 @@ class EloquentServiceProvider extends ServiceProvider
         DoacaoVaquinha::observe(DoacaoVaquinhaObserver::class);
         RegistroDeCaixa::observe(RegistroDeCaixaObserver::class);
         Equipe::observe(EquipeObserver::class);
+        Parceria::observe(ParceriaObserver::class);
 
         Relation::morphMap(['Equipe' => 'App\Models\Equipe', 'Projeto' => 'App\Models\Projeto']);
     }

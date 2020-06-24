@@ -30,6 +30,4 @@ interface PedidoRepositoryInterface
     public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url);
 
     public function criarPedidoDeCompra(array $dadosValidos);
-
-    public function atualizarPedidoDeCompra(PedidoDeCompra $pedidoDeCompra, array $dadosValidos);
 }

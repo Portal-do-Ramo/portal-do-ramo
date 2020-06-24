@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Usuario;
 use App\Repositories\Interfaces\UsuarioRepositoryInterface;
-use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,6 +20,7 @@ class AlterarFotoPerfilJob implements ShouldQueue
     protected $dadosValidos;
     protected $usuarioRepository;
     protected $service;
+    protected $url;
 
     /**
      * Create a new job instance.
@@ -46,6 +46,12 @@ class AlterarFotoPerfilJob implements ShouldQueue
         $path = "$pasta/foto-perfil-{$this->usuario->matricula}";
 
         Storage::cloud()->put($path, base64_decode($this->dadosValidos['foto']));
-        $this->usuarioRepository->setFotoPerfil($this->usuario, Storage::cloud()->url($path));
+        $this->url = Storage::cloud()->url($path);
+        $this->usuarioRepository->setFotoPerfil($this->usuario, $this->url);
+    }
+
+    public function getResponse()
+    {
+        return $this->url;
     }
 }

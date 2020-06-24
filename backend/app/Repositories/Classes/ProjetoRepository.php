@@ -142,6 +142,6 @@ class ProjetoRepository implements ProjetoRepositoryInterface
 
     public function getArquivos(Projeto $projeto)
     {
-        return $projeto->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.data_criado')->get();
+        return $projeto->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.path', 'arquivos.data_criado')->get();
     }
 }

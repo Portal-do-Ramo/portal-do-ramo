@@ -29,6 +29,7 @@ class PerfilCompletoResource extends JsonResource
             'situacao' => $this->situacao->nome,
             'assessor_flag' => $this->assessor,
             'marketing_flag' => $this->marketing,
+            'orgao_emissor' => $this->membro->orgao_emissor,
             'rg' => $this->membro->rg,
             'cpf' => $this->membro->cpf,
             'tipo_sanguineo' => $this->membro->tipo_sanguineo,

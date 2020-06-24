@@ -15,7 +15,7 @@ class DownloadArquivoController extends Controller
      */
     public function __invoke(Arquivo $arquivo)
     {
-        $conteudo = $arquivo->getArquivo();
+        $conteudo = $arquivo->getArquivoParaDownload();
         return $conteudo ? response($conteudo) : response()->json('Arquivo não encontrado no Drive', 404);
     }
 }

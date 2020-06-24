@@ -144,6 +144,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
     
             $usuario->membro()->update([
                 'cpf' => $dadosValidos['cpf_usuario'],
+                'orgao_emissor' => $dadosValidos['orgao_emissor'],
                 'rg' => $dadosValidos['rg_usuario'],
                 'telefones->telefone_secundario' => $dadosValidos['telefone_secundario'],
                 'tipo_sanguineo' => $dadosValidos['tipo_sanguineo'],
@@ -191,6 +192,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
     
             $usuario->membro()->update([
                 'cpf' => $dadosValidos['cpf_usuario'],
+                'orgao_emissor' => $dadosValidos['orgao_emissor'],
                 'rg' => $dadosValidos['rg_usuario'],
                 'data_nascimento' => $dadosValidos['data_nascimento'],
                 'curso_id' => $dadosValidos['curso_usuario'],

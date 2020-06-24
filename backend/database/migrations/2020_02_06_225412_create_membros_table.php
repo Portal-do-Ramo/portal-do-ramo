@@ -17,6 +17,7 @@ class CreateMembrosTable extends Migration
             $table->char('matricula_usuario', 12)->primary();
             $table->char('cpf', 14)->unique()->nullable();
             $table->string('rg', 20)->nullable();
+            $table->string('orgao_emissor', 15)->nullable();
             $table->date('data_nascimento');
             $table->unsignedInteger('curso_id');
             $table->json('telefones')->default(json_encode(new stdClass));

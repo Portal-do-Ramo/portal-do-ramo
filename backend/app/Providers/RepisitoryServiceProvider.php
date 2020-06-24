@@ -15,6 +15,7 @@ use App\Repositories\Classes\PsiRepository;
 use App\Repositories\Classes\RegistroDeCaixaRepository;
 use App\Repositories\Classes\VaquinhaRepository;
 use App\Repositories\Classes\EventoRepository;
+use App\Repositories\Classes\ParceriaRepository;
 use App\Repositories\Interfaces\CaixaRepositoryInterface;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
 use App\Repositories\Interfaces\FaltaRepositoryInterface;
@@ -28,6 +29,7 @@ use App\Repositories\Interfaces\PsiRepositoryInterface;
 use App\Repositories\Interfaces\RegistroDeCaixaRepositoryInterface;
 use App\Repositories\Interfaces\VaquinhaRepositoryInterface;
 use App\Repositories\Interfaces\EventoRepositoryInterface;
+use App\Repositories\Interfaces\ParceriaRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepisitoryServiceProvider extends ServiceProvider
@@ -62,5 +64,6 @@ class RepisitoryServiceProvider extends ServiceProvider
         $this->app->bind(CaixaRepositoryInterface::class, CaixaRepository::class);
         $this->app->bind(RegistroDeCaixaRepositoryInterface::class, RegistroDeCaixaRepository::class);
         $this->app->bind(EventoRepositoryInterface::class, EventoRepository::class);
+        $this->app->bind(ParceriaRepositoryInterface::class, ParceriaRepository::class);
     }
 }

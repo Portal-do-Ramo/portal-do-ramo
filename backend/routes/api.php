@@ -245,14 +245,33 @@ Route::prefix('caixas')->group(function() {
     Route::get('/info-gerais', 'Caixa\CaixaController@infosGerais');
 });
 
+/**
+ * 
+ * Rotas referentes aos controladores relacionados a arquivos
+ * 
+ */
 Route::prefix('arquivos')->group(function() {
     Route::get('/download/{arquivo}', 'Arquivo\DownloadArquivoController');
 
     Route::post('/upload-arquivo-equipe/{equipe}', 'Equipe\EquipeArquivosController@store');
     Route::match(['PUT', 'PATCH'], '{equipe}/alterar-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@update');
-    Route::delete('{equipe}/remover-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivoController@destroy');
+    Route::delete('{equipe}/remover-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@destroy');
     
     Route::post('/upload-arquivo-projeto/{projeto}', 'Projeto\ProjetoArquivosController@store');
     Route::match(['PUT', 'PATCH'], '{projeto}/alterar-arquivo-projeto/{arquivo}', 'Projeto\ProjetoArquivosController@update');
     Route::delete('{projeto}/remover-arquivo-projeto/{arquivo}', 'Projeto\ProjetoArquivosController@destroy');
 });
+
+/**
+ * 
+ * 
+ * Rotas referentes aos controladores relacionados a parcerias
+ * 
+ */
+
+ Route::apiResource('parcerias', 'Parceria\ParceriaController');
+ Route::prefix('/parcerias')->group(function() {
+    Route::get('/index-publicas', 'Parceria\ParceriaController@indexPublicas');
+    Route::post('/create-consolidada', 'Parceria\ParceriaController@storeConsolidada');
+    Route::match(['PUT', 'PATCH'], '/consolidar/{parceria}', 'Parceria\ParceriaController@consolidar');
+ });

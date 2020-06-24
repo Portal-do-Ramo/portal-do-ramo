@@ -122,8 +122,10 @@ class UsuarioController extends AbstractUsuarioController
 
     public function updateFotoPerfil(Request $request, Usuario $usuario, VerificarExistenciaDiretorioService $service)
     {
-        AlterarFotoPerfilJob::dispatch($usuario, $request->validate(['foto' => 'required|base64image|base64max:1024']), $this->usuarioRepository, $service);
-        return response()->json('Foto de perfil alterada com sucesso', 200);
+        $job = new AlterarFotoPerfilJob($usuario, $request->validate(['foto' => 'required|base64image|base64max:1024']), $this->usuarioRepository, $service);
+        $job::dispatchNow();
+
+        return response()->json($job->getResponse(), 200);
     }
 
     /**

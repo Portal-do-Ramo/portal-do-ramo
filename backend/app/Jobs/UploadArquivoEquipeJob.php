@@ -42,11 +42,12 @@ class UploadArquivoEquipeJob implements ShouldQueue
     public function handle()
     {
         $pastaEquipes = $this->service->handle('Equipes');
-        $pasta = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
+        $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
+        $pasta = $this->service->handle('Arquivos', $pastaEquipe);
 
-        $this->dadosValidos['path'] = "$pasta";
+        $this->dadosValidos['path'] = $pasta;
 
-        Storage::cloud()->put($this->dadosValidos['path'], base64_decode($this->dadosValidos['arquivo']));
+        Storage::cloud()->put("{$this->dadosValidos['path']}/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
         $this->projetoRepository->addArquivo($this->equipe, $this->dadosValidos);
     }
 }

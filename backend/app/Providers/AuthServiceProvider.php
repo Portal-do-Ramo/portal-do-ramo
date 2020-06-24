@@ -17,10 +17,12 @@ use App\Models\Strike;
 use App\Models\Usuario;
 use App\Models\Vaquinha;
 use App\Models\Evento;
+use App\Models\Parceria;
 use App\Policies\Financeiro\CaixaPolicy;
 use App\Policies\Financeiro\DoacaoVaquinhaPolicy;
 use App\Policies\Financeiro\RegistroDeCaixaPolicy;
 use App\Policies\Financeiro\VaquinhaPolicy;
+use App\Policies\Marketing\ParceriaPolicy;
 use App\Policies\Pessoas\FaltaPolicy;
 use App\Policies\Pessoas\FeedbackPolicy;
 use App\Policies\Pessoas\InscricaoPsiPolicy;
@@ -56,7 +58,8 @@ class AuthServiceProvider extends ServiceProvider
         Feedback::class => FeedbackPolicy::class,
         Caixa::class => CaixaPolicy::class,
         RegistroDeCaixa::class => RegistroDeCaixaPolicy::class,
-        Evento::class => EventoPolicy:: class
+        Evento::class => EventoPolicy:: class,
+        Parceria::class => ParceriaPolicy::class
     ];
 
     /**

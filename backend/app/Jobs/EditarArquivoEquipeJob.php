@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Arquivo;
 use App\Models\Equipe;
-use App\Repositories\Interfaces\EquipeRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,26 +12,25 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class AlterarLogoEquipeJob implements ShouldQueue
+class EditarArquivoEquipeJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $equipe;
-    protected $logo;
-    protected $equipeRepository;
+    protected $arquivo;
+    protected $dadosValidos;
     protected $service;
-    protected $url;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Equipe $equipe, array $dadosValidos, EquipeRepositoryInterface $equipeRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Equipe $equipe, Arquivo $arquivo, array $dadosValidos, VerificarExistenciaDiretorioService $service)
     {
         $this->equipe = $equipe;
-        $this->logo = $dadosValidos['logo_equipe'];
-        $this->equipeRepository = $equipeRepository;
+        $this->arquivo = $arquivo;
+        $this->dadosValidos = $dadosValidos;
         $this->service = $service;
     }
 
@@ -44,15 +43,8 @@ class AlterarLogoEquipeJob implements ShouldQueue
     {
         $pastaEquipes = $this->service->handle('Equipes');
         $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
-        $path = "$pastaEquipe/logo-equipe-{$this->equipe->nome_equipe_slug}";
+        $pasta = $this->service->handle('Arquivos', $pastaEquipe);
 
-        Storage::cloud()->put($path, base64_decode($this->logo));
-        $this->url = Storage::cloud()->url($path);
-        $this->dadosValidos['foto_url'] = $this->url;
-    }
-
-    public function getResponse()
-    {
-        return $this->url;
+        Storage::cloud()->put("$pasta/{$this->arquivo->nome}", base64_decode($this->dadosValidos['arquivo']));
     }
 }

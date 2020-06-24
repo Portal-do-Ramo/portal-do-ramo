@@ -14,6 +14,8 @@ use App\Jobs\AlterarLogoEquipeJob;
 use App\Jobs\CriarEquipeJob;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
+use Illuminate\Queue\Jobs\Job;
+use Illuminate\Queue\Queue;
 
 class EquipeController extends AbstractEquipeController
 {
@@ -87,8 +89,10 @@ class EquipeController extends AbstractEquipeController
 
     public function updateLogo(AtualizarLogoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service)
     {
-        AlterarLogoEquipeJob::dispatch($equipe, $request->validated(), $this->equipeRepository, $service);        
-        return response()->json('Logo da equipe atualizado com sucesso', 200);
+        $job = new AlterarLogoEquipeJob($equipe, $request->validated(), $this->equipeRepository, $service);       
+        $job::dispatchNow();
+        
+        return response()->json($job->getResponse(), 200);
     }
 
     protected function resourceAbilityMap()

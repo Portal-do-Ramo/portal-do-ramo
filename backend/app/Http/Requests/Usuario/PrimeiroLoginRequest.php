@@ -4,6 +4,7 @@ namespace App\Http\Requests\Usuario;
 
 use App\Traits\ApiRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PrimeiroLoginRequest extends FormRequest
 {
@@ -17,7 +18,8 @@ class PrimeiroLoginRequest extends FormRequest
     {
         return [
             'cpf_usuario' => 'bail|required|formato_cpf|cpf|unique:membros,cpf',
-            'rg_usuario' => 'required',
+            'orgao_emissor' => 'required',
+            'rg_usuario' => ['required', Rule::unique('membros', 'rg')->where(fn($query) => $query->where('orgao_emissor', $this->orgao_emissor))->ignore($this->route('usuario')->membro)],
             'telefone_secundario' => 'bail|present|nullable|telefone_com_ddd',
             'senha_usuario' => 'bail|required|min:4',
             'tipo_sanguineo' => 'required',
@@ -40,6 +42,7 @@ class PrimeiroLoginRequest extends FormRequest
     {
         return [
             'cpf_usuario' => 'CPF',
+            'orgao_emissor' => 'Órgão emissor',
             'rg_usuario' => 'RG',
             'telefone_secundario' => 'telefone secundário',
             'senha_usuario' => 'senha',

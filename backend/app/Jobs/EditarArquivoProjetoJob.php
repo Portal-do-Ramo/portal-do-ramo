@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Arquivo;
 use App\Models\Projeto;
-use App\Repositories\Interfaces\ProjetoRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,13 +12,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class UploadArquivoProjetoJob implements ShouldQueue
+class EditarArquivoProjetoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $projeto;
+    protected $arquivo;
     protected $dadosValidos;
-    protected $projetoRepository;
     protected $service;
 
     /**
@@ -26,11 +26,11 @@ class UploadArquivoProjetoJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Projeto $projeto, array $dadosValidos, ProjetoRepositoryInterface $projetoRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Projeto $projeto, Arquivo $arquivo, array $dadosValidos, VerificarExistenciaDiretorioService $service)
     {
         $this->projeto = $projeto;
+        $this->arquivo = $arquivo;
         $this->dadosValidos = $dadosValidos;
-        $this->projetoRepository = $projetoRepository;
         $this->service = $service;
     }
 
@@ -46,9 +46,7 @@ class UploadArquivoProjetoJob implements ShouldQueue
         $pastaProjetos = $this->service->handle('Projetos', $pastaEquipe);
         $pasta = $this->service->handle($this->projeto->nome_projeto, $pastaProjetos);
 
-        $this->dadosValidos['path'] = $pasta;
 
-        Storage::cloud()->put("{$this->dadosValidos['path']}/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
-        $this->projetoRepository->addArquivo($this->projeto, $this->dadosValidos);
+        Storage::cloud()->put("$pasta/{$this->arquivo->nome}", base64_decode($this->dadosValidos['arquivo']));
     }
 }

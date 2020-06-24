@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Projeto;
 
 use App\Http\Requests\Arquivo\CriarArquivoProjetoRequest;
 use App\Jobs\DeletarArquivoJob;
+use App\Jobs\EditarArquivoProjetoJob;
 use App\Jobs\UploadArquivoProjetoJob;
 use App\Models\Arquivo;
 use App\Models\Projeto;
@@ -26,9 +27,10 @@ class ProjetoArquivosController extends AbstractProjetoController
         return response()->json('Upload do arquivo feito com sucesso', 200);
     }
 
-    public function update(Request $request, Projeto $projeto, Arquivo $arquivo)
+    public function update(Request $request, Projeto $projeto, Arquivo $arquivo, VerificarExistenciaDiretorioService $service)
     {
-
+        EditarArquivoProjetoJob::dispatch($projeto, $arquivo, $request->validate(['arquivo' => 'required|base64file']), $service);
+        return response()->json("$arquivo->nome alterado com sucesso", 200);
     }
 
     public function destroy(Projeto $projeto, Arquivo $arquivo, DeletarArquivoService $deleteService)

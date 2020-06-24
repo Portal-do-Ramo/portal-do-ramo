@@ -38,12 +38,6 @@ class PedidoDeCompraController extends AbstractPedidoController
         return response()->json('Pedido de compra aprovado com sucesso', 200);
     }
 
-    public function atualizar(CriarAtualizarPedidoFinanceiroRequest $request, PedidoDeCompra $pedidoDeCompra)
-    {
-        $this->pedidoRepository->atualizarPedidoDeCompra($pedidoDeCompra, $request->validated());
-        return response()->json('Pedido de compra atualizado com sucesso', 200);
-    }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -55,7 +49,7 @@ class PedidoDeCompraController extends AbstractPedidoController
         $pedido->recusar();
         return response()->json('Pedido de compra reprovada com sucesso', 200);
     }
-
+    
     protected function resourceAbilityMap()
     {
         return [

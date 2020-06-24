@@ -18,6 +18,7 @@ class MembroResource extends JsonResource
         return [
             'telefone_secundario' => $this->telefones['telefone_secundario'] ?? NULL,
             'rg' => $this->rg,
+            'orgao_emissor' => $this->orgao_emissor,
             'cpf' => $this->cpf,
             'tipo_sanguineo' => $this->tipo_sanguineo,
             'cadastro_robocore' => $this->cadastro_robocore,

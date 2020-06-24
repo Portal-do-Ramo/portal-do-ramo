@@ -5,7 +5,7 @@ services:
         build: 
             context: ./frontend
             dockerfile: Dockerfile
-        image: frontend
+        image: frontend-react-dev-portal
         container_name: frontend-container
         restart: unless-stopped
         stdin_open: true
@@ -20,7 +20,7 @@ services:
         build:
             context: ./backend
             dockerfile: Dockerfile
-        image: php
+        image: php-portal
         container_name: php-container
         restart: unless-stopped
         working_dir: /var/www/html
@@ -73,7 +73,7 @@ services:
         build: 
             context: ./backend/echo
             dockerfile: Dockerfile
-        image: broadcast-server
+        image: broadcast-server-portal
         container_name: broadcast-server-container
         restart: unless-stopped
         working_dir: /usr/src/app
@@ -101,7 +101,7 @@ services:
         build: 
             context: ./backend
             dockerfile: ./start/Dockerfile
-        image: queue-scheduler
+        image: queue-scheduler-portal
         container_name: queue-container
         environment: 
             CONTAINER_ROLE: queue
@@ -116,7 +116,7 @@ services:
         build: 
             context: ./backend
             dockerfile: ./start/Dockerfile
-        image: queue-scheduler
+        image: queue-scheduler-portal
         container_name: scheduler-container
         environment: 
             CONTAINER_ROLE: scheduler
@@ -127,7 +127,18 @@ services:
         networks: 
             - app-network
 
+    artisan:
+        image: php-portal
+        container_name: artisan-container
+        volumes:
+            - ./backend:/var/www/html
+        depends_on:
+            - mariadb
+        working_dir: /var/www/html
+        entrypoint: ['php', 'artisan']
+        networks:
+            - app-network
+
 networks:
     app-network:
         driver: bridge
-
