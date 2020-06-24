@@ -35,7 +35,7 @@ export default function ManageStrikes() {
   useEffect(() => {
     api.get('api/strikes', { headers: { Authorization: access_token } })
     .then(response => setMembers(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(false))
   }, [])
 
@@ -43,7 +43,7 @@ export default function ManageStrikes() {
   useEffect(() => {
     api.get('/api/strikes/strikes-solicitados', { headers: { Authorization: access_token } })
     .then(response => setSolicitedStrikes(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
   }, [])
 
 
@@ -54,14 +54,14 @@ export default function ManageStrikes() {
       setManageAudiences(response.data.audiencia_marcada)
       console.log(response.data)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
   }, [])
 
 
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setListTeams(allMembers.concat(response.data)))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
   }, [])
 
 

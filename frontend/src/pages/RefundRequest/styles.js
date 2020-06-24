@@ -21,7 +21,7 @@ export const Screen = styled.div`
   }
 
   .viewRequests {
-    background-color: #E5E5E5;
+    background-color: #FFF;
     padding: 5px;
     height: 88%;
     overflow-y: scroll;
@@ -37,6 +37,12 @@ export const Screen = styled.div`
     display: flex;
     justify-content: center;
     height: 70%;
+    width: 100%;
+  }
+
+  .center-button {
+    display: flex;
+    justify-content: center;
     width: 100%;
   }
 
@@ -57,12 +63,30 @@ export const Screen = styled.div`
     position: fixed;
     z-index: 5;
   }
+
+  .btn-send-picture {
+    background: #1D5EA8;
+    width: 100px;
+    color: #FFF;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    float: right;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
 `
 
 export const CardItem = styled.div`
-  background: rgba(0,0,0,0.1);
+  background: #E5E5E5;
   padding: 10px 10px 2px 10px;
   margin-bottom: 5px;
+  cursor: pointer;
   border-radius: 5px;
 
   -webkit-border-radius: 5px;

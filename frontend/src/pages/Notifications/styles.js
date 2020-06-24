@@ -10,7 +10,7 @@ export const Screen = styled.div`
 `
 
 export const View = styled.div`
-  background-color: #E5E5E5;
+  background-color: #CECECE;
   padding: 20px;
   margin-top: 50px;
   height: 650px;

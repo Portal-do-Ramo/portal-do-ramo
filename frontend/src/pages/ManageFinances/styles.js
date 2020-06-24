@@ -419,6 +419,15 @@ export const BoxModalScreen = styled.div`
     padding: 5px;
   }
 
+  .view-extract-complete {
+    width: 100%;
+    height: 85%;
+    margin-top: 10px;
+    background: transparent;
+    overflow-y: scroll;
+    padding: 5px;
+  }
+
   .view-registers {
     background: #E5E5E5;
     overflow-y: scroll;
