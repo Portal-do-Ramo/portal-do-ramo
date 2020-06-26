@@ -32,7 +32,7 @@ class EntreDatas implements Rule
     public function passes($attribute, $value)
     {
         $value = Carbon::createFromFormat('d/m/Y', $value);
-        return $this->dataInicio < $value and $value < $this->dataFim; 
+        return $this->dataInicio <= $value and $value < $this->dataFim; 
     }
 
     /**
@@ -42,6 +42,6 @@ class EntreDatas implements Rule
      */
     public function message()
     {
-        return "O campo :attribute deve estar entre as datas: {$this->dataInicio->format('d/m/Y')} e {$this->dataFim->format('d/m/Y')}";
+        return "O campo :attribute deve estar entre as datas: {$this->dataInicio->format('d/m/Y')} e {$this->dataFim->subDay()->format('d/m/Y')}";
     }
 }

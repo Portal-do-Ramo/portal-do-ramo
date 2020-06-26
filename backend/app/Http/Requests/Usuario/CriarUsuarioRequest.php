@@ -54,4 +54,9 @@ class CriarUsuarioRequest extends FormRequest
             'telefone_principal' => 'telefone principal'
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge(['foto' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto)]);
+    }
 }

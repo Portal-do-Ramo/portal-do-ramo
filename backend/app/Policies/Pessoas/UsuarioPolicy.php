@@ -16,7 +16,7 @@ class UsuarioPolicy
             return true;
     }
 
-    public function viewAny(Usuario $user)
+    public function viewAny(UsuarioSistema $user)
     {
         //
     }

@@ -15,7 +15,7 @@ class Matricula implements Rule
      */
     public function passes($attribute, $value)
     {
-        return preg_match('/^[0-9]{7}[A-Z]{3,5}$/i', $value);
+        return preg_match('/^[0-9]{7}[A-Z]{3,5}$/', $value);
     }
 
     /**

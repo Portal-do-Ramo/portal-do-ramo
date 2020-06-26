@@ -26,6 +26,14 @@ class ProjetoRepository implements ProjetoRepositoryInterface
         return Projeto::select('nome_projeto_slug', 'nome_projeto')->when(request('usuario'), fn($query) => $query->whereHas('todosMembrosAtivos', fn($query) => $query->where(fn($subQuery) => $subQuery->where('matricula', request('usuario')))))->get();
     }
 
+    public function selectProjetosPSI()
+    {
+        return Projeto::select('projetos.nome_projeto_slug', 'projetos.nome_projeto', 'projetos.area')
+            ->join('equipes', 'projetos.nome_equipe', '=', 'equipes.nome_equipe_slug')
+            ->addSelect('equipes.nome_equipe_slug', 'equipes.nome_equipe')
+            ->get();
+    }
+
     public function historicoProjetos(Usuario $usuario)
     {
         return $usuario->inscricoesProjetos()

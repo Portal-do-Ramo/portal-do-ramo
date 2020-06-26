@@ -39,6 +39,7 @@ services:
             - ./backend:/var/www/html
             - ./backend/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on: 
+            - frontend
             - mariadb
             - redis
             - broadcast-server
@@ -51,7 +52,7 @@ services:
         container_name: mariadb-container
         restart: unless-stopped
         environment: 
-            MYSQL_ROOT_PASSWORD: woIHsOXDm6&o7m7O
+            MYSQL_ROOT_PASSWORD: ramoi3ecefetrj
             MYSQL_DATABASE: bd_ramo
         ports: 
             - "3306:3306"

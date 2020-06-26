@@ -22,4 +22,9 @@ class CriarArquivoEquipeRequest extends FormRequest
             'arquivo' => 'required|base64file'
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge(['arquivo' => preg_replace('/data:file\/pdf;base64,/', '', $this->arquivo)]);
+    }
 }

@@ -4,7 +4,6 @@ namespace App\Policies\Pessoas;
 
 use App\Models\Pedidos\BasePedido;
 use App\Models\Pedidos\PedidoDeCompra;
-use App\Models\Pedidos\PedidoFinanceiro;
 use App\Models\UsuarioSistema;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

@@ -105,6 +105,7 @@ Route::prefix('reavaliacoes')->group(function() {
  */
 Route::prefix('projetos')->group(function() {
     Route::get('/select-projetos', 'Projeto\ProjetoController@selectProjetos');
+    Route::get('/select-projetos-psi', 'Projeto\ProjetoController@selectProjetosPSI');
     Route::get('/projeto-completo/{projeto}', 'Projeto\ProjetoController@showFully');
     Route::get('/meus-projetos', 'Projeto\ProjetoMembroController@meusProjetos');
     Route::get('/historico-projetos/{usuario}', 'Projeto\ProjetoMembroController@historicoProjetos');
@@ -264,11 +265,9 @@ Route::prefix('arquivos')->group(function() {
 
 /**
  * 
- * 
  * Rotas referentes aos controladores relacionados a parcerias
  * 
  */
-
  Route::apiResource('parcerias', 'Parceria\ParceriaController');
  Route::prefix('/parcerias')->group(function() {
     Route::get('/index-publicas', 'Parceria\ParceriaController@indexPublicas');

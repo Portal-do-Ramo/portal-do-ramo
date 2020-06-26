@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Usuario;
 
+use App\Http\Requests\Usuario\AtualizarFotoPerfilRequest;
 use App\Http\Requests\Usuario\PrimeiroLoginRequest;
 use App\Http\Requests\Usuario\AtualizarTotalmenteUsuarioRequest;
 use App\Http\Requests\Usuario\AtualizarUsuarioRequest;
@@ -120,9 +121,9 @@ class UsuarioController extends AbstractUsuarioController
         return response()->json('Informações atualizadas com sucesso', 200);
     }
 
-    public function updateFotoPerfil(Request $request, Usuario $usuario, VerificarExistenciaDiretorioService $service)
+    public function updateFotoPerfil(AtualizarFotoPerfilRequest $request, Usuario $usuario, VerificarExistenciaDiretorioService $service)
     {
-        $job = new AlterarFotoPerfilJob($usuario, $request->validate(['foto' => 'required|base64image|base64max:1024']), $this->usuarioRepository, $service);
+        $job = new AlterarFotoPerfilJob($usuario, $request->validated(), $this->usuarioRepository, $service);
         $job::dispatchNow();
 
         return response()->json($job->getResponse(), 200);

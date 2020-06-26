@@ -23,7 +23,7 @@ class CriarEquipeRequest extends FormRequest
             'matricula_assessor' => ['bail','present', 'nullable', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
             'capitulo' => 'present|nullable',
             'porcentagem_orcamento' => 'required|numeric',
-            'logo_equipe' => 'present|nullable|base64image|base64max:1024'
+            'logo_equipe' => 'present|nullable|base64image'
         ];
     }
 
@@ -31,7 +31,6 @@ class CriarEquipeRequest extends FormRequest
     {
         return [
             'exists' => 'O campo :attribute está indicando um usuário que não existe no sistema.',
-            'base64image' => 'O arquivo passado no campo :attribute não corresponde a uma imagem válida'
         ];
     }
 
@@ -44,5 +43,10 @@ class CriarEquipeRequest extends FormRequest
             'capitulo' => 'capítulo',
             'porcentagem_orcamento' => 'porcentagem do orçamento'
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)])
     }
 }

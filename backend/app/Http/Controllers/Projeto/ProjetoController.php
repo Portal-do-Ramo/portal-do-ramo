@@ -32,6 +32,11 @@ class ProjetoController extends AbstractProjetoController
         return $this->projetoRepository->selectProjetos();
     }
 
+    public function selectProjetosPSI()
+    {
+        return $this->projetoRepository->selectProjetosPSI();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

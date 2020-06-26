@@ -21,17 +21,15 @@ class AtualizarLogoEquipeRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'base64image' => 'O campo :attribute deve conter uma imagem válida'
-        ];
-    }
-
     public function attributes()
     {
         return [
             'logo_equipe' => 'logo da equipe'
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)]);
     }
 }

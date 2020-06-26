@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Equipe;
 
+use App\Http\Requests\Arquivo\AtualizarArquivoRequest;
 use App\Http\Requests\Arquivo\CriarArquivoEquipeRequest;
 use App\Jobs\DeletarArquivoJob;
 use App\Jobs\EditarArquivoEquipeJob;
@@ -11,7 +12,6 @@ use App\Models\Equipe;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
 use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
-use Illuminate\Http\Request;
 
 class EquipeArquivosController extends AbstractEquipeController
 {
@@ -27,9 +27,9 @@ class EquipeArquivosController extends AbstractEquipeController
         return response()->json('Upload do arquivo feito com sucesso', 200);
     }
 
-    public function update(Request $request, Equipe $equipe, Arquivo $arquivo, VerificarExistenciaDiretorioService $service)
+    public function update(AtualizarArquivoRequest $request, Equipe $equipe, Arquivo $arquivo, VerificarExistenciaDiretorioService $service)
     {
-        EditarArquivoEquipeJob::dispatch($equipe, $arquivo, $request->validate(['arquivo' => 'required|base64file']), $service);
+        EditarArquivoEquipeJob::dispatch($equipe, $arquivo, $request->validated(), $service);
         return response()->json("$arquivo->nome alterado com sucesso", 200);
     }
 

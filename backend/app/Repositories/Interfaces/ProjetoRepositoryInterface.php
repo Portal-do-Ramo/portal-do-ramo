@@ -12,6 +12,8 @@ interface ProjetoRepositoryInterface
 
     public function selectProjetos();
 
+    public function selectProjetosPSI();
+
     public function historicoProjetos(Usuario $usuario);
 
     public function getMembros(Projeto $projeto);

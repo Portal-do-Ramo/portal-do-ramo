@@ -4,9 +4,8 @@ namespace App\Http\Requests\Arquivo;
 
 use App\Traits\ApiRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class CriarArquivoProjetoRequest extends FormRequest
+class AtualizarArquivoRequest extends FormRequest
 {
     use ApiRequest;
 
@@ -18,13 +17,12 @@ class CriarArquivoProjetoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome_arquivo' => ['required', Rule::unique('arquivos', 'nome')->where(fn($query) => $query->where('tipo_relacionado', 'Projeto')->where('id_relacionado', $this->route('projeto')->nome_projeto_slug))],
             'arquivo' => 'required|base64file'
         ];
     }
 
     protected function prepareForValidation()
     {
-        $this->merge(['arquivo' => preg_replace('/data:file\/pdf;base64,/', '', $this->arquivo)]);
+        $this->merge(['arquivo' => preg_replace('/data:file\/pdf;base64,/', '', $this->arquivo)])
     }
 }
