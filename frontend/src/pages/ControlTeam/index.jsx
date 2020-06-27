@@ -86,6 +86,13 @@ export default function ControlTeam() {
     }
   }
 
+  function setStateOfButtonPDF() {
+    var files = document.getElementById('input-file').files;
+    if (files.length > 0) {
+      setIsEnabled2(true)
+    }
+  }
+
 
   function getBase64(file) {
     var reader = new FileReader();
@@ -96,6 +103,14 @@ export default function ControlTeam() {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  }
+
+  function convertToBase64PDF() {
+    var files = document.getElementById('input-file').files;
+    console.log(files[0])
+    if (files.length > 0) {
+      getBase64(files[0])
+    }
   }
 
 
@@ -191,12 +206,18 @@ export default function ControlTeam() {
 
     const archive_name = document.getElementById('archive_name').value;
 
-    api.patch(`/api/arquivos/upload-arquivo-equipe/${urlData}`, {
+    if (archive_name === '') {
+      setAlert('<div class="alert alert-danger" role="alert">Nome do arquivo obrigatório!</div>')
+      return
+    }
+
+    api.post(`/api/arquivos/upload-arquivo-equipe/${urlData}`, {
       nome_arquivo: archive_name,
       arquivo: base64
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
-    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    .catch(error => console.log(error.response))
   }
 
 
@@ -660,14 +681,16 @@ export default function ControlTeam() {
               <h1 className="title">Adicionar arquivo</h1>
             </div>
             <div className="inside-area">
-              <input type="text" className="form-control" id="archive_name" name="archive_name" required />
-              <input type="file" className="form-control-file" id="url-img" name="url-img" required />
-              <button className="btn-send-picture" onClick={() => {
-                setStateOfButton()
-                convertToBase64()
-              }} disabled={isEnabled2}>
-                {(isEnabled2) ? 'Carregado' : 'Carregar'}
-              </button>
+              <input type="text" className="form-control archive-input" id="archive_name" name="archive_name" placeholder="Nome do arquivo *" required /><br />
+              <input type="file" className="form-control-file" id="input-file" name="input-file" required />
+              <div className="row">
+                <button className="btn-send-picture" onClick={() => {
+                  setStateOfButtonPDF()
+                  convertToBase64PDF()
+                }} disabled={isEnabled2}>
+                  {(isEnabled2) ? 'Carregado' : 'Carregar'}
+                </button>
+              </div>
               <div className="row buttons-area">
                 <div>
                   <button className="btn btn-primary" onClick={() => document.getElementById('add-archives-area').style.display='none' }>

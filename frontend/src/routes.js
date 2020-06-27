@@ -34,6 +34,8 @@ import SendFeedback from './pages/SendFeedBack';
 import ListFeedback from './pages/ListFeedback';
 import Notifications from './pages/Notifications';
 import Search from './pages/Search';
+import TermosDeUso from './pages/TermosDeUso';
+import PoliticasDePrivacidade from './pages/PoliticasDePrivacidade';
 
 /* LOGIN, HOME, ERROR AND RECOVER PASSWORD */
 import Home from './pages/Home';
@@ -185,6 +187,8 @@ export default function Routes () {
           <PrivateRoute path='/editprofile' component={ () => <EditProfile /> } />
           <PrivateRoute path='/search' component={ () => <Search /> } />
           <PrivateRoute path='/notifications' component={ () => <Notifications /> } />
+          <PrivateRoute path='/termos' component={ () => <TermosDeUso /> } />
+          <PrivateRoute path='/politicas' component={ () => <PoliticasDePrivacidade /> } />
         </Switch>
       </Router>
     </Provider>

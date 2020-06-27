@@ -20,6 +20,7 @@ export default function FirstLogin() {
   const [cpf, setCPF] = useState("");
   const [telefone, setTelefone] = useState("");
   const [isActive, setIsActive] = useState("");
+  const [isAccept, setIsAccept] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -45,6 +46,11 @@ export default function FirstLogin() {
 
   function EnviarCadastro(e) {
     e.preventDefault();
+
+    if (!isAccept) {
+      setAlert('<div class="alert alert-warning" role="alert">Aceite os termos de uso e as políticas de privacidade!</div>');
+      return
+    }
 
     const senha_usuario = document.getElementById("senha_usuario").value;
     const senha_usuario_confirmation = document.getElementById(
@@ -343,6 +349,8 @@ export default function FirstLogin() {
               />
             </div>
           </div>
+          <input type="checkbox" value={isAccept} onChange={() => setIsAccept(!isAccept)} />
+          <label>Declaro que aceito os <a href="/termos" target="_blank">Termos de uso</a> e as <a href="/politicas" target="_blank">Políticas de privacidade</a></label>
           <div className="row center">
             <button type="submit" className="btn btn-primary">
               Enviar

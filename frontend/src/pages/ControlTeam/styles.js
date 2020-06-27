@@ -495,6 +495,10 @@ export const ConfirmBoxModalScreen = styled.div`
       margin-left: 10px;
     }
 
+    .archive-input {
+      margin-top: -15px;
+    }
+
     .btn-send-picture {
       background: #1D5EA8;
       width: 100px;
