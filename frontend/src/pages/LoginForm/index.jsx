@@ -66,9 +66,6 @@ export default function LoginForm () {
 
       dispatch(setUserLogged(user))
 
-      // sessionStorage.setItem("matricula", response.data.user.matricula);
-      // sessionStorage.setItem("active", decoded.ativo);
-
       if(decoded.ativo) {
         window.location.href = '/home';
       } else {

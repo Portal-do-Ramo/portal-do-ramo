@@ -28,7 +28,7 @@ class ProjetoRepository implements ProjetoRepositoryInterface
 
     public function selectProjetosPSI()
     {
-        return Projeto::select('projetos.nome_projeto_slug', 'projetos.nome_projeto', 'projetos.area')
+        return Projeto::select('projetos.nome_projeto_slug', 'projetos.nome_projeto', 'projetos.areas')
             ->join('equipes', 'projetos.nome_equipe', '=', 'equipes.nome_equipe_slug')
             ->addSelect('equipes.nome_equipe_slug', 'equipes.nome_equipe')
             ->get();

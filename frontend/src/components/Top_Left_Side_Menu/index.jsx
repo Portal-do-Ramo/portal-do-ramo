@@ -122,6 +122,7 @@ export default function Top_Left_Side_Menu() {
                   <Dropdown.Item href="/message" id="btn-message">Mensagem</Dropdown.Item>
                   <Dropdown.Item href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
                   <Dropdown.Item href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
+                  <Dropdown.Item href="/managerequests" id="btn-manage-requests" disabled={ statusGPButtons() }>Gerenciar pedidos</Dropdown.Item>
                   <Dropdown.Item href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

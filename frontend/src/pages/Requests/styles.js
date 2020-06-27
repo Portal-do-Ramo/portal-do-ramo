@@ -25,9 +25,9 @@ export const BTNCard = styled.button`
   color: #FFF;
   margin-top: 30px;
 
-  button:hover {
+  :hover {
     transition: .4s;
-    box-shadow: 0px 0px 10px #666666;
+    box-shadow: 0px 0px 10px #888;
   }
 
   :disabled {

@@ -262,7 +262,7 @@ export default function RegisterMembers () {
                   <div className="col-md-6">
                     <label htmlFor="url-img">Foto de perfil *</label>
                     <p>Após selecionar a foto clique em <strong>CARREGAR</strong></p>
-                    <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" title="Teste"/>
+                    <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" />
                     <button className="btn-send-picture" onClick={() => {
                       setStateOfButton()
                       convertToBase64()

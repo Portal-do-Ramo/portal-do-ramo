@@ -39,7 +39,7 @@ export default function ManageTeams() {
           <div className="row area-card">
             {(teams) ?
               teams.map(team => (
-                <div className="col-md-4">
+                <div className="col-md-4" key={team.nome_equipe_slug}>
                   <Link to={`/team/manageteams/manage?${team.nome_equipe_slug}`}>
                     <Card key={team.nome_equipe_slug}>
                       <div className="logo-area">

@@ -19,7 +19,10 @@ export default function ViewFinances () {
 
   useEffect(() => {
     api.get('/api/caixas', { headers: { Authorization: access_token } })
-    .then(response => setData(response.data))
+    .then(response => {
+      console.log(response.data)
+      setData(response.data)
+    })
     .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(true))
   }, [])

@@ -6,38 +6,58 @@ export const Screen = styled.div`
   .content {
     background-color: #CECECE;
     padding: 30px;
-    border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0px 0px 7px #888888;
     margin-top: 50px;
-  }
-
-  .center {
-    display: flex;
-    justify-content: center;
-  }
-
-  .submit {
-    margin-top: 10px;
-  }
-
-  h3 {
-    font-size: 17pt;
-    font-weight: bold;
-    margin-bottom: 30px;
-  }
-
-  h4 {
-    font-size: 13pt;
-    padding: 7px 10px;
-    color: #FFF;
-    background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
     border-radius: 5px;
-    width: 145px;
-    text-align: right;
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+
+  .general-data-title {
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-bottom: 30px;
+    font-size: 20pt;
+    font-weight: bold;
+    color: #1D5EA8;
+  }
+
+  .area-vagas {
+    background-color: #CECECE;
+    padding: 10px;
+    padding-bottom: 1px;
+    box-shadow: 0px 0px 7px #888888;
+    margin-top: 20px;
+    border-radius: 5px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+
+    .title-area {
+      margin-top: 10px;
+      margin-left: 10px;
+      padding-bottom: 10px;
+      font-size: 18pt;
+      font-weight: bold;
+      color: #1D5EA8;
+    }
+
+    p {
+      margin-top: 10px;
+      margin-left: 10px;
+      font-size: 11pt;
+    }
+
+    .button-area {
+      width: 100%;
+      height: 50px;
+    }
   }
 
   label {
@@ -45,75 +65,33 @@ export const Screen = styled.div`
     font-size: 12pt;
   }
 
-  hr {
-    margin-bottom: -10px;
+  .btn-send {
+    float: right;
   }
 
-  button.btn-send {
-    margin-top: 30px;
+  .btn-edit {
+    display: none;
   }
 `
 
 export const CardInput = styled.div`
   background: #E5E5E5;
   padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 
   h1 {
-    font-size: 13pt;
+    font-size: 15pt;
     font-weight: bold;
+    color: #1D5EA8;
   }
 
-  h2 { font-size: 9pt }
-
-  select {
-    width: 33%;
+  h2 {
+    margin-bottom: 10px;
+    font-size: 9pt
   }
 
-  .title-area {
-    font-size: 11pt;
-    font-weight: bold;
-    padding-top: 10px;
-  }
-
-  .input-down { margin-top: 2px }
-
-  .management-select {
-    width: 100%;
-  }
-`
-
-export const BTNCircle = styled.button`
-  border-radius: 25px;
-  color: #FFF;
-  background: ${props => props.color};
-  border: none;
-  width: 40px;
-  height: 40px;
-  font-size: 17pt;
-  float: right;
-  margin-left: 5px;
-
-  :hover {
-    transition: .8s;
-    background: ${props => props.hoverColor};
-  }
-`
-
-export const BTNNewInput = styled.button`
-  border-radius: 25px;
-  color: #1D5EA8;
-  background: #FFF;
-  border: none;
-  width: 35px;
-  height: 35px;
-  font-size: 17pt;
-  float: right;
-  margin-right: 20px;
-
-  :hover {
-    transition: .8s;
-    background: #E5E5E5;
+  .down {
+    margin-bottom: 7px;
   }
 `

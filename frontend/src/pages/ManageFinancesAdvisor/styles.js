@@ -103,7 +103,7 @@ export const Screen = styled.div`
   .view-extract {
     background: #E5E5E5;
     width: 100%;
-    height: 250px;
+    height: 390px;
     border-radius: 5px;
     padding: 10px;
     overflow-y: scroll;

@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import Profile from './pages/Profile';
 import RegisterMembers from './pages/RegisterMembers';
 import ManageMembers from './pages/ManageMembers';
+import ManageRequests from './pages/ManageRequests';
 import MemberData from './pages/MemberData';
 import EditProfile from './pages/EditProfile';
 import Message from './pages/Message';
@@ -64,6 +65,7 @@ import HistoricProjects from './pages/HistoricProjects';
 
 /* FINANCES */
 import ManageFinances from './pages/ManageFinances';
+import ManageFinancesAdvisor from './pages/ManageFinancesAdvisor';
 import HistoricLittleCow from './pages/HistoricLittleCow';
 import Finances from './pages/ViewFinances';
 
@@ -76,6 +78,9 @@ import PurchaseOrder from './pages/PurchaseOrder';
 import RefundRequest from './pages/RefundRequest';
 import HistoricRequests from './pages/HistoricRequests';
 import MyRequests from './pages/MyRequests';
+
+/* MARKETING */
+import ViewPartners from './pages/ViewPartners';
 
 function isAuthenticated() {
   const access_token = sessionStorage.getItem("access_token");
@@ -131,6 +136,7 @@ export default function Routes () {
           <PrivateRoute path='/managepsi/new' component={ () => <NewPSI /> } />
           <PrivateRoute path='/manageabsences' exact component={ () => <ManageAbsences /> } />
           <PrivateRoute path='/manageabsences/historic' component={ () => <HistoricAbsences /> } />
+          <PrivateRoute path='/managerequests' component={ () => <ManageRequests /> } />
           <PrivateRoute path='/registermembers' component={ () => <RegisterMembers /> } />
 
           {/* Routers - Equipes */}
@@ -153,7 +159,8 @@ export default function Routes () {
 
           {/* Routers - Financeiro */}
           <PrivateRoute path='/finances' exact component={ () => <Finances /> } />
-          <PrivateRoute path='/finances/manage' component={ () => <ManageFinances /> } />
+          <PrivateRoute path='/finances/manage' exact component={ () => <ManageFinances /> } />
+          <PrivateRoute path='/finances/manage/advisor' component={ () => <ManageFinancesAdvisor /> } />
           <PrivateRoute path='/finances/historic/little-cow' component={ () => <HistoricLittleCow /> } />
 
           {/* Routers - Right-Bottom Menu */}
@@ -169,6 +176,10 @@ export default function Routes () {
           <PrivateRoute path='/requests/inactivity' component={ () => <InactivityRequest /> } />
           <PrivateRoute path='/requests/output-projects' component={ () => <OutputProjectRequest /> } />
           <PrivateRoute path='/requests/historic' component={ () => <HistoricRequests /> } />
+
+
+          {/* Routers - Marketing */}
+          <PrivateRoute path='/partners' component={ () => <ViewPartners />} />
 
           {/* Outros */}
           <PrivateRoute path='/editprofile' component={ () => <EditProfile /> } />
