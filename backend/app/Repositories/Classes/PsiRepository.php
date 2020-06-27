@@ -149,11 +149,14 @@ class PsiRepository implements PsiRepositoryInterface
      * Atualiza a tabela pivot da relação entre projetos e uma PSI especifica
      *
      */
-    public function storeProjeto(Psi $psi, $projeto)
+    public function storeProjetos(Psi $psi, $projetos)
     {
-        $psi->buscaProjeto($projeto['projeto'])->get()->isEmpty() ?
+        foreach($projetos as $projeto)
+        {
+            $psi->buscaProjeto($projeto['projeto'])->get()->isEmpty() ?
             $this->adicionarProjeto($psi, $projeto) :
             $this->atualizarProjeto($psi, $projeto);
+        }
     }
 
     /**
@@ -192,11 +195,14 @@ class PsiRepository implements PsiRepositoryInterface
      * Atualiza a tabela pivot da relação entre equipes e uma PSI especifica
      *
      */
-    public function storeEquipe(Psi $psi, $equipe)
+    public function storeEquipes(Psi $psi, $equipes)
     {
-        $psi->buscaEquipe($equipe['equipe'])->get()->isEmpty() ?
+        foreach($equipes as $equipe)
+        {
+            $psi->buscaEquipe($equipe['equipe'])->get()->isEmpty() ?
             $this->adicionarEquipe($psi, $equipe) :
             $this->atualizarEquipe($psi, $equipe);
+        }
     }
 
     /**

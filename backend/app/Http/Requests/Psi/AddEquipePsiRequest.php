@@ -12,9 +12,9 @@ class AddEquipePsiRequest extends FormRequest
     public function rules()
     {
         return [
-            'equipe' => 'bail|required|exists:equipes,nome_equipe_slug',
-            'areas_vagas' => 'required', //Campo das áreas
-            'areas_vagas.*' => 'bail|required|integer' //Campo das vagas
+            'equipes' => 'present|array',
+            'equipes.*.equipe' => 'bail|required_with:equipes|exists:equipes,nome_equipe_slug',
+            'equipes.*.areas_vagas' => 'required_with:equipes', //Campo das áreas
         ];
     }
 

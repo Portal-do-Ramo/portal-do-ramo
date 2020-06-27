@@ -12,9 +12,9 @@ class AddProjetoPsiRequest extends FormRequest
     public function rules()
     {
         return [
-            'projeto' => 'bail|required|exists:projetos,nome_projeto_slug',
-            'areas_vagas' => 'required', //Campo das áreas
-            'areas_vagas.*' => 'bail|required|integer' //Campo das vagas
+            'projetos' => 'present|arrays',
+            'projetos.*.projeto' => 'bail|required_with:projetos|exists:projetos,nome_projeto_slug',
+            'projetos.*.areas_vagas' => 'required_with:projetos', //Campo das áreas
         ];
     }
 

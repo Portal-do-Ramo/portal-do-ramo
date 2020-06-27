@@ -16,11 +16,11 @@ interface PsiRepositoryInterface
 
     public function destroy(Psi $psi);
 
-    public function storeProjeto(Psi $psi,array $projeto);
+    public function storeProjetos(Psi $psi,array $projetos);
 
     public function deleteProjeto(Psi $psi,$projeto);
 
-    public function storeEquipe(Psi $psi,array $equipe);
+    public function storeEquipes(Psi $psi,array $equipes);
 
     public function deleteEquipe(Psi $psi,$equipe);
 

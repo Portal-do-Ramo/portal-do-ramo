@@ -16,7 +16,7 @@ class CreateEquipePsisTable extends Migration
         Schema::create('equipe_psis', function (Blueprint $table) {
             $table->string('nome_equipe', 35);
             $table->string('nome_psi', 32);
-            $table->json('areas_vagas')->default('{"Assessor do Coordenador" : 1}');
+            $table->json('areas_vagas');
 
             $table->foreign('nome_equipe')->references('nome_equipe_slug')->on('equipes')->onUpdate('cascade');
             $table->foreign('nome_psi')->references('nome_psi_slug')->on('psis')->onUpdate('cascade')->onDelete('cascade');

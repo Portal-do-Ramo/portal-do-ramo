@@ -16,20 +16,17 @@ class CriarPsiRequest extends FormRequest
             'data_inicio' => 'bail|required|date_format:d/m/Y|after_or_equal:today',
             'data_fim' => 'bail|required|date_format:d/m/Y|after:data_inicio',
 
-            'projetos' => 'present',
+            'projetos' => 'present|arrays',
             'projetos.*.projeto' => 'bail|required_with:projetos|exists:projetos,nome_projeto_slug',
             'projetos.*.areas_vagas' => 'required_with:projetos', //Campo das áreas
-            'projetos.*.areas_vagas.*' => 'bail|required_with:projetos|integer', //Campo das vagas
 
-            'equipes' => 'present',
+            'equipes' => 'present|array',
             'equipes.*.equipe' => 'bail|required_with:equipes|exists:equipes,nome_equipe_slug',
             'equipes.*.areas_vagas' => 'required_with:equipes', //Campo das áreas
-            'equipes.*.areas_vagas.*' => 'bail|required_with:equipes|integer', //Campo das vagas
 
             'gestao' => 'present|array',
             'gestao.*.nome_area_slug' => 'required_with:gestao',
             'gestao.*.area_vagas' => 'required_with:gestao',
-            'gestao.*.area_vagas.*' => 'bail|required_with:gestao|integer',
         ];
     }
 
@@ -49,9 +46,6 @@ class CriarPsiRequest extends FormRequest
             'data_fim' => 'data de fim',
             'projetos.*.projeto' => 'projeto',
             'equipes.*.equipe' => 'equipe',
-            'projetos.*.areas_vagas.*' => 'vagas',
-            'equipes.*.areas_vagas.*' => 'vagas',
-            'gestao.*.area_vagas.*' => 'vagas'
         ];
     }
 }

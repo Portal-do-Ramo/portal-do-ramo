@@ -19,9 +19,9 @@ class EquipesPsiController extends AbstractPsiController
      * Utilizando uma request
      *
      */
-    public function store(Psi $psi, AddEquipePsiRequest $equipe)
+    public function store(Psi $psi, AddEquipePsiRequest $equipes)
     {
-        $this->psiRepository->storeEquipe($psi, $equipe->validated());
+        $this->psiRepository->storeEquipes($psi, $equipes->validated());
         return response()->json('Equipe adicionada com sucesso', 201);
     }
 

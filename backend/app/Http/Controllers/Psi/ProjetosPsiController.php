@@ -19,9 +19,9 @@ class ProjetosPsiController extends AbstractPsiController
      * Utilizando uma request
      *
      */
-    public function store(Psi $psi, AddProjetoPsiRequest $projeto)
+    public function store(Psi $psi, AddProjetoPsiRequest $projetos)
     {
-        $this->psiRepository->storeProjeto($psi, $projeto->validated());
+        $this->psiRepository->storeProjetos($psi, $projetos->validated());
 
         return response()->json('Projeto adicionado com sucesso', 201);
     }

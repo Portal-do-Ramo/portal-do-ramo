@@ -147,7 +147,7 @@ Route::prefix('psis')->group(function() {
     Route::post('/{psi}/equipes', 'Psi\EquipesPsiController@store');
     Route::delete('/{psi}/equipes/{equipe}', 'Psi\EquipesPsiController@destroy');
 
-    Route::post('/{psi}/gestao', 'Psi\PsiController@storeGestao');
+    Route::match(['PUT', 'PATCH'], '/{psi}/gestao', 'Psi\PsiController@storeGestao');
     Route::delete('/{psi}/gestao/{gestao}', 'Psi\PsiController@destroyGestao');
 });
 Route::post('inscricoes-psi', 'Psi\InscricaoPsiController@store');
