@@ -3,6 +3,11 @@
 set -e 
 
 role=${CONTAINER_ROLE}
+env=${APP_ENV}
+
+if [ "$env" = "production" ]; then
+  php artisan config:cache && php artisan route:cache
+fi
 
 if [ "$role" = "server" ];then
 

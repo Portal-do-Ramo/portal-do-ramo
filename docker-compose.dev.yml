@@ -33,6 +33,8 @@ services:
         container_name: backend-container
         restart: unless-stopped
         environment: 
+            APP_URL: http://localhost
+            APP_ENV: local
             CONTAINER_ROLE: server
         volumes: 
             - ./backend:/var/www/html
@@ -49,8 +51,10 @@ services:
         container_name: mariadb-container
         restart: unless-stopped
         environment: 
-            MYSQL_ROOT_PASSWORD: ramoi3ecefetrj
             MYSQL_DATABASE: bd_ramo
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: fZsuCu*=T3+HTkXG
+            MYSQL_ROOT_PASSWORD: uK%8QDcPu4Byx3ar
         ports: 
             - "3306:3306"
         volumes:
@@ -95,6 +99,8 @@ services:
         image: backend-portal-dev
         container_name: queue-container
         environment: 
+            APP_URL: http://localhost
+            APP_ENV: local
             CONTAINER_ROLE: queue
         volumes: 
             - ./backend:/var/www/html
@@ -107,6 +113,8 @@ services:
         image: backend-portal-dev
         container_name: scheduler-container
         environment: 
+            APP_URL: http://localhost
+            APP_ENV: local
             CONTAINER_ROLE: scheduler
         volumes: 
             - ./backend:/var/www/html

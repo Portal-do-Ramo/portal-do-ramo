@@ -39,6 +39,8 @@ services:
         container_name: backend-container
         restart: unless-stopped
         environment: 
+            APP_URL: https://portaldoramo.cefet-rj
+            APP_ENV: production
             CONTAINER_ROLE: server
         volumes: 
             - ./backend:/var/www/html
@@ -55,8 +57,10 @@ services:
         container_name: mariadb-container
         restart: unless-stopped
         environment: 
-            MYSQL_ROOT_PASSWORD: ramoi3ecefetrj
             MYSQL_DATABASE: bd_ramo
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: fZsuCu*=T3+HTkXG
+            MYSQL_ROOT_PASSWORD: uK%8QDcPu4Byx3ar
         volumes:
             - .docker/database:/var/lib/mysql
         networks: 
@@ -99,6 +103,8 @@ services:
         image: backend-portal-prod
         container_name: queue-container
         environment: 
+            APP_URL: https://portaldoramo.cefet-rj
+            APP_ENV: production
             CONTAINER_ROLE: queue
         volumes: 
             - ./backend:/var/www/html
@@ -111,6 +117,8 @@ services:
         image: backend-portal-prod
         container_name: scheduler-container
         environment: 
+            APP_URL: https://portaldoramo.cefet-rj
+            APP_ENV: production
             CONTAINER_ROLE: scheduler
         volumes: 
             - ./backend:/var/www/html
