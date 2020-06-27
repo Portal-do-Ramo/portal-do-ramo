@@ -120,16 +120,18 @@ function EditProfile () {
     <Screen>
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
-      <div className="area-alert" id="alert" />
 
       {(isLoaded) ?
         <Content className="container">
+          <div className="center-alert">
+            <div className="area-alert" id="alert" />
+          </div>
           <Title title="Editar perfil" />
           <p>Para atualizar alguma informação bloqueada, você deve entrar em contato com a <strong>diretoria</strong> solicitando a alteração da informação.</p>
           <form onSubmit={setDataProfile}>
             <Subtitles>Dados Pessoais</Subtitles>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <div className="form-group">
                   <label htmlFor="matricula_usuario">Matrícula</label>
                   <input
@@ -145,7 +147,7 @@ function EditProfile () {
                 </div>
               </div>
 
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <div className="form-group">
                   <label htmlFor="rg_usuario">RG</label>
                   <input
@@ -157,6 +159,20 @@ function EditProfile () {
                     defaultValue={(dataMember) ? dataMember.rg : ''}
                   />
                   <small id="helpId" className="form-text text-muted">Identidade</small>
+                </div>
+              </div>
+
+              <div className="col-md-3">
+                <div className="form-group">
+                  <label htmlFor="rg_usuario">Orgão Emissor</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="orgao_emissor"
+                    id="orgao_emissor"
+                    readOnly
+                    defaultValue={(dataMember) ? dataMember.orgao_emissor : ''}
+                  />
                 </div>
               </div>
 

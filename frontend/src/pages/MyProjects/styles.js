@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const Screen = styled.div`
   padding-bottom: 50px;
 
+  .btn-edit {
+    display: none;
+  }
+
   .loader-area {
     margin-top: 10px;
     height: 620px;

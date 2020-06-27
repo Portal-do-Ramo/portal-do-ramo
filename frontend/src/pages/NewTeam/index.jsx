@@ -25,12 +25,43 @@ export default function NewTeam() {
   const [leader, setLeader] = useState();
   const [advisor, setAdvisor] = useState();
 
+  const [base64, setBase64] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+
 
   useEffect(() => {
     api.get('api/usuarios', { headers: { Authorization: access_token } })
     .then(response => setMembers((response.data.Ativo).concat(response.data.Inativo)))
     .catch(() => window.location.href = '/error')
   }, []);
+
+
+  function setStateOfButton() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      setIsEnabled(true)
+    }
+  }
+
+
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setBase64(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
+
+  function convertToBase64() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      getBase64(files[0])
+    }
+  }
 
 
   function sendData() {
@@ -54,7 +85,7 @@ export default function NewTeam() {
       capitulo: team_chapter,
       matricula_coordenador: leader.matricula,
       matricula_assessor: (advisor) ? advisor.matricula : '',
-      logo_equipe: base64_logo,
+      logo_equipe: base64,
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Equipe criada com sucesso!</strong></div>'))
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a equipe.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
@@ -70,8 +101,11 @@ export default function NewTeam() {
     <Screen>
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
-      <div className="area-alert" id="alert" />
+
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
         <Title title="Nova equipe" />
 
@@ -119,14 +153,13 @@ export default function NewTeam() {
           <div className="row">
             <div className="col-md-6">
               <label htmlFor="team-logo">Selecione a logo da equipe (Altura = Largura, sem bordas)</label>
-              <input
-                type="file"
-                name="team-logo"
-                id="team-logo"
-                className="form-control-file"
-                accept="image/png, image/jpeg"
-                title="Logo da equipe"
-              />
+              <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" />
+              <button className="btn-send-picture" onClick={() => {
+                setStateOfButton()
+                convertToBase64()
+              }} disabled={isEnabled}>
+                {(isEnabled) ? 'Carregado' : 'Carregar'}
+              </button>
             </div>
           </div>
 

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const Screen = styled.div`
   padding-bottom: 50px;
 
+  .btn-edit {
+    display: none;
+  }
+
   .alert {
     font-size: 12pt;
     color: #000;

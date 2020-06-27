@@ -10,6 +10,10 @@ export const Screen = styled.div`
     justify-content: center;
     align-items: center;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Content = styled.section`

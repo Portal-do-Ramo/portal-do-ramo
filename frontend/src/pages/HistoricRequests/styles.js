@@ -133,6 +133,10 @@ export const Screen = styled.div`
     box-shadow: 0px 0px 7px #888;
   }
 
+  .btn-edit {
+    display: none;
+  }
+
   @media (max-width: 767.98px) {
     .right-box-blue-gradient {
       height: auto;

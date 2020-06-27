@@ -27,6 +27,10 @@ export const Screen = styled.div`
       }
     }
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const ViewAbsences = styled.div`

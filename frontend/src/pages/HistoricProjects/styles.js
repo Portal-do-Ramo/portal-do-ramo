@@ -33,6 +33,10 @@ export const Screen = styled.div`
     font-size: 17pt;
     font-weight: bold;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const ViewProjects = styled.div`

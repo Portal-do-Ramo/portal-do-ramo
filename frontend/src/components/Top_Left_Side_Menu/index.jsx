@@ -106,8 +106,7 @@ export default function Top_Left_Side_Menu() {
                   <Dropdown.Item href="/teams/myteams" id="btn-my-teams">Minhas equipes</Dropdown.Item>
                   <Dropdown.Item href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
                   <Dropdown.Item href="/strikes/mystrikes" id="btn-my-strikes">Meus strikes</Dropdown.Item>
-                  <Dropdown.Item href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
-                  <Dropdown.Item href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
+                  <Dropdown.Item href="/requests/myrequests" id="btn-my-strikes">Meus pedidos</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
@@ -120,6 +119,8 @@ export default function Top_Left_Side_Menu() {
 
                 <Dropdown.Menu  >
                   <Dropdown.Item href="/message" id="btn-message">Mensagem</Dropdown.Item>
+                  <Dropdown.Item href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
+                  <Dropdown.Item href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
                   <Dropdown.Item href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
                   <Dropdown.Item href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
                   <Dropdown.Item href="/managerequests" id="btn-manage-requests" disabled={ statusGPButtons() }>Gerenciar pedidos</Dropdown.Item>
@@ -162,7 +163,7 @@ export default function Top_Left_Side_Menu() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu  >
-                  <Dropdown.Item href="/strike/my" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
+                  <Dropdown.Item href="/strikes/mystrikes" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
                   <Dropdown.Item href="/strike" id="btn-apply-strike">Aplicar strikes</Dropdown.Item>
                   <Dropdown.Item href="/strike/manage" id="btn-manage-strikes" disabled={statusGPButtons()}>Gerenciar strikes</Dropdown.Item>
                 </Dropdown.Menu>

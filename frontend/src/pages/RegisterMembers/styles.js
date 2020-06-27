@@ -9,13 +9,21 @@ export const Screen = styled.div`
     padding: 30px;
   }
 
+  .center-alert {
+    display: flex;
+    justify-content: center;
+  }
+
   .area-alert {
     display: flex;
     justify-content: center;
     top: 0;
-    width: 100%;
     position: fixed;
     z-index: 5;
+  }
+
+  .btn-edit {
+    display: none;
   }
 `
 

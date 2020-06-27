@@ -22,7 +22,7 @@ export default function ManageTeams() {
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setTeams(response.data))
-    // .catch(() => window.location.href = '/error')
+    .catch(() => window.location.href = '/error')
     .catch(error => console.log(error.response))
     .finally(() => setIsLoaded(true))
   }, [])
@@ -47,7 +47,7 @@ export default function ManageTeams() {
                       </div>
                       <h1 className="team-name">{team.nome_equipe}</h1>
                       <div className="area-info">
-                        <h2 className="team-info">{team.nome_coordenador}</h2>
+                        <h2 className="team-info">{team.nome_coordenador.split(' ')[0].concat(' ' + team.nome_coordenador.split(' ')[1])}</h2>
                         <h2 className="team-info"><strong>Número de membros:</strong> {team.contagem_membros}</h2>
                         <h2 className="team-info"><strong>Número de projetos:</strong> {team.contagem_projetos}</h2>
                       </div>

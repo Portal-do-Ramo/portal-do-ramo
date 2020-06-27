@@ -19,6 +19,7 @@ export default function ManageRequests() {
   const [selectedType, setSelectedType] = useState('inatividade');
   const [selectedRequest, setSelectedRequest] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [alert, setAlert] = useState('');
 
   useEffect(() => {
     api.get('/api/pedidos/index-pessoas', { headers: { Authorization: access_token } })
@@ -35,8 +36,15 @@ export default function ManageRequests() {
   function approveRequest() {
     api.put(`/api/pedidos/pedido-de-${selectedType}/aprovar/${selectedRequest.uuid}`, {}, { headers: { Authorization: access_token } })
     .then(response => console.log(response.data))
+    .then(() => setAlert('<div class="alert alert-success" role="alert">Pedido aprovado com sucesso!</div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível aprovar o pedido.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
     .catch(error => console.log(error.response))
   }
+
+
+  useEffect(() => {
+    document.getElementById('alert').innerHTML = alert;
+  })
 
 
   return (
@@ -45,6 +53,9 @@ export default function ManageRequests() {
       <Bottom_Right_Side_Menu />
 
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
 
         <Title title="Gerenciar pedidos" />

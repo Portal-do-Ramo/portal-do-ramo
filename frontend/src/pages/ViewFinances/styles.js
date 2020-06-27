@@ -9,6 +9,10 @@ export const Screen = styled.div`
     justify-content: center;
     height: 620px;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Card = styled.div`

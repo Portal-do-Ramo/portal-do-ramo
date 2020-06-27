@@ -62,6 +62,7 @@ export default function FirstLogin() {
     api.patch(`/api/usuarios/primeiro-login/${matricula}`, {
       cpf_usuario: document.getElementById("cpf_usuario").value,
       rg_usuario: document.getElementById("rg_usuario").value,
+      orgao_emissor: document.getElementById("orgao_emissor").value,
       telefone_secundario: document.getElementById("telefone_fixo").value,
       senha_usuario: document.getElementById("senha_usuario").value,
       tipo_sanguineo: document.getElementById("tipo_sanguineo").value,
@@ -103,6 +104,7 @@ export default function FirstLogin() {
       for(let erro in error.response.data.errors) {
         setAlert(`<div class="alert alert-danger" role="alert">${error.response.data.errors[erro]}</div>`)
       }
+      console.log(error.response)
     })
   }
 
@@ -131,7 +133,7 @@ export default function FirstLogin() {
             <h4>Informações pessoais</h4>
           </div>
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-3">
               <label htmlFor="cpf_usuario">CPF *</label>
               <InputMask
                 type="text"
@@ -146,7 +148,7 @@ export default function FirstLogin() {
               />
             </div>
 
-            <div className="col-md-4">
+            <div className="col-md-3">
               <label htmlFor="rg_usuario">RG *</label>
               <input
                 className="form-control"
@@ -160,7 +162,19 @@ export default function FirstLogin() {
               />
             </div>
 
-            <div className="col-md-4">
+            <div className="col-md-3">
+              <label htmlFor="orgao_emissor">Orgão Emissor *</label>
+              <input
+                className="form-control"
+                type="text"
+                name="orgao_emissor"
+                id="orgao_emissor"
+                autoComplete="off"
+                required
+              />
+            </div>
+
+            <div className="col-md-3">
               <label htmlFor="telefone_fixo">Telefone Fixo</label>
               <InputMask
                 type="tel"

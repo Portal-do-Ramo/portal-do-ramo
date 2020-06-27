@@ -77,6 +77,9 @@ export default function NewPSI() {
       <Bottom_Right_Side_Menu />
 
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
         <Title title="Novo Processo Seletivo Interno" />
 

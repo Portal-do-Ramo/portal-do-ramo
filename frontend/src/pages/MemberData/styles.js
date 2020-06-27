@@ -6,6 +6,19 @@ export const Screen = styled.div`
   .loader-screen {
     height: 710px;
   }
+
+  .center-alert {
+    display: flex;
+    justify-content: center;
+  }
+
+  .area-alert {
+    display: flex;
+    justify-content: center;
+    top: 0;
+    position: fixed;
+    z-index: 5;
+  }
 `
 
 export const Content = styled.div`
@@ -28,6 +41,40 @@ export const Content = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 30px;
+  }
+
+  .area-picture {
+    height: 60px;
+  }
+
+  .btn-send-picture {
+    background: #1D5EA8;
+    width: 100px;
+    color: #FFF;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: -30px;
+    float: right;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+
+  .btn-send-picture:hover {
+    box-shadow: 0px 0px 7px #888888;
+  }
+
+  .btn-send-picture:disabled {
+    background: #888;
+    cursor: default;
+
+    :hover {
+      box-shadow: none;
+    }
   }
 `
 

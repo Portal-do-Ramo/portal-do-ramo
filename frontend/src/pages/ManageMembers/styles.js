@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const Screen = styled.div`
   padding-bottom: 50px;
 
+  .btn-edit {
+    display: none;
+  }
+
   .btn-add {
     background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
     display: flex;

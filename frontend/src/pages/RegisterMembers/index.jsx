@@ -113,11 +113,6 @@ export default function RegisterMembers () {
       return
     }
 
-    if (!isEnabled) {
-      setAlert('<div class="alert alert-danger" role="alert"><strong>Carregue uma imagem!</strong></div>')
-      return
-    }
-
     const data_nascimento_padrao = data_nascimento[2] + '/' + data_nascimento[1] + '/' + data_nascimento[0];
 
     api.post(`/api/usuarios`, {
@@ -161,8 +156,10 @@ export default function RegisterMembers () {
         <>
           <Top_Left_Side_Menu/>
           <Bottom_Right_Side_Menu />
-          <div className="area-alert" id="alert" />
           <div className="container">
+            <div className="center-alert">
+              <div className="area-alert" id="alert" />
+            </div>
             <Header />
             <Title title="Registrar novo membro"/>
 
@@ -260,7 +257,7 @@ export default function RegisterMembers () {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    <label htmlFor="url-img">Foto de perfil *</label>
+                    <label htmlFor="url-img">Foto de perfil</label>
                     <p>Após selecionar a foto clique em <strong>CARREGAR</strong></p>
                     <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" />
                     <button className="btn-send-picture" onClick={() => {

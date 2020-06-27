@@ -35,6 +35,10 @@ export const Screen = styled.div`
     position: fixed;
     z-index: 5;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Content = styled.section`
@@ -132,6 +136,36 @@ export const Content = styled.section`
       float: left;
       margin-top: 10px;
       margin-right: 30px;
+    }
+  }
+
+  .btn-send-picture {
+    background: #1D5EA8;
+    width: 100px;
+    color: #FFF;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: -30px;
+    float: right;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+
+  .btn-send-picture:hover {
+    box-shadow: 0px 0px 7px #888888;
+  }
+
+  .btn-send-picture:disabled {
+    background: #888;
+    cursor: default;
+
+    :hover {
+      box-shadow: none;
     }
   }
 
@@ -459,6 +493,36 @@ export const ConfirmBoxModalScreen = styled.div`
       width: 95%;
       margin-top: 20px;
       margin-left: 10px;
+    }
+
+    .btn-send-picture {
+      background: #1D5EA8;
+      width: 100px;
+      color: #FFF;
+      padding: 5px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: -30px;
+      float: right;
+
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+    }
+
+    .btn-send-picture:hover {
+      box-shadow: 0px 0px 7px #888888;
+    }
+
+    .btn-send-picture:disabled {
+      background: #888;
+      cursor: default;
+
+      :hover {
+        box-shadow: none;
+      }
     }
   }
 

@@ -18,6 +18,10 @@ export const Screen = styled.div`
   a:hover {
     text-decoration: none;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Card = styled.div`

@@ -493,8 +493,11 @@ export default function ManageFinances () {
     <Screen>
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
-      <div className="area-alert" id="alert" />
+
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
 
         <Title title="Financeiro" />

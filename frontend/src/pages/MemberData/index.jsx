@@ -29,6 +29,8 @@ export default function MemberData() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAssessor, setIsAssessor] = useState();
   const [isMarketing, setIsMarketing] = useState();
+  const [base64, setBase64] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
 
   const [alert, setAlert] = useState('');
 
@@ -38,11 +40,13 @@ export default function MemberData() {
     .catch(() => window.location.href = '/error')
   }, [])
 
+
   useEffect(() => {
     api.get('/api/hierarquias', {headers: { Authorization: access_token }})
     .then(response => setHierarchies(response.data))
     .catch(() => window.location.href = '/error')
   }, [])
+
 
   useEffect(() => {
     api.get(`/api/usuarios/perfil-completo/${matricula}`, {headers: { Authorization: access_token }})
@@ -60,13 +64,12 @@ export default function MemberData() {
     .catch(() =>  window.location.href = '/error')
   }, [])
 
-  function setDataProfile(e){
-    e.preventDefault();
-    console.log('entrou')
 
+  function setDataProfile() {
     api.put(`api/usuarios/atualizar-totalmente/${matricula}`, {
       matricula_usuario: document.getElementById('matricula_usuario').value,
       rg_usuario: document.getElementById('rg_usuario').value,
+      orgao_emissor: document.getElementById('orgao_emissor').value,
       cpf_usuario: document.getElementById('cpf_usuario').value,
       nome_completo: document.getElementById('nome_usuario').value,
       hierarquia: document.getElementById('hierarchy').value,
@@ -90,16 +93,68 @@ export default function MemberData() {
     }, {
       headers: { Authorization: access_token }
     })
-    .then(() => console.log('funfou'))
+    .then(() => setAlert('<div class="alert alert-success" role="alert">Dados atualizados com sucesso!</div>'))
     .catch(error => {
-      console.log(error)
-      setAlert('<div class="alert alert-danger" role="alert">Não foi possível alterar os dados! <strong>Confira os dados informados</strong> e/ou tente novamente mais tarde!</div>');
+      switch(error.response.data) {
+        case 500:
+          window.location.href = '/error';
+          break;
+        default:
+          for(let erro in error.response.data.errors) {
+            setAlert(`<div class="alert alert-danger" role="alert">${error.response.data.errors[erro]}</div>`)
+          }
+          break;
+      }
     })
   }
 
-  // useEffect(() => {
-  //   document.getElementById('alert').innerHTML = alert;
-  // })
+
+  function setStateOfButton() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      setIsEnabled(true)
+    }
+  }
+
+
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setBase64(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
+
+  function convertToBase64() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      getBase64(files[0])
+    }
+  }
+
+
+  function sendNewPicture() {
+    if (base64 === '') {
+      setAlert('<div class="alert alert-danger" role="alert"><strong>Carregue uma foto!</strong></div>')
+      return
+    }
+
+    api.patch(`/api/usuarios/foto-perfil/${matricula}`, {
+      foto: base64
+    }, { headers: { Authorization: access_token }})
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Equipe criada com sucesso!</strong></div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a equipe.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+  }
+
+
+  useEffect(() => {
+    document.getElementById('alert').innerHTML = alert;
+  })
+
 
   return (
     <Screen>
@@ -107,18 +162,36 @@ export default function MemberData() {
       <Bottom_Right_Side_Menu />
 
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
 
         {(isLoaded) ?
           <Content>
             <Title title='Dados Pessoais' />
 
-            <div id="alert" />
-
-            <form onSubmit={setDataProfile}>
+              <Subtitles>Foto de Perfil</Subtitles>
+              <div className="row area-picture">
+                <div className="col-md-6">
+                  <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" />
+                  <button className="btn-send-picture" onClick={() => {
+                    setStateOfButton()
+                    convertToBase64()
+                  }} disabled={isEnabled}>
+                    {(isEnabled) ? 'Carregado' : 'Carregar'}
+                  </button>
+                </div>
+                <div className="col-md-4" />
+                <div className="col-md-2">
+                  <button className="btn-send" onClick={() => sendNewPicture()}>
+                    Salvar
+                  </button>
+                </div>
+              </div>
               <Subtitles>Dados Pessoais</Subtitles>
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
                     <label htmlFor="matricula_usuario">Matrícula *</label>
                     <input
@@ -134,7 +207,7 @@ export default function MemberData() {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
                     <label htmlFor="rg_usuario">RG *</label>
                     <input
@@ -149,7 +222,19 @@ export default function MemberData() {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-3">
+                  <label htmlFor="orgao_emissor">Orgão Emissor *</label>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="orgao_emissor"
+                    id="orgao_emissor"
+                    autoComplete="off"
+                    required
+                  />
+                </div>
+
+                <div className="col-md-3">
                   <div className="form-group">
                     <label htmlFor="cpf_usuario">CPF *</label>
                     <InputMask
@@ -157,7 +242,7 @@ export default function MemberData() {
                       className="form-control"
                       name="cpf_usuario"
                       id="cpf_usuario"
-                      value={cpf}
+                      defaultValue={cpf}
                       onChange={e => setCPF(e.target.value)}
                       mask="999.999.999-99"
                       maskChar=" "
@@ -308,7 +393,7 @@ export default function MemberData() {
                       id="isAssessor"
                       value={true}
                       className="checkbox"
-                      // onClick={e => setIsAssessor(!isAssessor)}
+                      onClick={() => setIsAssessor(!isAssessor)}
                     />
                     <label htmlFor="isAssessor">Assessor</label>
                     <small id="helpId" className="form-text text-muted">É um membro assessor?</small>
@@ -324,7 +409,7 @@ export default function MemberData() {
                       id="isMarketing"
                       value={true}
                       className="checkbox"
-                      // onClick={e => setIsMarketing(!isMarketing)}
+                      onClick={() => setIsMarketing(!isMarketing)}
                     />
                     <label htmlFor="isMarketing">Marketing</label>
                     <small id="helpId" className="form-text text-muted">É um membro de marketing?</small>
@@ -452,7 +537,7 @@ export default function MemberData() {
                       className="form-control"
                       name="telefone_contato"
                       id="telefone_contato"
-                      value={contactPhone}
+                      defaultValue={contactPhone}
                       onChange={e => setContactPhone(e.target.value)}
                       mask="(99) 99999-9999"
                       maskChar=" "
@@ -464,9 +549,8 @@ export default function MemberData() {
               </div>
 
               <div className="center">
-                <button type="submit" className="btn-send">Salvar</button>
+                <button className="btn-send" onClick={() => setDataProfile()}>Salvar</button>
               </div>
-            </form>
           </Content>
         : <div className="loader-screen"><Loader /></div>}
       </div>

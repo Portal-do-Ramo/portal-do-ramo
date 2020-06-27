@@ -11,6 +11,10 @@ export const Screen = styled.div`
     position: fixed;
     z-index: 5;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Content = styled.div`

@@ -3,12 +3,29 @@ import styled from 'styled-components';
 export const Screen = styled.div`
   padding-bottom: 50px;
 
+  .btn-edit {
+    display: none;
+  }
+
   .area-loader {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 600px;
     margin-top: 30px;
+  }
+
+  .center-alert {
+    display: flex;
+    justify-content: center;
+  }
+
+  .area-alert {
+    display: flex;
+    justify-content: center;
+    top: 0;
+    position: fixed;
+    z-index: 5;
   }
 
   .left-box-gray {

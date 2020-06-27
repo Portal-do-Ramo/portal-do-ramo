@@ -7,6 +7,10 @@ export const Screen = styled.div`
     height: 100vh;
   }
 
+  .btn-edit {
+    display: none;
+  }
+
   @media (min-width: 319px) and (max-width: 1023.98px) {
     height: 100%;
   }

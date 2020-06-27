@@ -7,6 +7,10 @@ export const Screen = styled.div`
     width: 100%;
     height: 600px;
   }
+
+  .btn-edit {
+    display: none;
+  }
 `
 
 export const Content = styled.div`

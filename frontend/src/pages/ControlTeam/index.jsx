@@ -23,7 +23,9 @@ export default function ControlTeam() {
 
   const [teamData, setTeamData] = useState();
   const [codeTeam, setCodeTeam] = useState('');
-  const [percent, setPercent] = useState(0);
+  const [base64, setBase64] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled2, setIsEnabled2] = useState(false);
 
   const [leader, setLeader] = useState();
   const [initialLeader, setInitialLeader] = useState();
@@ -42,7 +44,6 @@ export default function ControlTeam() {
     .then(response => {
       setTeamData(response.data)
       setCodeTeam(response.data.nome_equipe)
-      setPercent(response.data.porcentagem_caixa)
       setEvents(response.data.eventos)
       setArchives(response.data.arquivos)
 
@@ -78,11 +79,42 @@ export default function ControlTeam() {
   }
 
 
+  function setStateOfButton() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      setIsEnabled(true)
+    }
+  }
+
+
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setBase64(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
+
+  function convertToBase64() {
+    var files = document.getElementById('url-img').files;
+    if (files.length > 0) {
+      getBase64(files[0])
+    }
+  }
+
+
   function sendNewPicture() {
-    let url_picture = '';
+    if (base64 === '') {
+      setAlert('<div class="alert alert-danger" role="alert"><strong>Carregue uma imagem!</strong></div>')
+      return
+    }
 
     api.put(`/api/equipes/alterar-logo/${urlData}`, {
-      logo_equipe: url_picture
+      logo_equipe: base64
     }, { headers: { Authorization : access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Imagem alterada com sucesso!</strong></div>'))
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar a imagem.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
@@ -152,8 +184,19 @@ export default function ControlTeam() {
 
 
   function addArchive() {
-    // .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    if (base64 === '') {
+      setAlert('<div class="alert alert-danger" role="alert">Carregue um arquivo!</div>')
+      return
+    }
+
+    const archive_name = document.getElementById('archive_name').value;
+
+    api.patch(`/api/arquivos/upload-arquivo-equipe/${urlData}`, {
+      nome_arquivo: archive_name,
+      arquivo: base64
+    }, { headers: { Authorization: access_token } })
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -161,8 +204,9 @@ export default function ControlTeam() {
     let aux = archives;
     aux.splice(archives.indexOf(selectedArchive), 1);
     setArchives(aux);
-    // .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    api.delete(`/${urlData}/remover-arquivo-equipe/${selectedArchive.uuid}`, { headers: { Authorization: access_token } })
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -175,8 +219,11 @@ export default function ControlTeam() {
     <Screen>
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
-      <div className="area-alert" id="alert" />
+
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
         <Title title="Gerenciar Equipes" />
 
@@ -221,20 +268,6 @@ export default function ControlTeam() {
               </div>
               <div className="row">
                 <div className="col-md-4 down">
-                  <label htmlFor="percent" title="Em relação ao caixa da equipe selecionada">
-                    {percent}% no Orçamento
-                  </label>
-                  <input
-                    type="range"
-                    id="percent"
-                    minLength={0}
-                    maxLength={100}
-                    className="form-control"
-                    value={percent}
-                    readOnly
-                  />
-                </div>
-                <div className="col-md-4 down">
                   <label htmlFor="money">Caixa da Equipe</label>
                   <input
                     type="text"
@@ -244,7 +277,7 @@ export default function ControlTeam() {
                     readOnly
                   />
                 </div>
-                <div className="col-md-2" />
+                <div className="col-md-6" />
                 <div className="col-md-2 down">
                   <label> </label>
                   <br />
@@ -258,18 +291,17 @@ export default function ControlTeam() {
 
               <h1 className="title-area">Altere a logo da equipe</h1>
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <label htmlFor="team-logo">Selecione a logo da equipe</label>
-                  <input
-                    type="file"
-                    name="team-logo"
-                    id="team-logo"
-                    className="form-control-file"
-                    accept="image/png, image/jpeg"
-                    title="Logo da equipe"
-                  />
+                  <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" />
+                  <button className="btn-send-picture" onClick={() => {
+                    setStateOfButton()
+                    convertToBase64()
+                  }} disabled={isEnabled}>
+                    {(isEnabled) ? 'Carregado' : 'Carregar'}
+                  </button>
                 </div>
-                <div className="col-md-6" />
+                <div className="col-md-4" />
                 <div className="col-md-2">
                   <button className="btn-save" onClick={() => sendNewPicture()}>
                     Salvar
@@ -301,7 +333,7 @@ export default function ControlTeam() {
                       <label htmlFor="assessor-name">Clique para alterar</label>
                       <img src={advisor ? advisor.foto_url : avatar} className="leader-image" alt="avatar" />
                       <h1 className="title-name" id="leader-name">
-                        {advisor ? advisor.nome_completo.split(' ')[0].concat(' ' + advisor.nome_completo.split(' ')[1]): ''}
+                        {advisor ? advisor.nome_completo.split(' ')[0].concat(' ' + advisor.nome_completo.split(' ')[1]): 'Selecione'}
                       </h1>
                       <h1 className="hierarchy">
                         <img src={crown} className="icon" alt="icon" />
@@ -628,7 +660,14 @@ export default function ControlTeam() {
               <h1 className="title">Adicionar arquivo</h1>
             </div>
             <div className="inside-area">
-              <input type="file" className="form-control-file" id="file-input" name="file-input" required />
+              <input type="text" className="form-control" id="archive_name" name="archive_name" required />
+              <input type="file" className="form-control-file" id="url-img" name="url-img" required />
+              <button className="btn-send-picture" onClick={() => {
+                setStateOfButton()
+                convertToBase64()
+              }} disabled={isEnabled2}>
+                {(isEnabled2) ? 'Carregado' : 'Carregar'}
+              </button>
               <div className="row buttons-area">
                 <div>
                   <button className="btn btn-primary" onClick={() => document.getElementById('add-archives-area').style.display='none' }>
