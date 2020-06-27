@@ -255,8 +255,8 @@ Route::prefix('arquivos')->group(function() {
     Route::get('/download/{arquivo}', 'Arquivo\DownloadArquivoController');
 
     Route::post('/upload-arquivo-equipe/{equipe}', 'Equipe\EquipeArquivosController@store');
-    Route::match(['PUT', 'PATCH'], '{equipe}/alterar-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@update');
-    Route::delete('{equipe}/remover-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@destroy');
+    Route::match(['PUT', 'PATCH'], '/{equipe}/alterar-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@update');
+    Route::delete('/{equipe}/remover-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@destroy');
     
     Route::post('/upload-arquivo-projeto/{projeto}', 'Projeto\ProjetoArquivosController@store');
     Route::match(['PUT', 'PATCH'], '{projeto}/alterar-arquivo-projeto/{arquivo}', 'Projeto\ProjetoArquivosController@update');

@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Usuario;
 use App\Repositories\Interfaces\UsuarioRepositoryInterface;
+use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,7 @@ class AlterarFotoPerfilJob implements ShouldQueue
     protected $dadosValidos;
     protected $usuarioRepository;
     protected $service;
+    protected $deletarService;
     protected $url;
 
     /**
@@ -27,12 +29,13 @@ class AlterarFotoPerfilJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Usuario $usuario, array $dadosValidos, UsuarioRepositoryInterface $usuarioRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Usuario $usuario, array $dadosValidos, UsuarioRepositoryInterface $usuarioRepository, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
         $this->usuario = $usuario;
         $this->dadosValidos = $dadosValidos;
         $this->usuarioRepository = $usuarioRepository;
         $this->service = $service;
+        $this->deletarService = $deletarService;
     }
 
     /**
@@ -45,13 +48,10 @@ class AlterarFotoPerfilJob implements ShouldQueue
         $pasta = $this->service->handle('Fotos Perfis');
         $path = "$pasta/foto-perfil-{$this->usuario->matricula}";
 
+        $this->deletarService->handle($pasta, "foto-perfil-{$this->usuario->matricula}");
+
         Storage::cloud()->put($path, base64_decode($this->dadosValidos['foto']));
         $this->url = Storage::cloud()->url($path);
         $this->usuarioRepository->setFotoPerfil($this->usuario, $this->url);
-    }
-
-    public function getResponse()
-    {
-        return $this->url;
     }
 }

@@ -5,7 +5,8 @@ window.io = io;
 
 const echo = new Echo({
   broadcaster: 'socket.io',
-  host: 'localhost:6001'
+  host: window.location.hostname,
+  transports: ['websocket', 'polling']
 });
 
 export default echo;

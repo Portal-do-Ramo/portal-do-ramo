@@ -26,7 +26,7 @@ class UsuarioSistema extends Usuario
      */
     public function sendPasswordResetNotification($token)
     {
-        $url = "http://localhost:3000/new-password?token=$token&email={$this->email}";
+        $url = config('app.url') . "/new-password?token=$token&email={$this->email}";
         Mail::to($this->email)->queue(new TrocarSenhaMail($url, $this));
     }
 

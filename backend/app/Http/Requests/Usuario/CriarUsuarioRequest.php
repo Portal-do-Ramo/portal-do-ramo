@@ -33,6 +33,7 @@ class CriarUsuarioRequest extends FormRequest
     public function messages()
     {
         return [
+            'before' => 'O campo :attribute deve ser uma data anterior a atual.',
             'exists' => 'O campo :attribute está indicando um :attribute que não existe no sistema.'
         ];
     }

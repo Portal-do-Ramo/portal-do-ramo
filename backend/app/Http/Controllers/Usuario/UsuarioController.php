@@ -15,8 +15,8 @@ use App\Jobs\CriarUsuarioJob;
 use App\Models\Membro;
 use App\Models\Usuario;
 use App\Repositories\Interfaces\UsuarioRepositoryInterface;
+use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends AbstractUsuarioController
@@ -121,12 +121,10 @@ class UsuarioController extends AbstractUsuarioController
         return response()->json('Informações atualizadas com sucesso', 200);
     }
 
-    public function updateFotoPerfil(AtualizarFotoPerfilRequest $request, Usuario $usuario, VerificarExistenciaDiretorioService $service)
+    public function updateFotoPerfil(AtualizarFotoPerfilRequest $request, Usuario $usuario, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
-        $job = new AlterarFotoPerfilJob($usuario, $request->validated(), $this->usuarioRepository, $service);
-        $job::dispatchNow();
-
-        return response()->json($job->getResponse(), 200);
+        AlterarFotoPerfilJob::dispatchNow($usuario, $request->validated(), $this->usuarioRepository, $service, $deletarService);
+        return response()->json('Foto de perfil alterada com sucesso', 200);
     }
 
     /**

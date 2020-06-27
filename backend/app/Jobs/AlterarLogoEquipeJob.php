@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Equipe;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
+use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,7 @@ class AlterarLogoEquipeJob implements ShouldQueue
     protected $logo;
     protected $equipeRepository;
     protected $service;
+    protected $deletarService;
     protected $url;
 
     /**
@@ -27,12 +29,13 @@ class AlterarLogoEquipeJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Equipe $equipe, array $dadosValidos, EquipeRepositoryInterface $equipeRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Equipe $equipe, array $dadosValidos, EquipeRepositoryInterface $equipeRepository, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
         $this->equipe = $equipe;
         $this->logo = $dadosValidos['logo_equipe'];
         $this->equipeRepository = $equipeRepository;
         $this->service = $service;
+        $this->deletarService = $deletarService;
     }
 
     /**
@@ -46,13 +49,10 @@ class AlterarLogoEquipeJob implements ShouldQueue
         $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
         $path = "$pastaEquipe/logo-equipe-{$this->equipe->nome_equipe_slug}";
 
+        $this->deletarService->handle($pastaEquipe, "logo-equipe-{$this->equipe->nome_equipe_slug}");
+
         Storage::cloud()->put($path, base64_decode($this->logo));
         $this->url = Storage::cloud()->url($path);
         $this->dadosValidos['foto_url'] = $this->url;
-    }
-
-    public function getResponse()
-    {
-        return $this->url;
     }
 }

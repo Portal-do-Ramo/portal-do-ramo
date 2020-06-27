@@ -4,7 +4,11 @@ set -e
 
 role=${CONTAINER_ROLE}
 
-if [ "$role" = "queue" ]; then
+if [ "$role" = "server" ];then
+
+  exec apache2-foreground
+
+elif [ "$role" = "queue" ]; then
 
   php artisan queue:work --queue=strike-recebido,broadcast,default,audiencia-strike-mail,abrir-fechar-vaquinha,notificar-fim-inatividade
 

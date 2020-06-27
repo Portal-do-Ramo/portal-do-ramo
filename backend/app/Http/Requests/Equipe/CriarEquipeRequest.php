@@ -47,6 +47,6 @@ class CriarEquipeRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)])
+        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)]);
     }
 }

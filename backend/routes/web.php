@@ -13,4 +13,4 @@
 
 use Illuminate\Support\Facades\Redirect;
 
-Route::fallback(fn() => Redirect::away('http://localhost:3000'));
+Route::fallback(fn() => Redirect::away(config('app.url')));

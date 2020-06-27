@@ -13,9 +13,8 @@ use App\Http\Resources\EquipeResource;
 use App\Jobs\AlterarLogoEquipeJob;
 use App\Jobs\CriarEquipeJob;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
+use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
-use Illuminate\Queue\Jobs\Job;
-use Illuminate\Queue\Queue;
 
 class EquipeController extends AbstractEquipeController
 {
@@ -48,7 +47,7 @@ class EquipeController extends AbstractEquipeController
      */
     public function store(CriarEquipeRequest $request, VerificarExistenciaDiretorioService $service)
     {
-        CriarEquipeJob::dispatch($request->validated(), $this->equipeRepository, $service);
+        CriarEquipeJob::dispatchNow($request->validated(), $this->equipeRepository, $service);
         return response()->json('Equipe registrada com sucesso', 201);
     }
 
@@ -87,12 +86,10 @@ class EquipeController extends AbstractEquipeController
         return response()->json('Assessor da equipe mudado com sucesso');
     }
 
-    public function updateLogo(AtualizarLogoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service)
+    public function updateLogo(AtualizarLogoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
-        $job = new AlterarLogoEquipeJob($equipe, $request->validated(), $this->equipeRepository, $service);       
-        $job::dispatchNow();
-        
-        return response()->json($job->getResponse(), 200);
+        AlterarLogoEquipeJob::dispatchNow($equipe, $request->validated(), $this->equipeRepository, $service, $deletarService);       
+        return response()->json('Logo da equipe alterado com sucesso', 200);
     }
 
     protected function resourceAbilityMap()

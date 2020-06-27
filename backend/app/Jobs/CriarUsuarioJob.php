@@ -38,12 +38,15 @@ class CriarUsuarioJob implements ShouldQueue
      */
     public function handle()
     {
-        $pasta = $this->service->handle('Fotos Perfis');
-        $path = "$pasta/foto-perfil-{$this->dadosValidos['matricula_usuario']}";
-
-        Storage::cloud()->put($path, base64_decode($this->dadosValidos['foto']));
-
-        $this->dadosValidos['foto_url'] = Storage::cloud()->url($path);
+        if($this->dadosValidos['foto'])
+        {
+            $pasta = $this->service->handle('Fotos Perfis');
+            $path = "$pasta/foto-perfil-{$this->dadosValidos['matricula_usuario']}";
+    
+            Storage::cloud()->put($path, base64_decode($this->dadosValidos['foto']));
+    
+            $this->dadosValidos['foto_url'] = Storage::cloud()->url($path);
+        }
         $this->usuarioRepository->create($this->dadosValidos);
     }
 }

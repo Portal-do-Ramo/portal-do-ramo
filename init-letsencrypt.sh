@@ -7,7 +7,7 @@ fi
 
 domains=(portaldoramo.cefet-rj.br, www.portaldoramo.cefet-rj.br)
 rsa_key_size=4096
-data_path="./frontend/nginx/certbot"
+data_path=".docker/nginx/certbot"
 email="adm.portaldoramo@gmail.com" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 

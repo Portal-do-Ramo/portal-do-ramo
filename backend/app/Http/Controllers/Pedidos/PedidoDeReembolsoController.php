@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Pedidos;
 
+use App\Http\Requests\Pedido\CriarPedidoDeReembolsoRequest;
 use App\Jobs\CriarPedidoDeReembolsoJob;
 use App\Models\Pedidos\PedidoDeCompra;
 use App\Models\Pedidos\PedidoDeReembolso;
 use App\Repositories\Interfaces\PedidoRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
-use Illuminate\Http\Request;
 
 class PedidoDeReembolsoController extends AbstractPedidoController
 {
@@ -23,9 +23,9 @@ class PedidoDeReembolsoController extends AbstractPedidoController
      * @param  \App\Models\Pedidos\PedidoDeCompra  $pedido
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, PedidoDeCompra $pedido, VerificarExistenciaDiretorioService $service)
+    public function store(CriarPedidoDeReembolsoRequest $request, PedidoDeCompra $pedido, VerificarExistenciaDiretorioService $service)
     {
-        CriarPedidoDeReembolsoJob::dispatch($pedido, $request->validate(['foto' => 'required|base64image']), $this->pedidoRepository, $service);
+        CriarPedidoDeReembolsoJob::dispatch($pedido, $request->validated(), $this->pedidoRepository, $service);
         return response()->json('Pedido de reembolso criado e enviado com sucesso', 201);
     }
 
