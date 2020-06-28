@@ -38,9 +38,11 @@ export default function PurchaseOrder() {
       if (inputsHidden.indexOf(i) === -1) {
         let date = document.getElementById('item_date_'.concat(i)).value.split('-');
         let date_formatted = date[2] + '/' + date[1] + '/' + date[0];
+        let price = document.getElementById('item_unit_value_'.concat(i)).value;
+        price = price.replace(',', '.')
         let object = {
           "nome_produto": document.getElementById('item_name_'.concat(i)).value,
-          "valor_unitario": document.getElementById('item_unit_value_'.concat(i)).value,
+          "valor_unitario": price,
           "quantidade": document.getElementById('item_qty_'.concat(i)).value,
           "nome_loja": document.getElementById('item_name_shop_'.concat(i)).value,
           "data_pedido": date_formatted,
