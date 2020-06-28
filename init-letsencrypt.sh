@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(portaldoramo.cefet-rj.br, www.portaldoramo.cefet-rj.br)
+domains=(portaldoramo.cefet-rj.br)
 rsa_key_size=4096
 data_path=".docker/nginx/certbot"
 email="adm.portaldoramo@gmail.com" # Adding a valid address is strongly recommended

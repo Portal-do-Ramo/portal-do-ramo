@@ -13,4 +13,6 @@
 
 use Illuminate\Support\Facades\Redirect;
 
-Route::fallback(fn() => Redirect::away(config('app.url')));
+Route::fallback(function() {
+    Redirect::away(config('app.url'));
+});
