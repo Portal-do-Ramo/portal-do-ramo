@@ -36,6 +36,8 @@ export default function ControlProject () {
   const [loaded, setLoaded] = useState(false);
   const [percent, setPercent] = useState(0);
   const [alert, setAlert] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [base64, setBase64] = useState('');
 
 
   if (urlData === '') {
@@ -69,16 +71,33 @@ export default function ControlProject () {
   }, [])
 
 
-  // function getBase64(file) {
-  //   var reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = function () {
-  //     setBase64(reader.result);
-  //   };
-  //   reader.onerror = function (error) {
-  //     console.log('Error: ', error);
-  //   };
-  // }
+  function setStateOfButtonPDF() {
+    var files = document.getElementById('input-file').files;
+    if (files.length > 0) {
+      setIsEnabled(true)
+    }
+  }
+
+
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setBase64(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
+
+  function convertToBase64PDF() {
+    var files = document.getElementById('input-file').files;
+
+    if (files.length > 0) {
+      getBase64(files[0])
+    }
+  }
 
 
   function sendData() {
@@ -159,8 +178,24 @@ export default function ControlProject () {
 
 
   function addArchives() {
-    console.log('addArchives')
+    if (base64 === '') {
+      setAlert('<div class="alert alert-danger" role="alert">Carregue um arquivo!</div>')
+      return
+    }
 
+    const archive_name = document.getElementById('archive_name').value;
+
+    if (archive_name === '') {
+      setAlert('<div class="alert alert-danger" role="alert">Nome do arquivo obrigatório!</div>')
+      return
+    }
+
+    api.post(`/api/arquivos/upload-arquivo-projeto/${urlData}`, {
+      nome_arquivo: archive_name,
+      arquivo: base64
+    }, { headers: { Authorization: access_token } })
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -719,8 +754,16 @@ export default function ControlProject () {
                     <h1 className="title">Arquivos</h1>
                   </div>
                   <div className="inside-area">
-                    <input type="file" className="form-control-file" id="file-input" name="file-input" required />
-
+                    <input type="text" className="form-control archive-input" id="archive_name" name="archive_name" placeholder="Nome do arquivo *" required /><br />
+                    <input type="file" className="form-control-file" id="input-file" name="input-file" required />
+                    <div className="row">
+                      <button className="btn-send-picture" onClick={() => {
+                        setStateOfButtonPDF()
+                        convertToBase64PDF()
+                      }} disabled={isEnabled}>
+                        {(isEnabled) ? 'Carregado' : 'Carregar'}
+                      </button>
+                    </div>
                     <div className="row buttons-area">
                       <div>
                         <button className="btn btn-primary" onClick={() => document.getElementById('add-archives-area').style.display='none' }>

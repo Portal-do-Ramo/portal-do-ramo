@@ -53,9 +53,17 @@ export default function Profile(){
                     </Title>
                   </div>
 
-                  <div className="medal-box row">
-                    {(userData) ? <img src={active} className="medal" title="Usuário ativo" alt="Usuário ativo"/> : ''}
-                    {(userData) ? <img src={payingMember} className="medal" title="Membro pagante" alt="Membro pagante"/> : ''}
+                  <div className="medal-box row">{console.log(userData)}
+                    {(userData) ?
+                      (userData.ativo) ?
+                        <img src={active} className="medal" title="Usuário ativo" alt="Usuário ativo"/>
+                      : ''
+                    : ''}
+                    {(userData) ?
+                      (userData.pagante) ?
+                        <img src={payingMember} className="medal" title="Membro pagante" alt="Membro pagante"/>
+                      : ''
+                    : ''}
                   </div>
 
                   <ul>

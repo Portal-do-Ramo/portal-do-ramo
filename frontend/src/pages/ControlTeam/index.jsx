@@ -86,6 +86,7 @@ export default function ControlTeam() {
     }
   }
 
+
   function setStateOfButtonPDF() {
     var files = document.getElementById('input-file').files;
     if (files.length > 0) {
@@ -216,8 +217,7 @@ export default function ControlTeam() {
       arquivo: base64
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
