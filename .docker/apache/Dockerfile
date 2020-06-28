@@ -17,7 +17,8 @@ COPY ./backend /var/www/html
 COPY .docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY .docker/apache/start.sh /usr/local/bin/start
 
-RUN chown -R www-data:www-data /var/www/html \
+RUN usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data \
     && chmod u+x /usr/local/bin/start \
     && a2enmod rewrite
 
