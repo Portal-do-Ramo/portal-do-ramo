@@ -2,7 +2,7 @@
 Prezado {{ $membro->nome_completo }},
  
 
-A Diretoria do Ramo Estudantil IEEE CEFET/RJ vem por meio deste e-mail comunicar a aprovação de um strike dado pelo membro {{ $strike->membroAplicou->nome_completo }} pelos seguintes motivos:
+A Diretoria do Ramo Estudantil IEEE CEFET/RJ vem por meio deste e-mail comunicar a aprovação de um strike dado pelo membro {{ $strike->membroAplicou->nome_completo }} no membro {{ $strike->membroRecebeu->nome_completo }} pelos seguintes motivos:
 
 
 "{{ $strike->motivo }}"
