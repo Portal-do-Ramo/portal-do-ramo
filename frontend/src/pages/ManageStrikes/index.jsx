@@ -147,7 +147,7 @@ export default function ManageStrikes() {
       const downloadUrl = window.URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', `${type}.xlsx`);
+      link.setAttribute('download', 'lista-strikes-aprovados.xlsx');
       document.body.appendChild(link);
       link.click();
       link.remove();
