@@ -15,7 +15,6 @@ export default function NotificationBox (props) {
 
   echo.private(`usuario.${matricula}`)
   .listen('.nova.notificacao', (e) => {
-    console.log('chegou')
     setNotifications(notifications => [...notifications, e]);
   })
 

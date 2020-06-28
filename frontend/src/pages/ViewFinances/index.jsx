@@ -10,7 +10,7 @@ import Loader from '../../components/LoaderSpinner';
 import { Screen, Card, ModalScreen, BoxModalScreen, Register } from './styles';
 
 export default function ViewFinances () {
-  document.title = 'Vaquinha';
+  document.title = 'Financeiro';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
 
   const [data, setData] = useState();
@@ -19,10 +19,7 @@ export default function ViewFinances () {
 
   useEffect(() => {
     api.get('/api/caixas', { headers: { Authorization: access_token } })
-    .then(response => {
-      console.log(response.data)
-      setData(response.data)
-    })
+    .then(response => setData(response.data))
     .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(true))
   }, [])

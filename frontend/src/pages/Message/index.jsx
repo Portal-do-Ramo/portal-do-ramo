@@ -103,7 +103,7 @@ export default function Message(){
 
       <Content className="container">
         <Title>Mensagem</Title>
-        <p>Envie com facilidade um e-mail para membros</p>
+        <p>Envie com facilidade um e-mail para membros</p>{console.log(destinatarios)}
 
         <div id="alert" />
         <div className="row">

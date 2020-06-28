@@ -25,7 +25,7 @@ export default function MyTeams() {
         <div className="row">
           {(teams) ? teams.map(team => (
             <div className="col-md-4">
-              <Link to={`/team/myteams/selected?${team.nome_equipe_slug}`}>
+              <Link to={`/team/selected?${team.nome_equipe_slug}`}>
                 <Card key={team.nome_equipe_slug}>
                   <div className="logo-area">
                     <img src={team.foto_url} alt="team_image"/>

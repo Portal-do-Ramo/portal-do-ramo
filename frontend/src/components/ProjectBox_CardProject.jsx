@@ -39,7 +39,7 @@ export const TeamProject = styled.p`
 `
 
 export default props =>
-  <Link to={`/projects/selected/${props.slug}`}>
+  <Link to={`/projects/selected?${props.slug}`}>
     <Card>
       <img src={props.img} className="projectLogo" alt="logo" />
       <div>

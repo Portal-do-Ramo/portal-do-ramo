@@ -61,9 +61,9 @@ function EditProfile () {
     .finally(() => setIsLoaded(true))
   }, [])
 
-  useEffect(() => {
-    document.getElementById('alert').innerHTML = alert;
-  })
+  // useEffect(() => {
+  //   document.getElementById('alert').innerHTML = alert;
+  // })
 
   function setDataProfile(e){
     e.preventDefault();

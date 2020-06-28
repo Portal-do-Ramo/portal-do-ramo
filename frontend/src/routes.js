@@ -145,7 +145,7 @@ export default function Routes () {
           <PrivateRoute path='/team/manageteams' exact component={ () => <ManageTeams /> } />
           <PrivateRoute path='/team/manageteams/manage' exact component={ () => <ControlTeam /> } />
           <PrivateRoute path='/team/manageteams/newteam' component={ () => <NewTeam /> } />
-          <PrivateRoute path='/team/myteams/selected' component={ () => <ViewTeam /> } />
+          <PrivateRoute path='/team/selected' component={ () => <ViewTeam /> } />
 
           {/* Routers - Projetos */}
           <PrivateRoute path='/projects/new-project' component={ () => <NewProject /> } />

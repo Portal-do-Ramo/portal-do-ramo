@@ -8,6 +8,7 @@ import { LoginScreen } from "./styles";
 import LogoRamo from './images/Logo_PortaldoRamo.png';
 import Icon_Instagram from './images/Icon_Instagram.png';
 import Icon_Linkedin from './images/Icon_Linkedin.png';
+import Icon_Facebook from './images/Icon_Facebook.png';
 
 function setUserLogged(user) {
   return { type: 'SET_USER', user }
@@ -96,45 +97,50 @@ export default function LoginForm () {
         <img src={LogoRamo} className="img-fluid" alt="logo-ramo"/>
       </header>
 
-      <form onSubmit={Login}>
-        <div id="alert" />
-        <div className="form-group">
-          <input className="form-control"
-            name="user-matricula"
-            id="user-matricula"
-            type="text"
-            placeholder="Matrícula"
-            autoComplete="off"
-            required
-          />
-        </div>
+      <div className="login-area">
+        <form onSubmit={Login}>
+          <div id="alert" />
+          <div className="form-group">
+            <input className="form-control"
+              name="user-matricula"
+              id="user-matricula"
+              type="text"
+              placeholder="Matrícula"
+              autoComplete="off"
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <input
-            className="form-control"
-            name="user-password"
-            id="user-password"
-            type="password"
-            placeholder="Senha"
-            required
-          />
-          <small><Link to="/recover-password">Esqueci minha senha</Link></small>
-        </div>
+          <div className="form-group">
+            <input
+              className="form-control"
+              name="user-password"
+              id="user-password"
+              type="password"
+              placeholder="Senha"
+              required
+            />
+            <small><Link to="/recover-password">Esqueci minha senha</Link></small>
+          </div>
 
-        <button type="submit" className="btn-send">Entrar</button>
-      </form>
+          <button type="submit" className="btn-send">Entrar</button>
+        </form>
+
+        <div className="icons-area">
+          <div className="row justify-content-center">
+            <ul className="nav">
+              <li><a href="https://instagram.com/ramocefet" target="_blank"><img src={Icon_Instagram} alt="instagram" /></a></li>
+              <li><a href="https://www.linkedin.com/company/ramocefet/" target="_blank"><img src={Icon_Linkedin} alt="linkedin" /></a></li>
+              <li><a href="https://www.facebook.com/ramocefet/" target="_blank"><img src={Icon_Facebook} alt="facebook" /></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <footer>
-        <div className="row justify-content-center">
-          <ul className="nav">
-            <li><a href="https://instagram.com/ramocefet" target="_blank"><img src={Icon_Instagram} alt="instagram" /></a></li>
-            <li><a href="https://www.linkedin.com/company/ramocefet/" target="_blank"><img src={Icon_Linkedin} alt="linkedin" /></a></li>
-          </ul>
-          <div className="w-100" />
-          <span>Portal do Ramo - 2020<br/>
-            Todos os direitos reservados - Ramo Estudantil CEFET-RJ
-          </span>
-        </div>
+        <span>Portal do Ramo - 2020<br/>
+          Todos os direitos reservados
+        </span>
       </footer>
     </LoginScreen>
   );

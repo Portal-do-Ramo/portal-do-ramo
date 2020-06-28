@@ -150,6 +150,7 @@ export default function FirstLogin() {
                 onChange={(e) => setCPF(e.target.value)}
                 mask="999.999.999-99"
                 maskChar=" "
+                autoComplete="off"
                 required
               />
             </div>
@@ -161,8 +162,8 @@ export default function FirstLogin() {
                 type="text"
                 name="rg_usuario"
                 id="rg_usuario"
-                placeholder="00000.000-0"
-                maxLength="11"
+                placeholder="00.000.000-0"
+                maxLength="12"
                 autoComplete="off"
                 required
               />
@@ -188,6 +189,7 @@ export default function FirstLogin() {
                 name="telefone_fixo"
                 id="telefone_fixo"
                 mask="(99) 9999-9999"
+                autoComplete="off"
                 maskChar=" "
               />
             </div>
@@ -205,6 +207,7 @@ export default function FirstLogin() {
                 id="senha_usuario"
                 placeholder="Nova senha *"
                 maxLength="40"
+                autoComplete="off"
                 required
               />
             </div>
@@ -217,6 +220,7 @@ export default function FirstLogin() {
                 id="senha_usuario_confirmada"
                 placeholder="Confirme sua senha *"
                 maxLength="40"
+                autoComplete="off"
                 required
               />
             </div>
@@ -345,6 +349,7 @@ export default function FirstLogin() {
                 id="telefone_emergencia"
                 mask="(99) 99999-9999"
                 maskChar=" "
+                autoComplete="off"
                 required
               />
             </div>

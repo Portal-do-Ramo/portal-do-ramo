@@ -33,7 +33,7 @@ function ManageMembers(){
     setMembers([])
     const nameSearched = document.getElementById("user-search").value
     await api.get(`/api/usuarios/search?nome_completo=${nameSearched}`, {headers: { Authorization: access_token }})
-    .then(response =>
+    // .then(response =>
     //   ((response.data).length != 0) ? (
     //     setMembers(response.data),
     //     document.getElementById('searchMessage').innerHTML = ''
@@ -41,8 +41,7 @@ function ManageMembers(){
     //     setMembers([]),
     //     document.getElementById('searchMessage').innerHTML = 'Sem resultados',
     //   )
-    // }
-    console.log(response.data))
+    // )
     .catch(() => document.getElementById('viewAllResults').innerHTML = `<p>Não foi possível realizar a pesquisa</p>`)
     .finally(() => setIsLoaded(false))
   }
@@ -134,7 +133,7 @@ function ManageMembers(){
                     <ul>
                       <Link to={'/profile?'.concat(selectedMember.matricula)}><li>Ver perfil público</li></Link>
                       <Link to={'/managemembers/member?'.concat(selectedMember.matricula)}><li>Dados pessoais</li></Link>
-                      <Link to={'/team/manageteams/manage?'.concat(selectedMember.matricula)}><li>Equipes</li></Link>
+                      <Link to={'/team/selected?'.concat(selectedMember.matricula)}><li>Equipes</li></Link>
                       <Link to={'/projects/historic?'.concat(selectedMember.matricula)}><li>Projetos</li></Link>
                       <Link to={'/strike/manage/historic?'.concat(selectedMember.matricula)}><li>Strikes</li></Link>
                       <Link to={'/manageabsences/historic?'.concat(selectedMember.matricula)}><li>Faltas</li></Link>

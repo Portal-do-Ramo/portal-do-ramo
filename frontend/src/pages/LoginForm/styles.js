@@ -2,22 +2,28 @@ import styled from 'styled-components';
 import PlanoDeFundo from './images/plano_de_fundo.png';
 
 export const LoginScreen = styled.div`
+  display: flex;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   width: 100%;
-  align-items: center;
   background-image: url(${PlanoDeFundo});
   background-size: cover;
 
+  .login-area {
+    display: table-cell;
+  }
+
   header {
-    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 10px;
+    height: 300px;
+    position: absolute;
 
     img {
       width: 450px;
-      position: relative;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
     }
   }
 
@@ -35,15 +41,21 @@ export const LoginScreen = styled.div`
       margin-top: -10px;
     }
 
+    input {
+      margin-top: -5px;
+    }
+
     small a {
       color: #FFF;
       text-decoration: none;
+      font-size: 9pt;
+      margin-top: 5px;
     }
 
     small a:hover{
       color: #1D5EA8;
       text-decoration: none;
-      transition: .2s;
+      transition: .4s;
     }
 
     .alert-danger {
@@ -59,14 +71,8 @@ export const LoginScreen = styled.div`
     }
   }
 
-  footer {
-    position: fixed;
-    left: 50%;
-    transform:translate(-50%);
-    margin-top: 20px;
-    color: #FFF;
-    text-align: center;
-    bottom: 15px;
+  .icons-area {
+    margin-top: 25px;
 
     ul {
       list-style: none;
@@ -78,16 +84,26 @@ export const LoginScreen = styled.div`
     }
   }
 
+  footer {
+    color: #FFF;
+    text-align: center;
+    font-size: 10pt;
+    position: absolute;
+    bottom: 10px;
+  }
+
   @media (max-width: 359.98px){
     header {
-      height: 200px;
+      height: 150px;
 
       img {
-        width: 200px;
+        width: 250px;
       }
     }
 
     form {
+      padding: 40px;
+      padding-bottom: 60px;
       width: 300px;
 
       button {
@@ -101,12 +117,18 @@ export const LoginScreen = styled.div`
       height: 150px;
 
       img {
-        width: 150px;
+        width: 300px;
       }
     }
 
     form {
+      padding: 40px;
+      padding-bottom: 60px;
       width: 300px;
+
+      button {
+        margin-top: 5px;
+      }
     }
   }
 
@@ -115,12 +137,18 @@ export const LoginScreen = styled.div`
       height: 250px;
 
       img {
-        width: 250px;
+        width: 350px;
       }
     }
 
     form {
+      padding: 40px;
+      padding-bottom: 60px;
       width: 300px;
+
+      button {
+        margin-top: 5px;
+      }
     }
   }
 
@@ -129,12 +157,18 @@ export const LoginScreen = styled.div`
       height: 250px;
 
       img {
-        width: 250px;
+        width: 350px;
       }
     }
 
     form {
-      width: 350px;
+      padding: 40px;
+      padding-bottom: 60px;
+      width: 300px;
+
+      button {
+        margin-top: 5px;
+      }
     }
   }
 
@@ -145,6 +179,20 @@ export const LoginScreen = styled.div`
       img {
         width: 200px;
       }
+    }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1365.98px) {
+    header {
+      height: 400px;
+
+      img {
+        width: 500px;
+      }
+    }
+
+    form {
+      margin-top: -150px;
     }
   }
 `

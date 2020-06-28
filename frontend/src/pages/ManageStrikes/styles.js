@@ -522,22 +522,6 @@ export const FullscreenStrike = styled.div`
       overflow-y: scroll;
     }
 
-    .padding-inside {
-      padding: 10px;
-      margin-top: 15px;
-    }
-
-    .save-area {
-      height: 80px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      button {
-        margin-right: 20px;
-      }
-    }
-
     .buttons-area {
       width: 100%;
       height: 80px;
@@ -631,4 +615,163 @@ export const FullscreenStrike = styled.div`
 
 export const Fullscreen = styled.div`
   background: rgba(0,0,0,0.5);
+`
+
+export const FullscreenAudience = styled.div`
+  background-color: #E9EDF5;
+  height: 330px;
+  width: 600px;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 200px;
+
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+
+  .title {
+    background: #1D5EA8;
+    padding-top: 10px;
+    width: 120px;
+    height: 40px;
+    font-size: 12pt;
+    color: #FFF;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: -30px;
+    margin-left: 30px;
+  }
+
+  .btn-close {
+    background: #1D5EA8;
+    border-radius: 5px;
+    color: #FFF;
+    height: 40px;
+    width: 70px;
+    outline: none;
+    border: none;
+    font-size: 11pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: -30px;
+    margin-left: 350px;
+  }
+
+  .view {
+    height: 100%;
+    border: none;
+  }
+
+  .inside-area {
+    width: 100%;
+    height: 250px;
+
+    h1 {
+      font-size: 14pt;
+      margin-top: 10px;
+      margin-left: 30px;
+    }
+
+    h2 {
+      font-size: 12pt;
+      margin-left: 30px;
+      margin-top: 10px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 120px;
+      border: none;
+      outline: none;
+      min-height: 120px;
+      max-height: 120px;
+      margin-left: 30px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      overflow-y: scroll;
+    }
+
+    .padding-inside {
+      padding: 10px;
+      margin-top: 15px;
+    }
+
+    .save-area {
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        margin-right: 20px;
+      }
+    }
+
+    .buttons-area {
+      width: 100%;
+      height: 80px;
+      margin-top: -20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      button {
+        width: 120px;
+        padding: 6px;
+        background: #1D5EA8;
+        margin-left: 5px;
+        margin-right: 5px;
+        border: none;
+        color: #FFF;
+        border-radius: 5px;
+
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+      }
+
+      button:hover {
+        box-shadow: 0px 0px 7px #888;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .buttons-area {
+        border: 1px solid red;
+      }
+    }
+  }
+
+  span {
+    font-size: 11pt;
+    font-weight: bold;
+  }
+
+  @media (min-width: 319px) and (max-width: 359.98px) {
+    width: 290px;
+    margin-top: 100px;
+  }
+
+  @media (min-width: 360px) and (max-width: 374.98px) {
+    width: 330px;
+  }
+
+  @media (min-width: 375px) and (max-width: 410.98px) {
+    width: 306px;
+  }
+
+  @media (min-width: 411px) and (max-width: 575.98px) {
+    width: 345px;
+  }
+
+  @media (min-width: 767px) and (max-width: 1023.98px) {
+    width: 650px;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1155px) {
+    width: 890px;
+  }
 `

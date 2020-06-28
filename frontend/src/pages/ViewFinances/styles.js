@@ -30,7 +30,7 @@ export const Card = styled.div`
 
   .title {
     color: #FFF;
-    font-size: 20pt;
+    font-size: 18pt;
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -40,7 +40,7 @@ export const Card = styled.div`
 
   .value {
     color: #FFF;
-    font-size: 16pt;
+    font-size: 15pt;
   }
 
   .center {
@@ -69,6 +69,14 @@ export const Card = styled.div`
   .btn-extract:disabled {
     background: rgba(255,255,255,.2);
     cursor: default;
+  }
+
+  @media (max-width: 767.98px) {
+    height: auto;
+  }
+
+  @media (min-width: 767.98px) and (max-width: 1366px) {
+    height: 300px;
   }
 `
 

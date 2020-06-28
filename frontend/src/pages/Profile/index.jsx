@@ -86,9 +86,9 @@ export default function Profile(){
                   </div>
 
                   <ul>
-                    {/* {(teams) ? teams.map(team => (
-                      <li>
-                        <button className="card" key={team.nome_equipe_slug} onClick={e => window.location.href=`/equipes/${team.nome_equipe_slug}`}>
+                    {(teams) ? teams.map(team => (
+                      <li key={team.nome_equipe_slug}>
+                        <button className="card" onClick={() => window.location.href=`/equipes/${team.nome_equipe_slug}`}>
                           <div>
                             <img src={team.foto_url} alt="avatar" />
                             <div>
@@ -98,7 +98,7 @@ export default function Profile(){
                           </div>
                         </button>
                       </li>
-                    )) : ''} */}
+                    )) : ''}
                   </ul>
                 </Box>
               </div>
@@ -114,7 +114,7 @@ export default function Profile(){
                   <ul>
                     {projects.map(project => (
                       <li key={project.nome_projeto_slug}>
-                        <button className="card" onClick={() => window.location.href=`/project/selected?${teams.nome_equipe_slug}`}>
+                        <button className="card" onClick={() => window.location.href=`/project/selected?${project.nome_equipe_slug}`}>
                           <div>
                             <div>
                               <strong className="text">{project.nome_projeto}</strong><br />

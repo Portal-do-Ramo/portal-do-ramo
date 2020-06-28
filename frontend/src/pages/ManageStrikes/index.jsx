@@ -10,7 +10,7 @@ import Loader from '../../components/LoaderSpinner';
 
 import download from './images/download.png';
 
-import { Screen, HeaderBox, LeftBox, RightBox, TitleBox, ViewResults, CardButton, DefaultCard, AudienceCard, Tag, Reason, Strike, BTNTAB, Fullscreen, FullscreenStrike } from './styles';
+import { Screen, HeaderBox, LeftBox, RightBox, TitleBox, ViewResults, CardButton, DefaultCard, AudienceCard, Tag, Reason, Strike, BTNTAB, Fullscreen, FullscreenStrike, FullscreenAudience } from './styles';
 
 export default function ManageStrikes() {
   document.title = 'Gerenciar Strikes';
@@ -35,7 +35,7 @@ export default function ManageStrikes() {
   useEffect(() => {
     api.get('api/strikes', { headers: { Authorization: access_token } })
     .then(response => setMembers(response.data))
-    // .catch(() => window.location.href = '/error')
+    .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(false))
   }, [])
 
@@ -43,7 +43,7 @@ export default function ManageStrikes() {
   useEffect(() => {
     api.get('/api/strikes/strikes-solicitados', { headers: { Authorization: access_token } })
     .then(response => setSolicitedStrikes(response.data))
-    // .catch(() => window.location.href = '/error')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
@@ -52,16 +52,15 @@ export default function ManageStrikes() {
     .then(response => {
       setSolicitedAudiences(response.data.audiencia_solicitada)
       setManageAudiences(response.data.audiencia_marcada)
-      console.log(response.data)
     })
-    // .catch(() => window.location.href = '/error')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setListTeams(allMembers.concat(response.data)))
-    // .catch(() => window.location.href = '/error')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
@@ -142,18 +141,18 @@ export default function ManageStrikes() {
   }
 
 
-  function downloadList() {
-    api.get('/api/strikes/lista-strikes-aprovados', { headers: { Authorization: access_token, responseType: 'blob' } })
+  function downloadFile() {
+    api.get(`/api/strikes/lista-strikes-aprovados`, { headers: { Authorization: access_token },  responseType: 'blob' })
     .then(response => {
       const downloadUrl = window.URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', `${response.headers['content-disposition'].substr(21)}`);
+      link.setAttribute('download', `${type}.xlsx`);
       document.body.appendChild(link);
       link.click();
       link.remove();
     })
-    .catch(error => console.log(error))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível fazer o download.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -343,7 +342,7 @@ export default function ManageStrikes() {
               </Fullscreen>
 
               <Fullscreen id="audience-fullscreen" className="modal" onClick={() => document.getElementById('strike-fullscreen').style.display='none'}>
-                <FullscreenStrike className="container box-notification">
+                <FullscreenAudience className="container box-notification">
                   <div className="modal-content animate view">
                     <div className='row'>
                       <h1 className="title">Audiência</h1>
@@ -383,7 +382,7 @@ export default function ManageStrikes() {
                       </div>
                     </div>
                   </div>
-                </FullscreenStrike>
+                </FullscreenAudience>
               </Fullscreen>
             </section>
           </HeaderBox>
@@ -397,7 +396,7 @@ export default function ManageStrikes() {
               <TitleBox>
                 Membros
               </TitleBox>
-              <button className="btn-add" onClick={() => downloadList()}>
+              <button className="btn-add" onClick={() => downloadFile()}>
                 <img src={download} title="Baixar lista de strikes" className="icon"/>
               </button>
             </div>

@@ -27,8 +27,8 @@ export default function MemberData() {
   const [bloodType, setBloodType] = useState('A+');
   const [contactPhone, setContactPhone] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isAssessor, setIsAssessor] = useState();
-  const [isMarketing, setIsMarketing] = useState();
+  const [isAssessor, setIsAssessor] = useState(false);
+  const [isMarketing, setIsMarketing] = useState(false);
   const [base64, setBase64] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
@@ -79,7 +79,7 @@ export default function MemberData() {
       celular: document.getElementById('telefone_principal_usuario').value,
       telefone_secundario: document.getElementById('telefone_secundario_usuario').value,
       numero_ieee: document.getElementById('numero_ieee').value,
-      usuario_robocore: document.getElementById('robocore_usuario').value,
+      cadastro_robocore: document.getElementById('robocore_usuario').value,
       assessor: isAssessor,
       marketing: isMarketing,
       tipo_sanguineo: document.getElementById('tipo_sanguineo').value,
@@ -378,7 +378,7 @@ export default function MemberData() {
                       id="robocore_usuario"
                       defaultValue={(dataMember) ? dataMember.cadastro_robocore : ''}
                     />
-                    <small id="helpId" className="form-text text-muted">Cadastro do membro na Robocore</small>
+                    <small id="helpId" className="form-text text-muted">E-mail cadastrado s/ o @ em diante</small>
                   </div>
                 </div>
               </div>
