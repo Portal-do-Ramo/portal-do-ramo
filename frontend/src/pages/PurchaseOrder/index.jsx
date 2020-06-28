@@ -57,9 +57,12 @@ export default function PurchaseOrder() {
       return
     }
 
+    let price_transport = document.getElementById('value-transport').value;
+    price_transport = price_transport.replace(',', '.');
+
     api.post(`/api/pedidos/pedido-de-compra`, {
       pedidos: itemsFormatted,
-      valor_frete: document.getElementById('value-transport').value,
+      valor_frete: price_transport,
       nome_projeto: document.getElementById('project-name').value
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Pedido de compra enviado com sucesso!</strong></div>'))
