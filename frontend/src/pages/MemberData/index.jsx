@@ -29,6 +29,7 @@ export default function MemberData() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAssessor, setIsAssessor] = useState(false);
   const [isMarketing, setIsMarketing] = useState(false);
+  const [isPagante, setIsPagante] = useState(false);
   const [base64, setBase64] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
@@ -82,6 +83,7 @@ export default function MemberData() {
       cadastro_robocore: document.getElementById('robocore_usuario').value,
       assessor: isAssessor,
       marketing: isMarketing,
+      pagante: isPagante,
       tipo_sanguineo: document.getElementById('tipo_sanguineo').value,
       medicamentos_utiliza: document.getElementById('medicamentos_utilizados').value,
       medicamentos_alergico: document.getElementById('medicamentos_alergicos').value,
@@ -413,6 +415,22 @@ export default function MemberData() {
                     />
                     <label htmlFor="isMarketing">Marketing</label>
                     <small id="helpId" className="form-text text-muted">É um membro de marketing?</small>
+                  </div>
+                </div>
+
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      type="checkbox"
+                      name="item"
+                      id="isPagante"
+                      value={true}
+                      className="checkbox"
+                      onClick={() => setIsPagante(!isPagante)}
+                    />
+                    <label htmlFor="isPagante">Pagante</label>
+                    <small id="helpId" className="form-text text-muted">É um membro pagante?</small>
                   </div>
                 </div>
               </div>

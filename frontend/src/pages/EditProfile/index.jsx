@@ -457,7 +457,7 @@ function EditProfile () {
                     id="telefone_contato"
                     value={contactPhone}
                     onChange={e => setContactPhone(e.target.value)}
-                    mask="(99) 9999-9999"
+                    mask="(99) 99999-9999"
                     maskChar=" "
                     required
                   />

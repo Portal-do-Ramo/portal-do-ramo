@@ -41,7 +41,7 @@ export default function ManageRequests() {
 
 
   function disapproveRequest() {
-    api.put(`/api/pedidos/pedido-de-${selectedType}/recusar/${selectedRequest.uuid}`, {}, { headers: { Authorization: access_token } })
+    api.delete(`/api/pedidos/pedido-de-${selectedType}/recusar/${selectedRequest.uuid}`, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert">Pedido reprovado com sucesso!</div>'))
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível reprovar o pedido.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }

@@ -197,7 +197,7 @@ class Usuario extends Authenticatable implements JWTSubject
         $equipesAssessora = $this->equipesAssessora()->select('equipes.nome_equipe', 'equipes.nome_equipe_slug', 'equipes.foto_url', 'capitulo', DB::raw("'Assessor' as funcao"))->get();
         $equipesCoordena = $this->equipeCoordena()->select('equipes.nome_equipe', 'equipes.nome_equipe_slug', 'equipes.foto_url', 'capitulo', DB::raw("'Coordenador' as funcao"))->get();
 
-        return $equipesProjetos->merge($equipesAssessora)->merge($equipesCoordena)->sortBy(fn($equipe) => ['Coordenador' => 1, 'Assessor' => 2, 'Membro' => 3][$equipe['funcao']])->unique('nome_equipe');
+        return $equipesProjetos->merge($equipesAssessora)->merge($equipesCoordena)->sortBy(fn($equipe) => ['Coordenador' => 1, 'Assessor' => 2, 'Membro' => 3][$equipe['funcao']])->unique('nome_equipe')->values();
     }
 
     public function feedbacks()
