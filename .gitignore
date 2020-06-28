@@ -1,2 +1,4 @@
 .docker/database
 .docker/redis
+.docker/nginx/certbot
+

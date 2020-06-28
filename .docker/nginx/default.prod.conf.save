@@ -1,41 +1,22 @@
 server {
     listen 80;
-    server_name portaldoramo.cefet-rj.br;
+    server_name portaldoramo.cefet-rj.br www.portaldoramo.cefet-rj.br;
 
     location /.well-known/acme-challenge { 
         allow all;
         root /var/www/certbot; 
-    }
-
-    location / { 
-        return 301 https://$host$request_uri; 
-    }
 }  
-
 
 server {
     listen 443 ssl http2;
-    server_name portaldoramo.cefet-rj.br;
+    server_name portaldoramo.cefet-rj.br www.portaldoramo.cefet-rj.br;
 
-    ssl_certificate /etc/letsencrypt/live/portaldoramo.cefet-rj.br/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/portaldoramo.cefet-rj.br/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/portal-do-ramo.cefet-rj/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/portal-do-ramo.cefet-rj/privkey.pem;
 
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-
-    location /api {
-        proxy_pass http://backend:8080;
-    }
-
-    location /socket.io {
-        proxy_pass http://broadcast-server:6001;
-
-        proxy_http_version 1.1;
-	    proxy_set_header Upgrade $http_upgrade;
-	    proxy_set_header Connection "Upgrade";
-    }
-
-
+   
     location / { 
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";
         add_header X-XSS-Protection "1; mode=block" always;
@@ -47,4 +28,4 @@ server {
         root /usr/share/nginx/html;
         try_files $uri $uri/ /index.html;
     }
-}  
+}
