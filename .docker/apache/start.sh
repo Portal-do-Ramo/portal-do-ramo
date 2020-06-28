@@ -15,7 +15,7 @@ if [ "$role" = "server" ];then
 
 elif [ "$role" = "queue" ]; then
 
-  php artisan queue:work --queue=strike-recebido,broadcast,default,audiencia-strike-mail,abrir-fechar-vaquinha,notificar-fim-inatividade
+  php artisan queue:work --queue=strike-recebido,broadcast,default,audiencia-strike-mail,mensagem-sistema-mail,abrir-fechar-vaquinha,notificar-fim-inatividade
 
 elif [ "$role" = "scheduler" ]; then
 
