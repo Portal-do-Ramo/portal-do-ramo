@@ -39,7 +39,7 @@ services:
         container_name: backend-container
         restart: unless-stopped
         environment: 
-            APP_URL: https://portaldoramo.cefet-rj
+            APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: server
         volumes: 
@@ -103,7 +103,7 @@ services:
         image: backend-portal-prod
         container_name: queue-container
         environment: 
-            APP_URL: https://portaldoramo.cefet-rj
+            APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: queue
         volumes: 
@@ -117,7 +117,7 @@ services:
         image: backend-portal-prod
         container_name: scheduler-container
         environment: 
-            APP_URL: https://portaldoramo.cefet-rj
+            APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: scheduler
         volumes: 
