@@ -9,6 +9,9 @@ services:
         container_name: frontend-container
         restart: unless-stopped
         stdin_open: true
+        depends_on: 
+            - broadcast-server
+            - backend
         volumes: 
             - ./frontend:/app
         networks: 
@@ -26,24 +29,33 @@ services:
             - app-network
 
     backend:
-        build: 
-            context: .
-            dockerfile: .docker/apache/Dockerfile
-        image: backend-portal-dev
+        image: nginx:stable-alpine
         container_name: backend-container
         restart: unless-stopped
         environment: 
             APP_URL: http://localhost
-            APP_ENV: local
-            CONTAINER_ROLE: server
         volumes: 
+            - .docker/nginx/default.dev.backend.conf:/etc/nginx/conf.d/default.conf
             - ./backend:/var/www/html
-        depends_on: 
-            - frontend
+        depends_on:
+            - php
             - mariadb
             - redis
             - broadcast-server
         networks:
+            - app-network
+    
+    php:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        image: php
+        container_name: php-container
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes: 
+            - ./backend:/var/www/html
+        networks: 
             - app-network
 
     mariadb:
@@ -96,11 +108,12 @@ services:
             - app-network
 
     queue:
-        image: backend-portal-dev
+        build: 
+            context: .
+            dockerfile: .docker/scripts/Dockerfile
         container_name: queue-container
         environment: 
             APP_URL: http://localhost
-            APP_ENV: local
             CONTAINER_ROLE: queue
         volumes: 
             - ./backend:/var/www/html
@@ -110,11 +123,12 @@ services:
             - app-network
 
     scheduler:
-        image: backend-portal-dev
+        build: 
+            context: .
+            dockerfile: .docker/scripts/Dockerfile
         container_name: scheduler-container
         environment: 
             APP_URL: http://localhost
-            APP_ENV: local
             CONTAINER_ROLE: scheduler
         volumes: 
             - ./backend:/var/www/html

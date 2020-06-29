@@ -100,12 +100,10 @@ class StrikeRepository implements StrikeRepositoryInterface
     public function getStrikesAprovados()
     {
         return Strike::where('strikes.situacao', 'Aprovado')
-            ->select('motivo', 'strikes.data_criado', 'data_aprovado')
             ->join('usuarios as usuario_aplicou', 'strikes.membro_aplicou', '=', 'usuario_aplicou.matricula')
-            ->addSelect('usuario_aplicou.nome_completo as nome_aplicou')
             ->join('usuarios as usuario_recebeu', 'strikes.membro_recebeu', '=', 'usuario_recebeu.matricula')
-            ->addSelect('usuario_recebeu.nome_completo as nome_recebeu')
-            ->orderBy('nome_aplicou')
+            ->addSelect('usuario_aplicou.nome_completo as nome_aplicou', 'usuario_recebeu.nome_completo as nome_recebeu','motivo', 'strikes.data_criado', 'data_aprovado')
+            ->orderBy('data_criado')
             ->get();
     }
 
