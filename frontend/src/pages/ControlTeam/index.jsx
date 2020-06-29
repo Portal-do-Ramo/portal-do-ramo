@@ -106,9 +106,10 @@ export default function ControlTeam() {
     };
   }
 
+
   function convertToBase64PDF() {
     var files = document.getElementById('input-file').files;
-    console.log(files[0])
+
     if (files.length > 0) {
       getBase64(files[0])
     }
@@ -211,6 +212,8 @@ export default function ControlTeam() {
       setAlert('<div class="alert alert-danger" role="alert">Nome do arquivo obrigatório!</div>')
       return
     }
+
+    console.log(base64)
 
     api.post(`/api/arquivos/upload-arquivo-equipe/${urlData}`, {
       nome_arquivo: archive_name,

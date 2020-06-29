@@ -54,7 +54,7 @@ export default function ProjectScreen () {
     ) {
       return false;
     } else {
-      for(index in teams) {
+      for(let index in teams) {
         if(teams[index].funcao === 'Coordenador') {
           return false;
         }

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import api from '../../services/api';
 import echo from '../../services/echo';
 
 import NotificationBoxItem from '../NotificationBoxItem';
-import { Box, Title, Notifications, BoxNotification, Screen } from './styles';
+import { Box, Title, Notifications, BoxNotification, Notification,  Screen } from './styles';
 
 export default function NotificationBox () {
   const matricula = useSelector(state => state.data[0]);

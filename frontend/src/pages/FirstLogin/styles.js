@@ -5,9 +5,7 @@ export const Screen = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
   padding-bottom: 50px;
-  height: 100vh;
 
   .area-isActive {
     width: 100%;
