@@ -72,6 +72,9 @@ export default function ApplyStrike (){
       <Bottom_Right_Side_Menu />
 
       <div className="container">
+        <div className="center-alert">
+          <div className="area-alert" id="alert" />
+        </div>
         <Header />
         <Title title="Aplicar strike" />
 

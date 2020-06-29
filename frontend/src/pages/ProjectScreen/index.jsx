@@ -16,7 +16,8 @@ import avatar from './images/avatar.png';
 export default function ProjectScreen () {
   document.title = 'Projetos';
 
-  const userLogged = useSelector(state => state.data[0]);
+  const hierarquia = (useSelector(state => state.data[4]));
+  const teams = (useSelector(state => state.data[23]));
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const urlData = window.location.search.slice(1);
 
@@ -45,6 +46,24 @@ export default function ProjectScreen () {
   }, [])
 
 
+  function statusManageButton() {
+    if (
+      hierarquia === 'Presidente' ||
+      hierarquia === 'Vice-Presidente' ||
+      hierarquia === 'Diretor de Projetos'
+    ) {
+      return false;
+    } else {
+      for(index in teams) {
+        if(teams[index].funcao === 'Coordenador') {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+
   return (
     <Screen>
       <Top_Left_Side_Menu />
@@ -60,7 +79,7 @@ export default function ProjectScreen () {
             <header>
               <h1>{(project) ? project.nome : ''}</h1>
               <h2>{(project) ? project.nome_equipe : ''}</h2>
-              <button className="btn-manage">Gerenciar</button>
+              <button className="btn-manage" onClick={() => `/team/manageteams/manage?${urlData}`} disabled={ statusManageButton() }>Gerenciar</button>
             </header>
 
             <div className="row">

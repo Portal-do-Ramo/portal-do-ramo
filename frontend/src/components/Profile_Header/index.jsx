@@ -17,7 +17,7 @@ export default function Profile_Header (props) {
 
           <Info className="col-md-8">
             <div>
-              <h2>{name}</h2>
+              <h2>{name.split(' ')[0].concat(' ' + name.split(' ')[1])}</h2>
               <h3>{hierarchy}</h3>
             </div>
           </Info>

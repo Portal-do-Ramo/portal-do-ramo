@@ -39,7 +39,7 @@ export const Card = styled.div`
 `
 
 export default props =>
-  <Link to={'/team/myteams/selected?'.concat(props.url)}>
+  <Link to={'/team/selected?'.concat(props.url)}>
     <Card>
       <img src={props.img} className="teamLogo" alt="logo" />
       <div>

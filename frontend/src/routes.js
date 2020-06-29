@@ -27,6 +27,7 @@ import ManageTeams from './pages/ManageTeams';
 import ControlTeam from './pages/ControlTeam';
 import MyTeams from './pages/MyTeams';
 import NewTeam from './pages/NewTeam';
+import TeamScreen from './pages/TeamScreen';
 import ViewTeam from './pages/ViewTeam';
 
 /* FEEDBACK, NOTIFICATIONS AND SEARCH */
@@ -64,6 +65,7 @@ import NewProject from './pages/NewProject';
 import MyProjects from './pages/MyProjects';
 import ManageProjects from './pages/ManageProjects';
 import HistoricProjects from './pages/HistoricProjects';
+import ViewProject from './pages/ViewProject';
 
 /* FINANCES */
 import ManageFinances from './pages/ManageFinances';
@@ -145,13 +147,15 @@ export default function Routes () {
           <PrivateRoute path='/team/manageteams' exact component={ () => <ManageTeams /> } />
           <PrivateRoute path='/team/manageteams/manage' exact component={ () => <ControlTeam /> } />
           <PrivateRoute path='/team/manageteams/newteam' component={ () => <NewTeam /> } />
-          <PrivateRoute path='/team/selected' component={ () => <ViewTeam /> } />
+          <PrivateRoute path='/team/selected' component={ () => <TeamScreen /> } />
+          <PrivateRoute path='/team/view' component={ () => <ViewTeam /> } />
 
           {/* Routers - Projetos */}
+          <PrivateRoute path='/projects/manage/control' component={ () => <ControlProject /> } />
+          <PrivateRoute path='/projects/manage' exact component={ () => <ManageProjects /> } />
           <PrivateRoute path='/projects/new-project' component={ () => <NewProject /> } />
           <PrivateRoute path='/projects/selected' component={ () => <ProjectScreen/> } />
-          <PrivateRoute path='/projects/manage' exact component={ () => <ManageProjects /> } />
-          <PrivateRoute path='/projects/manage/control' component={ () => <ControlProject /> } />
+          <PrivateRoute path='/projects/view' component={ () => <ViewProject /> } />
           <PrivateRoute path='/projects/historic' component={ () => <HistoricProjects /> } />
 
           {/* Routers - Strikes */}
@@ -178,7 +182,6 @@ export default function Routes () {
           <PrivateRoute path='/requests/inactivity' component={ () => <InactivityRequest /> } />
           <PrivateRoute path='/requests/output-projects' component={ () => <OutputProjectRequest /> } />
           <PrivateRoute path='/requests/historic' component={ () => <HistoricRequests /> } />
-
 
           {/* Routers - Marketing */}
           <PrivateRoute path='/partners' component={ () => <ViewPartners />} />

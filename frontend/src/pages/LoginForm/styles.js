@@ -14,19 +14,6 @@ export const LoginScreen = styled.div`
     display: table-cell;
   }
 
-  header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 10px;
-    height: 300px;
-    position: absolute;
-
-    img {
-      width: 450px;
-    }
-  }
-
   form {
     width: 400px;
     position: relative;
@@ -34,26 +21,46 @@ export const LoginScreen = styled.div`
     transform:translate(-50%);
     border-radius: 10px;
     padding: 50px;
-    background: linear-gradient(177.03deg, rgba(221, 221, 221, 0.42) 0%, rgba(255, 255, 255, 0.57) 97.23%);
+    background: linear-gradient(177.03deg, rgba(221, 221, 221, 0.8) 0%, rgba(255, 255, 255, 1) 97.23%);
+
+    img {
+      margin-bottom: 50px;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+    }
 
     button {
-      float: right;
-      margin-top: -10px;
+      margin-top: 10px;
+      margin-bottom: -10px;
+      width: 120px;
+      padding: 5px;
+      background: #1D5EA8;
+      color: #FFF;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      box-shadow: 0px 0px 7px #888;
     }
 
     input {
       margin-top: -5px;
+      border: 1px solid #CECECE;
     }
 
     small a {
-      color: #FFF;
+      color: #1D5EA8;
       text-decoration: none;
       font-size: 9pt;
-      margin-top: 5px;
+      margin-top: 10px;
     }
 
     small a:hover{
-      color: #1D5EA8;
+      color: #2B8DFC;
       text-decoration: none;
       transition: .4s;
     }
@@ -93,14 +100,6 @@ export const LoginScreen = styled.div`
   }
 
   @media (max-width: 359.98px){
-    header {
-      height: 150px;
-
-      img {
-        width: 250px;
-      }
-    }
-
     form {
       padding: 40px;
       padding-bottom: 60px;
@@ -109,18 +108,14 @@ export const LoginScreen = styled.div`
       button {
         margin-top: 5px;
       }
+    }
+
+    footer {
+      display: none;
     }
   }
 
   @media (min-width: 360px) and (max-width: 374.98px) {
-    header {
-      height: 150px;
-
-      img {
-        width: 300px;
-      }
-    }
-
     form {
       padding: 40px;
       padding-bottom: 60px;
@@ -129,18 +124,14 @@ export const LoginScreen = styled.div`
       button {
         margin-top: 5px;
       }
+    }
+
+    footer {
+      display: none;
     }
   }
 
   @media (min-width: 375px) and (max-width: 410.98px) {
-    header {
-      height: 250px;
-
-      img {
-        width: 350px;
-      }
-    }
-
     form {
       padding: 40px;
       padding-bottom: 60px;
@@ -149,18 +140,14 @@ export const LoginScreen = styled.div`
       button {
         margin-top: 5px;
       }
+    }
+
+    footer {
+      display: none;
     }
   }
 
   @media (min-width: 411px) and (max-width: 575.98px) {
-    header {
-      height: 250px;
-
-      img {
-        width: 350px;
-      }
-    }
-
     form {
       padding: 40px;
       padding-bottom: 60px;
@@ -170,29 +157,25 @@ export const LoginScreen = styled.div`
         margin-top: 5px;
       }
     }
+
+    footer {
+      display: none;
+    }
   }
 
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    header {
-      height: 200px;
-
-      img {
-        width: 200px;
-      }
+  @media (min-width: 576px) and (max-width: 1023.98px) {
+    footer {
+      display: none;
     }
   }
 
   @media (min-width: 1024px) and (max-width: 1365.98px) {
-    header {
-      height: 400px;
-
-      img {
-        width: 500px;
-      }
-    }
-
     form {
       margin-top: -150px;
+    }
+
+    footer {
+      display: none;
     }
   }
 `

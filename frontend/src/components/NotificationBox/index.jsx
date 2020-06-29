@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux';
 import echo from '../../services/echo';
 
 import NotificationBoxItem from '../NotificationBoxItem';
-import { Box, Title, Notifications } from './styles';
+import { Box, Title, Notifications, BoxNotification, Screen } from './styles';
 
-export default function NotificationBox (props) {
-  const [notifications, setNotifications] = useState(useSelector(state => state.data[22]));
+export default function NotificationBox () {
   const matricula = useSelector(state => state.data[0]);
+  const [notifications, setNotifications] = useState(useSelector(state => state.data[22]));
+  const [selectedNotification, setSelectedNotification] = useState();
 
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
   echo.connector.options.auth.headers['Authorization'] = access_token;
@@ -18,8 +19,16 @@ export default function NotificationBox (props) {
     setNotifications(notifications => [...notifications, e]);
   })
 
+
+  function markAsRead(id){
+    api.put(`/api/usuarios/notificacoes/ler/${id}`, {}, { headers: { Authorization: access_token } })
+    .then(() => document.getElementById(id).style.backgroundColor = '#E9EDF5')
+    .catch(error => console.log(error))
+  }
+
+
   return (
-    <section>
+    <React.Fragment>
       <Box>
         <div className="row">
           <Title>
@@ -28,18 +37,44 @@ export default function NotificationBox (props) {
         </div>
         <Notifications>
           {(notifications) ? notifications.map(not => (
-            <NotificationBoxItem
-              title={not.titulo}
-              message={not.mensagem}
-              createdDate={not.data_criada}
-              read={not.lida}
-              link={not.link}
+            <Notification
               id={not.id}
-              key={not.id}/>
+              key={not.id}
+              onClick={() => {
+                markAsRead(not.id)
+                document.getElementById('notification-area').style.display='block'
+              }}
+            >
+              <div className="row">
+                <h1 className="notification-title">{not.titulo}</h1>
+                <div className="w-100" />
+                <p className="notification-message">{((not.mensagem).substring(0, 95)).concat('...')}</p>
+                <div className="w-100" />
+                <span>{not.data_criada}</span>
+              </div>
+            </Notification>
           )).reverse() : ''}
         </Notifications>
         <small><Link to="/notifications">Ver todas</Link></small>
       </Box>
-    </section>
+
+      <Screen id="notification-area" className="modal" onClick={() => document.getElementById('notification-area').style.display='none'}>
+    		<BoxNotification className="container box-notification">
+          <div className="modal-content animate view">
+            <div className='row'>
+              <h1 className="title">Notificação</h1>
+              <button onClick={() => document.getElementById('notification-area').style.display='none'}>Fechar</button>
+            </div>
+            <div className="row text-area">
+              <h1>{selectedNotification.titulo}</h1>
+              <div className="message-area">
+                <p>{selectedNotification.mensagem}</p>
+              </div>
+              <span>{selectedNotification.data_criada}</span>
+            </div>
+          </div>
+    		</BoxNotification>
+			</Screen>
+    </React.Fragment>
   )
 }

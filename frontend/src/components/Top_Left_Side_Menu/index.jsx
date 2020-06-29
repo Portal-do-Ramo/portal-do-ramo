@@ -70,6 +70,18 @@ export default function Top_Left_Side_Menu() {
     if (
       hierarquia === 'Presidente' ||
       hierarquia === 'Vice-Presidente' ||
+      hierarquia === 'Diretor Financeiro'
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function statusFinanceAssessorButtons() {
+    if (
+      hierarquia === 'Presidente' ||
+      hierarquia === 'Vice-Presidente' ||
       hierarquia === 'Diretor Financeiro' ||
       hierarquia === 'Assessor de Gestão'
     ) {
@@ -179,6 +191,7 @@ export default function Top_Left_Side_Menu() {
                 <Dropdown.Menu  >
                   <Dropdown.Item href="/finances" id="btn-finances">Ver caixa</Dropdown.Item>
                   <Dropdown.Item href="/finances/manage" id="btn-manage-finances" disabled={statusFinanceButtons()}>Gerenciar caixa</Dropdown.Item>
+                  <Dropdown.Item href="/finances/manage/advisor" id="btn-manage-finances" disabled={statusFinanceAssessorButtons()}>Tela do Assessor</Dropdown.Item>
                   <Dropdown.Item href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

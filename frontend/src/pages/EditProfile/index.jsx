@@ -10,11 +10,13 @@ import Loader from '../../components/LoaderSpinner';
 
 import { Screen, Content, Subtitles } from './styles';
 
-function setUserData(user){
+
+function setUserData(user) {
   return { type: 'SET_USER_DATA', user }
 }
 
-function EditProfile () {
+
+export default function EditProfile () {
   document.title = 'Editar perfil';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
 
@@ -49,8 +51,9 @@ function EditProfile () {
   const gerenciar_strikes = useSelector(state => state.data[18]);
   const gerenciar_faltas = useSelector(state => state.data[19]);
 
+
   useEffect(() => {
-    api.get('/api/usuarios/editar-meu-perfil', {headers: { Authorization: access_token }})
+    api.get('/api/usuarios/editar-meu-perfil', { headers: { Authorization: access_token } })
     .then(response => {
       setDataMember(response.data);
       setContactPhone(response.data.info_contato.telefone);
@@ -61,9 +64,6 @@ function EditProfile () {
     .finally(() => setIsLoaded(true))
   }, [])
 
-  // useEffect(() => {
-  //   document.getElementById('alert').innerHTML = alert;
-  // })
 
   function setDataProfile(e){
     e.preventDefault();
@@ -99,7 +99,7 @@ function EditProfile () {
         quantidade_strikes: quantidade_strikes,
         quantidade_faltas_rg: quantidade_faltas_rg,
         quantidade_faltas_equipe: quantidade_faltas_equipe,
-        quantidade_faltas_exposup: quantidade_faltas_equipe,
+        quantidade_faltas_exposup: quantidade_faltas_exposup,
         foto_url: foto_url,
         gerenciar_membros: gerenciar_membros,
         criar_membros: criar_membros,
@@ -115,6 +115,12 @@ function EditProfile () {
       }
     })
   }
+
+
+  useEffect(() => {
+    document.getElementById('alert').innerHTML = alert;
+  })
+
 
   return (
     <Screen>
@@ -176,7 +182,7 @@ function EditProfile () {
                 </div>
               </div>
 
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <div className="form-group">
                   <label htmlFor="cpf_usuario">CPF</label>
                   <input
@@ -478,5 +484,3 @@ function EditProfile () {
     </Screen>
   )
 }
-
-export default EditProfile

@@ -53,7 +53,7 @@ export default function Profile(){
                     </Title>
                   </div>
 
-                  <div className="medal-box row">{console.log(userData)}
+                  <div className="medal-box row">
                     {(userData) ?
                       (userData.ativo) ?
                         <img src={active} className="medal" title="Usuário ativo" alt="Usuário ativo"/>
@@ -90,7 +90,7 @@ export default function Profile(){
                       <li key={team.nome_equipe_slug}>
                         <button className="card" onClick={() => window.location.href=`/equipes/${team.nome_equipe_slug}`}>
                           <div>
-                            <img src={team.foto_url} alt="avatar" />
+                            <img src={team.foto_url} alt="logo" />
                             <div>
                               <strong className="text">{team.nome_equipe}</strong><br />
                               <span className="text">{team.capitulo} - {team.funcao}</span>
@@ -116,9 +116,10 @@ export default function Profile(){
                       <li key={project.nome_projeto_slug}>
                         <button className="card" onClick={() => window.location.href=`/project/selected?${project.nome_equipe_slug}`}>
                           <div>
+                            <img src={project.foto_url} alt="logo" />
                             <div>
                               <strong className="text">{project.nome_projeto}</strong><br />
-                              <span className="text">{project.nome_equipe} - {project.funcao}</span>
+                              <span className="text">{project.nome_equipe}</span>
                             </div>
                           </div>
                         </button>

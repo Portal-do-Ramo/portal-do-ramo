@@ -7,6 +7,19 @@ export const Screen = styled.div`
     display: none;
   }
 
+  .center-alert {
+    display: flex;
+    justify-content: center;
+  }
+
+  .area-alert {
+    display: flex;
+    justify-content: center;
+    top: 0;
+    position: fixed;
+    z-index: 5;
+  }
+
   @media only screen and (max-width: 768px) {
     padding: 20px;
   }
@@ -120,6 +133,12 @@ export const BoxRight = styled.div`
       float: left;
       margin-top: 10px;
       margin-right: 30px;
+      border-radius: 5px;
+
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
     }
   }
 

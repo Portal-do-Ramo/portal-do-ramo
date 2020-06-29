@@ -27,6 +27,7 @@ class PerfilResource extends JsonResource
             'assessor_flag' => $this->assessor,
             'marketing_flag' => $this->marketing,
             'robocore_flag' => $this->membro->cadastro_robocore != NULL,
+            'ativo' => $this->ativo,
             'projetos' => $this->projetosFormatados(),
             'equipes' => $this->equipesFormatadas()
         ];

@@ -8,17 +8,17 @@ import Title from '../../components/Title';
 
 import { Screen } from './styles';
 
-export default function ViewTeam() {
-  document.title = "Ver equipe";
+export default function ViewProject() {
+  document.title = "Ver projeto";
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const urlData = window.location.search.slice(1);
 
-  const [team, setTeam] = useState();
+  const [project, setProject] = useState();
 
 
   // useEffect(() => {
-  //   api.get(`/api/equipe/`, { headers: { Authorization: access_token } })
-  //   .then(response => setTeam(response.data))
+  //   api.get(`/api/projetos/`, { headers: { Authorization: access_token } })
+  //   .then(response => setProject(response.data))
   //   .catch(error => console.log(error.response))
   // }, [])
 
@@ -31,13 +31,13 @@ export default function ViewTeam() {
       <div className="container">
         <Header />
 
-        {/* <Title title={team.nome_equipe} /> */}
-        <Title title="Teste1" />
+        {/* <Title title={project.nome_projeto} /> */}
+        <Title title="Teste2" />
 
         <div className="row">
           <div className="col-md-6">
             <div className="left-box-gray">
-              {/* {console.log(team)} */}
+              {/* {console.log(project)} */}
             </div>
           </div>
           <div className="col-md-6">

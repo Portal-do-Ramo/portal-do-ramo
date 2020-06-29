@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { LoginScreen } from "./styles";
 
-import LogoRamo from './images/Logo_PortaldoRamo.png';
+import LogoRamo from './images/logo.png';
 import Icon_Instagram from './images/Icon_Instagram.png';
 import Icon_Linkedin from './images/Icon_Linkedin.png';
 import Icon_Facebook from './images/Icon_Facebook.png';
@@ -92,13 +92,9 @@ export default function LoginForm () {
 
   return (
     <LoginScreen>
-
-      <header className="container-fluid">
-        <img src={LogoRamo} className="img-fluid" alt="logo-ramo"/>
-      </header>
-
       <div className="login-area">
         <form onSubmit={Login}>
+          <img src={LogoRamo} className="img-fluid" alt="logo-ramo"/>
           <div id="alert" />
           <div className="form-group">
             <input className="form-control"
@@ -123,7 +119,9 @@ export default function LoginForm () {
             <small><Link to="/recover-password">Esqueci minha senha</Link></small>
           </div>
 
-          <button type="submit" className="btn-send">Entrar</button>
+          <div className="center">
+            <button type="submit">Entrar</button>
+          </div>
         </form>
 
         <div className="icons-area">
