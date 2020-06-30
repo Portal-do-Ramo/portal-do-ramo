@@ -68,14 +68,16 @@ export default function ManageFinances () {
       setMembers(response.data.Ativo)
       setSelectedLCIMember(response.data.Ativo[0].matricula)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
   useEffect(() => {
     api.get('/api/caixas/info-gerais', { headers: { Authorization: access_token } })
     .then(response => setInfoGerais(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
     .finally(() => setIsLoadedGeneral(true))
   }, [])
 
@@ -83,7 +85,8 @@ export default function ManageFinances () {
   useEffect(() => {
     api.get(`/api/registros-de-caixa?meses=${monthsToRegister}`, { headers: { Authorization: access_token } })
     .then(response => setRegisters(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
@@ -105,21 +108,24 @@ export default function ManageFinances () {
     .then(response => {
       setRequestList(response.data)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setListTeams(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
   useEffect(() => {
     api.get('/api/registros-de-caixa/anos-select', { headers: { Authorization: access_token } })
     .then(response => setYears(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
@@ -129,7 +135,8 @@ export default function ManageFinances () {
       setEntradasAnuais(response.data.entrada)
       setSaidasAnuais(response.data.saida)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
     .finally(() => setIsLoadedCharts(true))
   }, [])
 
@@ -137,7 +144,8 @@ export default function ManageFinances () {
   useEffect(() => {
     api.get(`/api/registros-de-caixa/gastos-anuais?ano=${selectedYear}`, { headers: { Authorization: access_token } })
     .then(response => setGastosMensais(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
 
@@ -147,13 +155,15 @@ export default function ManageFinances () {
       setDataWolfBotz(response.data.wolfbotz)
       setDataSocialWolf(response.data.socialwolf)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
   useEffect(() => {
     api.get('/api/caixas', { headers: { Authorization: access_token } })
     .then(response => setDataCash(response.data))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
     .finally(() => setIsLoadedCaixas(true))
   }, [])
 
@@ -383,7 +393,8 @@ export default function ManageFinances () {
       setSaidasAnuais(response.data.saida)
       setSelectedYear(year)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }
 
 
@@ -393,7 +404,8 @@ export default function ManageFinances () {
       setGastosMensais(response.data)
       setSelectedYear(year)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }
 
 
@@ -404,7 +416,8 @@ export default function ManageFinances () {
       setDataSocialWolf(response.data.socialwolf)
       setSelectedYear(year)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }
 
 
@@ -414,7 +427,8 @@ export default function ManageFinances () {
       setRegisters(response.data)
       setMonthsToRegister(time)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }
 
 

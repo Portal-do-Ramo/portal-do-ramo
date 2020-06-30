@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import api from '../../services/api';
 import echo from '../../services/echo';
 
-import NotificationBoxItem from '../NotificationBoxItem';
 import { Box, Title, Notifications, BoxNotification, Notification,  Screen } from './styles';
 
 export default function NotificationBox () {
@@ -43,6 +42,7 @@ export default function NotificationBox () {
               key={not.id}
               onClick={() => {
                 markAsRead(not.id)
+                setSelectedNotification(not)
                 document.getElementById('notification-area').style.display='block'
               }}
             >
