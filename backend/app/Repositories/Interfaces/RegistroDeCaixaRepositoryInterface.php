@@ -3,7 +3,6 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Caixa;
-use App\Models\Equipe;
 use App\Models\RegistroDeCaixa;
 
 interface RegistroDeCaixaRepositoryInterface

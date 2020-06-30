@@ -26,7 +26,7 @@ class AudienciaRemarcadaMail extends Mailable implements ShouldQueue
     {
         $this->strike = $strike;
         $this->dataOriginal = Carbon::parse($strike->getRawOriginal('data_audiencia'))->format('d/m/Y');
-        $this->horaOriginal = $strike->getOriginal('data_audiencia');
+        $this->horaOriginal = $strike->getOriginal('hora_audiencia');
     }
 
     /**

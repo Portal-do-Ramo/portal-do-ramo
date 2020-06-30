@@ -25,6 +25,6 @@ class CriarArquivoEquipeRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['arquivo' => preg_replace('/data:file\/pdf;base64,/', '', $this->arquivo)]);
+        $this->merge(['arquivo' => preg_replace('/data:application\/(pdf|vnd.openxmlformats-officedocument.(wordprocessingml.document|spreadsheetml.sheet)+)+;base64,/', '', $this->arquivo)]);
     }
 }

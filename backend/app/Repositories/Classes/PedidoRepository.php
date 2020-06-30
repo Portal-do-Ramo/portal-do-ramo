@@ -59,7 +59,7 @@ class PedidoRepository implements PedidoRepositoryInterface
             ->addSelect('hierarquias.nome as hierarquia_membro_solicitou')
             ->leftJoin('projetos', 'pedidos.nome_projeto_solicitado', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto_slug as nome_projeto_solicitado_slug', 'projetos.nome_projeto as nome_projeto_solicitado')
-            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Pessoas')->where('pedidos.situacao', 'Pendente'))
+            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Pessoas')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->get()
             ->groupBy(fn($item) => str_replace('-', '_', $item['tipo_pedido']))
             ->map(fn($pedidos) => $pedidos->whereNotNull('uuid'));
@@ -76,7 +76,7 @@ class PedidoRepository implements PedidoRepositoryInterface
             ->addSelect('hierarquias.nome as hierarquia_membro_solicitou')
             ->leftJoin('projetos', 'pedidos.nome_projeto_solicitado', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto_slug as nome_projeto_solicitado_slug', 'projetos.nome_projeto as nome_projeto_solicitado')
-            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Financeiro')->where('pedidos.situacao', 'Pendente'))
+            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Financeiro')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->get()
             ->groupBy(fn($item) => str_replace('-', '_', $item['tipo_pedido']))
             ->map(fn($pedidos) => $pedidos->whereNotNull('uuid'));
