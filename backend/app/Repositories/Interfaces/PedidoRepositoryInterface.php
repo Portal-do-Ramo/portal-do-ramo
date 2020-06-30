@@ -4,6 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Pedidos\PedidoDeCompra;
 use App\Models\Usuario;
+use App\Models\UsuarioSistema;
 
 interface PedidoRepositoryInterface
 {
@@ -27,7 +28,7 @@ interface PedidoRepositoryInterface
 
     public function criarPedidoDeSaidaDeProjeto(array $dadosValidos);
 
-    public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url);
+    public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url, UsuarioSistema $usuario);
 
     public function criarPedidoDeCompra(array $dadosValidos);
 }

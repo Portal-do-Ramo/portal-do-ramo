@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Pedidos\PedidoDeCompra;
+use App\Models\UsuarioSistema;
 use App\Repositories\Interfaces\PedidoRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
@@ -16,6 +17,7 @@ class CriarPedidoDeReembolsoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $usuario;
     protected $pedidoDeCompra;
     protected $fotoCodificada;
     protected $pedidoRepository;
@@ -26,8 +28,9 @@ class CriarPedidoDeReembolsoJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(PedidoDeCompra $pedidoDeCompra, array $dadosValidos, PedidoRepositoryInterface $pedidoRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(UsuarioSistema $usuario, PedidoDeCompra $pedidoDeCompra, array $dadosValidos, PedidoRepositoryInterface $pedidoRepository, VerificarExistenciaDiretorioService $service)
     {
+        $this->usuario = $usuario;
         $this->pedidoDeCompra = $pedidoDeCompra;
         $this->fotoCodificada = $dadosValidos['foto'];
         $this->pedidoRepository = $pedidoRepository;
@@ -46,6 +49,6 @@ class CriarPedidoDeReembolsoJob implements ShouldQueue
 
         Storage::cloud()->put($path, base64_decode($this->fotoCodificada));
 
-        $this->pedidoRepository->criarPedidoDeReembolso($this->pedidoDeCompra, Storage::cloud()->url($path));
+        $this->pedidoRepository->criarPedidoDeReembolso($this->pedidoDeCompra, Storage::cloud()->url($path), $this->usuario);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Pedidos\PedidoDeCompra;
 use App\Models\Pedidos\PedidoDeReembolso;
 use App\Repositories\Interfaces\PedidoRepositoryInterface;
 use App\Services\VerificarExistenciaDiretorioService;
+use Illuminate\Support\Facades\Auth;
 
 class PedidoDeReembolsoController extends AbstractPedidoController
 {
@@ -25,7 +26,7 @@ class PedidoDeReembolsoController extends AbstractPedidoController
      */
     public function store(CriarPedidoDeReembolsoRequest $request, PedidoDeCompra $pedido, VerificarExistenciaDiretorioService $service)
     {
-        CriarPedidoDeReembolsoJob::dispatch($pedido, $request->validated(), $this->pedidoRepository, $service);
+        CriarPedidoDeReembolsoJob::dispatch(Auth::user(), $pedido, $request->validated(), $this->pedidoRepository, $service);
         return response()->json('Pedido de reembolso criado e enviado com sucesso', 201);
     }
 

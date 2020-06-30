@@ -13,16 +13,18 @@ class MensagemSistemaMail extends Mailable implements ShouldQueue
 
     public $mensagem;
     public $assunto;
+    protected $usuario;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mensagem, $assunto)
+    public function __construct($mensagem, $assunto, $usuario)
     {
         $this->mensagem = $mensagem;
         $this->assunto = $assunto;
+        $this->usuario = $usuario;
     }
 
     /**
@@ -32,6 +34,6 @@ class MensagemSistemaMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->subject($this->assunto)->markdown('mail.mensagemsistema');
+        return $this->subject($this->assunto)->from($this->usuario->email, $this->usuario->nome_completo)->replyTo($this->usuario->email, $this->usuario->nome_completo)->markdown('mail.mensagemsistema');
     }
 }

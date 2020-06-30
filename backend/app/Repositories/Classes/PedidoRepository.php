@@ -9,6 +9,7 @@ use App\Models\Pedidos\PedidoDeInatividade;
 use App\Models\Pedidos\PedidoDeReembolso;
 use App\Models\Pedidos\PedidoDeSaidaDeProjeto;
 use App\Models\Usuario;
+use App\Models\UsuarioSistema;
 use App\Repositories\Interfaces\PedidoRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -136,9 +137,9 @@ class PedidoRepository implements PedidoRepositoryInterface
         Auth::user()->pedidos()->save(new PedidoDeSaidaDeProjeto(['dados_pedido' => ['data_prevista_saida' => $dadosValidos['data_saida'], 'justificativa' => $dadosValidos['justificativa']], 'nome_projeto_solicitado' => $dadosValidos['nome_projeto']]));
     }
 
-    public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url)
+    public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url, UsuarioSistema $usuario)
     {
-        Auth::user()->pedidos()->save(new PedidoDeReembolso(['dados_pedido' => $pedidoDeCompra->dados_pedido + ['foto_comprovante' => $foto_url ], 'nome_projeto_solicitado' => $pedidoDeCompra->nome_projeto_solicitado]));
+        $usuario->pedidos()->save(new PedidoDeReembolso(['dados_pedido' => $pedidoDeCompra->dados_pedido + ['foto_comprovante' => $foto_url ], 'nome_projeto_solicitado' => $pedidoDeCompra->nome_projeto_solicitado]));
     }
 
     public function criarPedidoDeCompra(array $dadosValidos)
