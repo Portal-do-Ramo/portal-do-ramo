@@ -67,11 +67,11 @@ export default function NotificationBox () {
               <button onClick={() => document.getElementById('notification-area').style.display='none'}>Fechar</button>
             </div>
             <div className="row text-area">
-              <h1>{selectedNotification.titulo}</h1>
+              <h1>{(selectedNotification) ? selectedNotification.titulo : ''}</h1>
               <div className="message-area">
-                <p>{selectedNotification.mensagem}</p>
+                <p>{(selectedNotification) ? selectedNotification.mensagem : ''}</p>
               </div>
-              <span>{selectedNotification.data_criada}</span>
+              <span>{(selectedNotification) ? selectedNotification.data_criada : ''}</span>
             </div>
           </div>
     		</BoxNotification>
