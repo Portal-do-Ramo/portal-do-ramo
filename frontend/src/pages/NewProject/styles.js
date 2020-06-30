@@ -68,6 +68,19 @@ export const Content = styled.section`
       color: #FFF;
       font-size: 13pt;
     }
+
+    .leader-image {
+      width: 80px;
+      float: left;
+      margin-top: 10px;
+      margin-right: 30px;
+      border-radius: 40px;
+
+      -webkit-border-radius: 40px;
+      -moz-border-radius: 40px;
+      -ms-border-radius: 40px;
+      -o-border-radius: 40px;
+    }
   }
 
   .btn-card-blue:hover {

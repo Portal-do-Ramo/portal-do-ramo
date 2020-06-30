@@ -120,10 +120,15 @@ export default function Message(){
               <ul>
                 {members.map(member => (
                   ((filter != 'allMembers') && (member.equipes).indexOf(filter) != -1) ?
-                    <Card key={member.matricula} onClick={
-                      () => (destinatarios.indexOf(member) == -1) ?
-                      setDestinatarios(destinatarios => [...destinatarios, member]) :
-                      null}
+                    <Card key={member.matricula} onClick={() => {
+                      if (destinatarios.indexOf(member) === -1) {
+                        console.log(member)
+                        setDestinatarios(destinatarios => [...destinatarios, member])
+                      } else {
+                        console.log(member)
+                        null
+                      }
+                    }}
                     >
                       <li className="member-item">
                         <header>

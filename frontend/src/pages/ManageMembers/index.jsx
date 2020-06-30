@@ -20,6 +20,7 @@ function ManageMembers(){
   const [isLoaded, setIsLoaded] = useState(true);
   const [selectedMember, setSelectedMember] = useState();
 
+
   useEffect(() => {
     api.get('api/usuarios', { headers: { Authorization: access_token } })
     .then(response => setMembers((response.data.Ativo).concat(response.data.Inativo)))
@@ -27,24 +28,26 @@ function ManageMembers(){
     .finally(() => setIsLoaded(false))
   }, [])
 
+
   async function getResults(e){
     e.preventDefault()
     setIsLoaded(true)
     setMembers([])
     const nameSearched = document.getElementById("user-search").value
     await api.get(`/api/usuarios/search?nome_completo=${nameSearched}`, {headers: { Authorization: access_token }})
-    // .then(response =>
-    //   ((response.data).length != 0) ? (
-    //     setMembers(response.data),
-    //     document.getElementById('searchMessage').innerHTML = ''
-    //   ) : (
-    //     setMembers([]),
-    //     document.getElementById('searchMessage').innerHTML = 'Sem resultados',
-    //   )
-    // )
+    .then(response => {
+      if(response.data.length !== 0) {
+        setMembers(response.data)
+        document.getElementById('searchMessage').innerHTML = ''
+      } else {
+        setMembers([])
+        document.getElementById('searchMessage').innerHTML = 'Sem resultados'
+      }
+    })
     .catch(() => document.getElementById('viewAllResults').innerHTML = `<p>Não foi possível realizar a pesquisa</p>`)
     .finally(() => setIsLoaded(false))
   }
+
 
   function downloadFile(type) {
     api.get(`/api/usuarios/${type}`, { headers: { Authorization: access_token },  responseType: 'blob' })
@@ -59,6 +62,7 @@ function ManageMembers(){
     })
     .catch(error => console.log(error))
   }
+
 
   return (
     <Screen>

@@ -55,6 +55,7 @@ export default function ProjectScreen () {
       return false;
     } else {
       for(let index in teams) {
+        console.log(teams[index])
         if(teams[index].funcao === 'Coordenador') {
           return false;
         }
@@ -76,7 +77,7 @@ export default function ProjectScreen () {
 
         {(isLoaded) ?
           <Content>
-            <header>
+            <header>{console.log(statusManageButton())}
               <h1>{(project) ? project.nome : ''}</h1>
               <h2>{(project) ? project.nome_equipe : ''}</h2>
               <button className="btn-manage" onClick={() => `/team/manageteams/manage?${urlData}`} disabled={ statusManageButton() }>Gerenciar</button>

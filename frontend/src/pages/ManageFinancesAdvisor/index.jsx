@@ -90,7 +90,11 @@ export default function ManageFinancesAdvisor () {
   useEffect(() => {
     api.get('/api/vaquinhas/vaquinha-aberta-atual', { headers: { Authorization: access_token } })
     .then(response => setLittleCowData(response.data))
-    .catch(() => window.location.href = '/error')
+    .catch(error => {
+      if(error.response.status !== 404) {
+        window.location.href = '/error'
+      }
+    })
     .finally(() => setIsLoadedLittleCow(true))
   }, [])
 

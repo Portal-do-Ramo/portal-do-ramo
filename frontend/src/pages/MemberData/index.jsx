@@ -77,7 +77,7 @@ export default function MemberData() {
       data_nascimento: document.getElementById('dtnasc_usuario').value,
       curso: document.getElementById('courses').value,
       email: document.getElementById('email_usuario').value,
-      celular: document.getElementById('telefone_principal_usuario').value,
+      telefone_principal: document.getElementById('telefone_principal_usuario').value,
       telefone_secundario: document.getElementById('telefone_secundario_usuario').value,
       numero_ieee: document.getElementById('numero_ieee').value,
       cadastro_robocore: document.getElementById('robocore_usuario').value,

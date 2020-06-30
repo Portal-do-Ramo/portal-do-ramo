@@ -169,15 +169,20 @@ export default function ManageFinances () {
 
     if(type == "output") {
       value = document.getElementById("output-value").value * (-1);
+      value = value.replace(',', '.');
       exclusive = isOutputExclusive;
       selectedCash = (exclusive) ? selectedOutputCash : '';
     } else {
-      value = document.getElementById("input-value").value
+      value = document.getElementById("input-value").value;
+      value = value.replace(',', '.');
       exclusive = isInputExclusive;
       selectedCash =  (exclusive) ? selectedInputCash : '';
     }
 
     selectedCash = 'caixa-'.concat(selectedCash);
+
+    console.log("Exclusivo: " + exclusive)
+    console.log("Caixa selecionado: " + selectedCash)
 
     api.post('/api/registros-de-caixa', {
       descricao: document.getElementById(type + '-description').value,
@@ -223,7 +228,7 @@ export default function ManageFinances () {
     }, { headers: { Authorization: access_token } })
     .then(() => {
       document.getElementById('new-little-cow').style.display='none'
-      setAlert('<div class="alert alert-success" role="alert"><strong>Evento excluido com sucesso!</strong></div>')
+      setAlert('<div class="alert alert-success" role="alert"><strong>Vaquinha criada com sucesso!</strong></div>')
     })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a vaquinha.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
@@ -675,6 +680,7 @@ export default function ManageFinances () {
                     <div className="col-md-6">
                       <label htmlFor="input-locale-cash" title="Ignore caso não seja uma entrada exclusiva">Selecione o destino</label><br />
                       <select className="form-control" id="input-locale-cash" title="Ignore caso não seja uma entrada exclusiva" onChange={e => setSelectedInputCash(e.target.value)}>
+                        <option value="administrativo">Administrativo</option>
                         <option value="emergencia">Emergência</option>
                         {listTeams.map(team => (
                           <option key={team.nome_equipe_slug} value={team.nome_equipe_slug}>{team.nome_equipe}</option>

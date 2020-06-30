@@ -117,13 +117,14 @@ export default function EditProfile () {
   }
 
 
-  useEffect(() => {
-    document.getElementById('alert').innerHTML = alert;
-  })
+  // useEffect(() => {
+  //   document.getElementById('alert').innerHTML = alert;
+  // })
 
 
   return (
     <Screen>
+      {console.log(alert)}
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
 

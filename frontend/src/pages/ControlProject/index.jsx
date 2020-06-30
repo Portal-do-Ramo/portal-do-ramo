@@ -128,20 +128,24 @@ export default function ControlProject () {
 
 
   function newAdvisor() {
+    console.log(advisor)
     api.post(`/api/projetos/${urlData}/adicionar-assessor`, { matricula_assessor: advisor.matricula }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria alterada com sucesso!</strong></div>'))
-    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    .catch(error => console.log(error.response))
   }
 
 
   function removeAdvisor(matricula) {
+    console.log(matricula)
     api.post(`/api/projetos/${urlData}/adicionar-assessor`, { matricula_assessor: matricula }, { headers: { Authorization: access_token } })
     .then(() => {
       setAdvisor('')
       setInitialAdvisor('')
       setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria removida com sucesso!</strong></div>')
     })
-    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    .catch(error => console.log(error.response))
   }
 
 

@@ -107,8 +107,8 @@ export default function ManageStrikes() {
     const audienceTime = document.getElementById('newAudienceTime'.concat(uuid)).value;
     var date = document.getElementById('newAudienceDate'.concat(uuid)).value;
 
-    date = date.split('-')
-    const audienceDate = `${date[2]}/${date[1]}/${date[0]}`
+    date = date.split('-');
+    const audienceDate = `${date[2]}/${date[1]}/${date[0]}`;
 
     api.put(`/api/strikes/remarcar-audiencia/${uuid}`, {
       data_audiencia: audienceDate,
