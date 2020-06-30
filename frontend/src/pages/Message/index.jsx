@@ -126,7 +126,6 @@ export default function Message(){
                         setDestinatarios(destinatarios => [...destinatarios, member])
                       } else {
                         console.log(member)
-                        null
                       }
                     }}
                     >
