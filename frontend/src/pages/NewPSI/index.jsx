@@ -92,15 +92,15 @@ export default function NewPSI() {
   function sendThirdPart() {
     let teams_formatted = '';
 
-    projeto = ''
-    areas_vagas = []
-    for (let i=0; i < id_projects; i++) {
-      const project = document.getElementById(`card-project-${i}`)
-      // card-project-' + id_cards_projects + '-' + (id_projects++)
-      // for (let j=0; j < id_cards_projects; j++) {
+    // let projeto = ''
+    // let areas_vagas = []
+    // for (let i=0; i < id_projects; i++) {
+    //   const project = document.getElementById(`card-project-${i}`)
+    //   // card-project-' + id_cards_projects + '-' + (id_projects++)
+    //   // for (let j=0; j < id_cards_projects; j++) {
 
-      // }
-    }
+    //   // }
+    // }
 
     api.post(`psis/${uuid}/equipes`, {
       equipes: teams_formatted
