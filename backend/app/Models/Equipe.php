@@ -90,4 +90,9 @@ class Equipe extends BaseModel
 
         $this->fireModelEvent('changedAdvisor', false);
     }
+
+    public function getMorphClass()
+    {
+        return 'Equipe';
+    }
 }

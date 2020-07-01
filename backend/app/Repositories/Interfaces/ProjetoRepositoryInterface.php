@@ -28,6 +28,8 @@ interface ProjetoRepositoryInterface
 
     public function updateAreas(Projeto $projeto, array $dadosValidos);
 
+    public function fecharProjeto(Projeto $projeto);
+
     public function addMembro(Projeto $projeto, array $dadosValidos);
 
     public function addAssessor(Projeto $projeto, array $dadosValidos);

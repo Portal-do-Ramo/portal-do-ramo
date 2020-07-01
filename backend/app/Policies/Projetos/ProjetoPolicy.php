@@ -59,4 +59,9 @@ class ProjetoPolicy
     {
         return $user->isPresidencia() or $user->isDiretor('de Projetos') or $projeto->matriculaTodosMembrosSuperiores()->contains($user->matricula);
     }
+
+    public function delete(UsuarioSistema $user, Projeto $projeto)
+    {
+        return $user->isPresidencia() or $user->isDiretor('de Projetos') or $projeto->equipe->matriculaMembrosSuperiores()->contains($user->matricula);
+    }
 }

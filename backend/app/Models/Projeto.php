@@ -98,4 +98,9 @@ class Projeto extends BaseModel
     {
         return $this->equipe->matriculaMembrosSuperiores()->merge($this->matriculaMembrosSuperioresProjeto())->unique();
     }
+
+    public function getMorphClass()
+    {
+        return 'Projeto';
+    }
 }

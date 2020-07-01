@@ -69,7 +69,5 @@ class EloquentServiceProvider extends ServiceProvider
         RegistroDeCaixa::observe(RegistroDeCaixaObserver::class);
         Equipe::observe(EquipeObserver::class);
         Parceria::observe(ParceriaObserver::class);
-
-        Relation::morphMap(['Equipe' => 'App\Models\Equipe', 'Projeto' => 'App\Models\Projeto']);
     }
 }

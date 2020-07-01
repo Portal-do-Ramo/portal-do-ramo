@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SituacaoTableSeeder::class);
         $this->call(CaixaTableSeeder::class);
         $this->call(MesesTableSeeder::class);
+        $this->call(ArquivoTableSeeder::class);
     }
 }

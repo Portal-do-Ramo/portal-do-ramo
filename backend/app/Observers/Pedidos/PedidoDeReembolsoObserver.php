@@ -31,20 +31,7 @@ class PedidoDeReembolsoObserver
      */
     public function approved(PedidoDeReembolso $pedidoDeReembolso)
     {
-        if($pedidoDeReembolso->projetoSolicitado)
-            RegistroDeCaixa::createMain($this->arrayRegistroCaixa($pedidoDeReembolso));
         $pedidoDeReembolso->membroSolicitante->notify(new PedidoDeReembolsoAprovadoNotification($pedidoDeReembolso));
-    }
-
-    private function arrayRegistroCaixa(PedidoDeReembolso $pedidoDeReembolso)
-    {
-        return [
-            'data' => $pedidoDeReembolso->data_aprovado,
-            'valor' => $pedidoDeReembolso->valorTotal * -1,
-            'exclusivo' => true,
-            'caixa_relacionado' => $pedidoDeReembolso->projetoSolicitado->caixa->nome_caixa_slug,
-            'descricao' => 'Pedido de reembolso'
-        ];
     }
 
     /**

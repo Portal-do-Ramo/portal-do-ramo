@@ -12,7 +12,7 @@ class CaixaTableSeeder extends Seeder
      */
     public function run()
     {
-        Caixa::create(['nome_caixa' => 'Emergencial', 'porcentagem_orcamento' => 5]);
-        Caixa::create(['nome_caixa' => 'Administrativo', 'porcentagem_orcamento' => 10]);
+        Caixa::create(['nome_caixa' => 'Caixa Emergencial', 'porcentagem_orcamento' => 5]);
+        Caixa::create(['nome_caixa' => 'Caixa Administrativo', 'porcentagem_orcamento' => 10]);
     }
 }

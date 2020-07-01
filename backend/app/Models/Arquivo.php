@@ -27,8 +27,7 @@ class Arquivo extends BaseModel
 
     public function getArquivoParaDownload()
     {
-        $arquivo = $this->getIdArquivo();
-        return $arquivo ? Storage::cloud()->get($arquivo['path']) : NULL;
+        return $this->getIdArquivo();
     }
 
     private function getIdArquivo()

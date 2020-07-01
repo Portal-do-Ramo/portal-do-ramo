@@ -18,8 +18,8 @@ class CreateArquivosTable extends Migration
             $table->string('nome', 60);
             $table->string('path');
 
-            $table->string('id_relacionado', 35);
-            $table->string('tipo_relacionado');
+            $table->string('id_relacionado', 35)->nullable();
+            $table->string('tipo_relacionado')->nullable();
 
             $table->timestamp('data_criado')->nullable();
             $table->timestamp('data_alterado')->nullable();

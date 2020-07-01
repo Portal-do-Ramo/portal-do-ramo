@@ -91,6 +91,12 @@ class ProjetoController extends AbstractProjetoController
         return response()->json('Áreas do projeto atualizada com sucesso', 200);
     }
 
+    public function destroy(Projeto $projeto)
+    {
+        $this->projetoRepository->fecharProjeto($projeto);
+        return response()->json("Projeto {$projeto->nome_projeto} fechado com sucesso", 200);
+    }
+
     protected function resourceAbilityMap()
     {
         return [
@@ -98,7 +104,8 @@ class ProjetoController extends AbstractProjetoController
             'showMember' => 'view',
             'showFully' => 'viewFully',
             'update' => 'update',
-            'atualizarAreas' => 'update'
+            'atualizarAreas' => 'update',
+            'destroy' => 'delete'
         ];
     }
 }
