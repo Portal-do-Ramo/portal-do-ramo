@@ -1,4 +1,5 @@
 FROM node:alpine as builder
+ENV GENERATE_SOURCEMAP false
 
 WORKDIR /app
 

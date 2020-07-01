@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Screen = styled.div`
-  padding-bottom: 50px;
-
   .area-alert {
     display: flex;
     justify-content: center;

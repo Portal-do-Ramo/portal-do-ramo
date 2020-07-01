@@ -71,9 +71,9 @@ export default function ViewFinances () {
                   {(caixa) ?
                     caixa.map(register => (
                       <div className="register-box">
-                        <Register color={(register.valor < 0) ? '#FF0000' : '#222'}><strong>{register.data}</strong> {'---->'} R$ {register.valor}</Register>
+                        <Register color={(register.valor < 0) ? '#FF0000' : '#222'}><strong>{register.data}</strong> {'-->'} R$ {register.valor}</Register>
                       </div>
-                    ))
+                    )).reverse()
                   : ''}
                 </div>
                 <div className="row buttons-area">

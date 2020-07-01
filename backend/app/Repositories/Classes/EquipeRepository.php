@@ -44,7 +44,13 @@ class EquipeRepository implements EquipeRepositoryInterface
 
     public function getProjetos(Equipe $equipe)
     {
-        return $equipe->projetosAtivos()->select('projetos.nome_projeto_slug', 'projetos.nome_projeto', 'projetos.estagio', 'projetos.ativo')->get();
+        return $equipe->projetos()
+            ->select('projetos.nome_projeto_slug', 'projetos.nome_projeto', 'projetos.data_inicio', 'projetos.data_fim', 'projetos.estagio', 'projetos.ativo')
+            ->orderBy('data_inicio')
+            ->get()
+            ->each(function($item) {
+                $item->setAppends([]);
+            });
     }
 
     public function getEventos(Equipe $equipe)

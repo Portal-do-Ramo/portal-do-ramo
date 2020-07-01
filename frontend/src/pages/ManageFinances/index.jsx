@@ -18,6 +18,10 @@ export default function ManageFinances () {
   document.title = 'Gerenciar o financeiro';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
 
+  // if (true) {
+  //   window.location.href = '/noaccess';
+  // }
+
   // GENERAL
   const [infoGerais, setInfoGerais] = useState();
   const [littleCowData, setLittleCowData] = useState();
@@ -101,12 +105,8 @@ export default function ManageFinances () {
 
   useEffect(() => {
     api.get('/api/pedidos/index-financeiro-pendentes', { headers: { Authorization: access_token } })
-    .then(response => {
-      setRequestList(response.data)
-      console.log(response.data)
-    })
-    // .catch(() => window.location.href = '/error')
-    .catch(error => console.log(error.response))
+    .then(response => setRequestList(response.data))
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
@@ -170,19 +170,16 @@ export default function ManageFinances () {
     if(type == "output") {
       value = document.getElementById("output-value").value * (-1);
       value = value.replace(',', '.');
-      exclusive = isOutputExclusive;
+      exclusive = (isOutputExclusive) ? 'true' : 'false';
       selectedCash = (exclusive) ? selectedOutputCash : '';
     } else {
       value = document.getElementById("input-value").value;
       value = value.replace(',', '.');
-      exclusive = isInputExclusive;
+      exclusive = (isInputExclusive) ? 'true' : 'false';
       selectedCash =  (exclusive) ? selectedInputCash : '';
     }
 
     selectedCash = 'caixa-'.concat(selectedCash);
-
-    console.log("Exclusivo: " + exclusive)
-    console.log("Caixa selecionado: " + selectedCash)
 
     api.post('/api/registros-de-caixa', {
       descricao: document.getElementById(type + '-description').value,
@@ -213,6 +210,22 @@ export default function ManageFinances () {
       setTimeout(() => document.getElementById(uuid).hidden = true, 500);
     })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível reprovar o pedido.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+  }
+
+
+  function setPercent() {
+    let teamsPercents = [];
+    let projectsPercents = [];
+
+    api.put('/api/caixas', {
+      equipes: teamsPercents,
+      projetos: projectsPercents
+    }, { headers: { Authorization: access_token } })
+    .then(() => {
+      document.getElementById('set-percent').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Vaquinha criada com sucesso!</strong></div>')
+    })
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a vaquinha.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -550,6 +563,9 @@ export default function ManageFinances () {
                     <hr />
                     <div className="row">
                       <div className="col-md-6">
+                        <button className="btn-option-box" onClick={() => document.getElementById('set-percent').style.display='block'}>Porcentagens de caixas</button><br />
+                      </div>
+                      <div className="col-md-6">
                         <button className="btn-option-box" onClick={() => window.location.href = '/requests/historic'}>Histórico de Pedidos</button><br />
                       </div>
                     </div>
@@ -618,9 +634,9 @@ export default function ManageFinances () {
                     {(registers) ?
                       registers.map(register => (
                         <div className="register-box" key={register.uuid}>
-                          <Register color={(register.valor < 0) ? '#FF0000' : '#222'}><strong>{register.data}</strong> {'---->'} R$ {register.valor}</Register>
+                          <Register color={(register.valor < 0) ? '#FF0000' : '#222'}><strong>{register.data}</strong> {'-->'} R$ {register.valor}</Register>
                         </div>
-                      ))
+                      )).reverse()
                     : ''}
                   </div>
                   <div className="row buttons-area">
@@ -681,7 +697,7 @@ export default function ManageFinances () {
                       <label htmlFor="input-locale-cash" title="Ignore caso não seja uma entrada exclusiva">Selecione o destino</label><br />
                       <select className="form-control" id="input-locale-cash" title="Ignore caso não seja uma entrada exclusiva" onChange={e => setSelectedInputCash(e.target.value)}>
                         <option value="administrativo">Administrativo</option>
-                        <option value="emergencia">Emergência</option>
+                        <option value="emergencial">Emergência</option>
                         {listTeams.map(team => (
                           <option key={team.nome_equipe_slug} value={team.nome_equipe_slug}>{team.nome_equipe}</option>
                         ))}
@@ -746,7 +762,8 @@ export default function ManageFinances () {
                     <div className="col-md-6">
                       <label htmlFor="output-locale-cash" title="Ignore caso não seja uma saída exclusiva">Selecione o caixa</label><br />
                       <select className="form-control" id="output-locale-cash" title="Ignore caso não seja uma saída exclusiva" onChange={e => setSelectedOutputCash(e.target.value)}>
-                        <option value="emergencia">Emergência</option>
+                        <option value="administrativo">Administrativo</option>
+                        <option value="emergencial">Emergência</option>
                         {listTeams.map(team => (
                           <option key={team.nome_equipe_slug} value={team.nome_equipe_slug}>{team.nome_equipe}</option>
                         ))}
@@ -774,7 +791,7 @@ export default function ManageFinances () {
                 </div>
                 <div className="inside-area">
                   <div className="view-requests">
-                    {/* {(requestList) ?
+                    {(requestList) ?
                       (requestList.pedido_de_compra).map(request => (
                         <div key={request.uuid} className="card-request" id={request.uuid}>
                           <h1><strong>Solicitante:</strong> {((request.nome_membro_solicitou).split(' ')[0]).concat(' ' + (request.nome_membro_solicitou).split(' ')[1])}</h1>
@@ -811,7 +828,7 @@ export default function ManageFinances () {
                           </div>
                         </div>
                       ))
-                    : ''} */}
+                    : ''}
                   </div>
                   <div className="row buttons-area">
                     <button className="btn btn-primary cancel" onClick={() => document.getElementById('purchase-order').style.display='none'}>
@@ -878,7 +895,7 @@ export default function ManageFinances () {
                 </div>
                 <div className="inside-area">
                   <div className="view-requests">
-                    {/* {(requestList) ?
+                    {(requestList) ?
                       (requestList.pedido_de_reembolso).map(request => (
                         <div key={request.uuid} className="card-request" id={request.uuid}>
                           <h1><strong>Solicitante:</strong> {((request.nome_membro_solicitou).split(' ')[0]).concat(' ' + (request.nome_membro_solicitou).split(' ')[1])}</h1>
@@ -915,7 +932,7 @@ export default function ManageFinances () {
                           </div>
                         </div>
                       ))
-                    : ''} */}
+                    : ''}
                   </div>
                   <div className="row buttons-area">
                     <button className="btn btn-primary cancel" onClick={() => document.getElementById('refund-request').style.display='none'}>
@@ -967,6 +984,34 @@ export default function ManageFinances () {
                       document.getElementById('refund-request').style.display='block'
                     }}>
                       Voltar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </BoxModalScreen>
+          </ModalScreen>
+
+          <ModalScreen id="set-percent" className="modal">
+            <BoxModalScreen className="container box-modal-screen">
+              <div className="modal-content animate view">
+                <div className='row'>
+                  <h1 className="title">Pedido</h1>
+                </div>
+                <div className="inside-area">
+                  <div className="view-products">
+                    {/* {(percents) ?
+                      percents.map(percent => (
+                        <div>
+                        </div>
+                      ))
+                    : ''} */}
+                  </div>
+                  <div className="row buttons-area">
+                    <button className="btn btn-primary" onClick={() => document.getElementById('set-percent').style.display='none'}>
+                      Voltar
+                    </button>
+                    <button className="btn btn-primary" onClick={() => setPercent()}>
+                      Salvar
                     </button>
                   </div>
                 </div>

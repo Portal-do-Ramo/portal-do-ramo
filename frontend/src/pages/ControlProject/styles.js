@@ -259,6 +259,7 @@ export const Content = styled.section`
 
   .btn-remove-advisor:disabled {
     background: #555;
+    cursor: default;
   }
 
   .event {

@@ -31,8 +31,12 @@ export default function Requests() {
           </div>
 
           <div className="row">
-            <div className="col-md-4"><BTNCard onClick={() => window.location.href='/requests/purchase-order'}>Pedido de Compra</BTNCard></div>
-            <div className="col-md-4"><BTNCard onClick={() => window.location.href='/requests/refund-request'}>Pedido de Reembolso</BTNCard></div>
+            <div className="col-md-4">
+              <BTNCard onClick={() => window.location.href='/requests/purchase-order'}>Pedido de Compra</BTNCard>
+            </div>
+            <div className="col-md-4">
+              <BTNCard onClick={() => window.location.href='/requests/refund-request'}>Pedido de Reembolso</BTNCard>
+            </div>
           </div>
         </Content>
       </div>

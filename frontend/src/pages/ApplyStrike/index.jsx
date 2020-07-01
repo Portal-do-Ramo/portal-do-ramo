@@ -79,31 +79,20 @@ export default function ApplyStrike (){
         <Title title="Aplicar strike" />
 
         <div className="row">
-          <BoxLeft className="col-md-6">
-            <h2>Selecione o membro abaixo</h2>
-            <select className="form-control" name="filter" id="filter" onChange={e => setFilter(e.target.value)}>
-              {listTeams.map(team => (
-                <option key={team.nome_equipe_slug} value={team.nome_equipe_slug}>{team.nome_equipe}</option>
-              ))}
-            </select>
+          <div className="col-md-6">
+            <div className="left-box-gray">
+              <h2>Selecione o membro abaixo</h2>
+              <select className="form-control" name="filter" id="filter" onChange={e => setFilter(e.target.value)}>
+                {listTeams.map(team => (
+                  <option key={team.nome_equipe_slug} value={team.nome_equipe_slug}>{team.nome_equipe}</option>
+                ))}
+              </select>
 
-            <ViewMembers id="viewAllMembers">
-              <ul>
-                { (isLoaded) ? null : <Loader /> }
-                {members.map(member => (
-                  ((filter != 'allMembers') && (member.equipes).indexOf(filter) != -1) ?
-                    <Card key={member.matricula} className="card" id={member.matricula} onClick={() => setSelectedMember(member)}>
-                      <li className="member-item">
-                        <header>
-                          <img src={member.foto_url} alt="avatar" />
-                          <div className="user-info">
-                            <strong>{((member.nome_completo).split(' ')[0]).concat(' ' + (member.nome_completo).split(' ')[1])}</strong><br />
-                            <span>{member.hierarquia}</span>
-                          </div>
-                        </header>
-                      </li>
-                    </Card>
-                  : (filter === 'allMembers') ?
+              <ViewMembers id="viewAllMembers">
+                <ul>
+                  { (isLoaded) ? null : <Loader /> }
+                  {members.map(member => (
+                    ((filter != 'allMembers') && (member.equipes).indexOf(filter) != -1) ?
                       <Card key={member.matricula} className="card" id={member.matricula} onClick={() => setSelectedMember(member)}>
                         <li className="member-item">
                           <header>
@@ -115,35 +104,52 @@ export default function ApplyStrike (){
                           </header>
                         </li>
                       </Card>
-                  : ''
-                ))}
-              </ul>
-            </ViewMembers>
-          </BoxLeft>
-
-          <BoxRight className="col-md-6">
-            <div className="btn-card-blue">
-              <div>
-                <label>Membro selecionado</label>
-                <img src={(selectedMember) ? selectedMember.foto_url : avatar} className="leader-image" alt="avatar" />
-                <h1 className="title-name">{(selectedMember) ? ((selectedMember.nome_completo).split(' ')[0]).concat(' ' + (selectedMember.nome_completo).split(' ')[1]) : 'Selecione'}</h1>
-                <h1 className="hierarchy">{(selectedMember) ? selectedMember.hierarquia : ''}</h1>
-              </div>
+                    : (filter === 'allMembers') ?
+                        <Card key={member.matricula} className="card" id={member.matricula} onClick={() => setSelectedMember(member)}>
+                          <li className="member-item">
+                            <header>
+                              <img src={member.foto_url} alt="avatar" />
+                              <div className="user-info">
+                                <strong>{((member.nome_completo).split(' ')[0]).concat(' ' + (member.nome_completo).split(' ')[1])}</strong><br />
+                                <span>{member.hierarquia}</span>
+                              </div>
+                            </header>
+                          </li>
+                        </Card>
+                    : ''
+                  ))}
+                </ul>
+              </ViewMembers>
             </div>
-            <h2>Motivo</h2>
-            <div id="alert" />
-            <form onSubmit={sendStrike}>
-              <textarea
-                className="form-control"
-                id="reason"
-                name="reason"
-                placeholder="Escreva de forma clara os motivos que levaram a aplicação desse strike."
-                required
-              />
-              <p>O strike será enviado ao membro selecionado após validação da diretoria. Você será notificado ao longo do processo.</p>
-              <button type="submit" className="btn-send">Enviar</button>
-            </form>
-          </BoxRight>
+          </div>
+
+          <div className="col-md-6">
+            <div className="right-box-blue-gradient">
+              <div className="btn-card-blue">
+                <div>
+                  <label>Membro selecionado</label>
+                  <img src={(selectedMember) ? selectedMember.foto_url : avatar} className="leader-image" alt="avatar" />
+                  <h1 className="title-name">{(selectedMember) ? ((selectedMember.nome_completo).split(' ')[0]).concat(' ' + (selectedMember.nome_completo).split(' ')[1]) : 'Selecione'}</h1>
+                  <h1 className="hierarchy">{(selectedMember) ? selectedMember.hierarquia : ''}</h1>
+                </div>
+              </div>
+              <h2>Motivo</h2>
+              <div id="alert" />
+              <form onSubmit={sendStrike}>
+                <textarea
+                  className="form-control"
+                  id="reason"
+                  name="reason"
+                  placeholder="Escreva de forma clara os motivos que levaram a aplicação desse strike."
+                  required
+                />
+                <p>O strike será enviado ao membro selecionado após validação da diretoria. Você será notificado ao longo do processo.</p>
+                <div className="center">
+                  <button type="submit" className="btn-send">Enviar</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </Screen>

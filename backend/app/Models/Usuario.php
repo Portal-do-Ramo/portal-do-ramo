@@ -164,7 +164,10 @@ class Usuario extends Authenticatable implements JWTSubject
             ->select('projetos.nome_projeto', 'projetos.nome_projeto_slug')
             ->join('equipes', 'projetos.nome_equipe', '=', 'equipes.nome_equipe_slug')
             ->addSelect('equipes.nome_equipe_slug', 'equipes.nome_equipe', 'equipes.foto_url')
-            ->get();
+            ->get()
+            ->sortBy(fn($item) => ['Líder' => 1, 'Assessor' => 2, 'Membro' => 3][$item['funcao']])
+            ->unique('nome_projeto_slug')
+            ->values();
     }
 
     public function equipes()

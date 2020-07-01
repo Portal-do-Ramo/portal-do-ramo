@@ -7,7 +7,7 @@ import Header from '../../components/Home_Header';
 import Title from '../../components/Title';
 import Loader from '../../components/LoaderSpinner';
 
-import { Screen, View, ViewResults, Card } from './styles';
+import { Screen, View, ViewResults } from './styles';
 
 export default function Search () {
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));

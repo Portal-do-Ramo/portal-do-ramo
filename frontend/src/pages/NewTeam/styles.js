@@ -113,6 +113,12 @@ export const Content = styled.section`
       float: left;
       margin-top: 10px;
       margin-right: 30px;
+      border-radius: 40px;
+
+      -webkit-border-radius: 40px;
+      -moz-border-radius: 40px;
+      -ms-border-radius: 40px;
+      -o-border-radius: 40px;
     }
   }
 
@@ -236,50 +242,32 @@ export const BoxModalScreen = styled.div`
   @media (min-width: 319px) and (max-width: 359.98px) {
     width: 290px;
     margin-top: 100px;
-
-    button {
-      display: none;
-    }
+    font-size: 10pt;
   }
 
   @media (min-width: 360px) and (max-width: 374.98px) {
     width: 330px;
-
-    button {
-      display: none;
-    }
+    font-size: 10pt;
   }
 
   @media (min-width: 375px) and (max-width: 410.98px) {
     width: 306px;
-
-    button {
-      display: none;
-    }
+    font-size: 10pt;
   }
 
   @media (min-width: 411px) and (max-width: 575.98px) {
     width: 345px;
-
-    button {
-      display: none;
-    }
+    font-size: 10pt;
   }
 
   @media (min-width: 767px) and (max-width: 1023.98px) {
     width: 650px;
-
-    button {
-      display: none;
-    }
+    font-size: 11pt;
   }
 
   @media (min-width: 1024px) and (max-width: 1155px) {
     width: 890px;
-
-    button {
-      display: none;
-    }
+    font-size: 11pt;
   }
 `
 

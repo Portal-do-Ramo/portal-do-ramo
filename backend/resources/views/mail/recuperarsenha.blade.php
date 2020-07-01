@@ -8,6 +8,6 @@ para realizar a mudança pressione o botão abaixo:
 Link para mudança
 @endcomponent
 
-<p><i>Caso não tenha sido você que solicitou tal modificação, contate um dos adiministradores</i></p>
+<p><i>Caso não tenha sido você que solicitou tal modificação, contate um dos administradores</i></p>
 Atenciosamente, Diretoria do Ramo IEEE CEFET-RJ
 @endcomponent

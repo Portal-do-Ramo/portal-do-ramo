@@ -35,7 +35,7 @@ class PerfilCompletoResource extends JsonResource
             'tipo_sanguineo' => $this->membro->tipo_sanguineo,
             'cadastro_robocore' => $this->membro->cadastro_robocore,
             'numero_ieee' => $this->membro->numero_ieee,
-            'data_fim_membresia' => $this->data_fim_membresia,
+            'data_fim_membresia' => $this->membro->data_fim_membresia,
             'medicamentos_utiliza' => $this->membro->medicamentos_utiliza,
             'medicamentos_alergico' => $this->membro->medicamentos_alergico,
             'alimentos_alergico' => $this->membro->alimentos_alergico,

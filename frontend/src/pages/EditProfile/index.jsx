@@ -107,7 +107,7 @@ export default function EditProfile () {
         gerenciar_faltas: gerenciar_faltas
       }
       dispatch(setUserData(user))
-      setAlert('<div class="alert alert-success" role="alert">Dados atualizados com sucesso!</div>');
+      setAlert('<div class="alert alert-success" role="alert"><strong>Dados atualizados com sucesso!</strong></div>');
     })
     .catch(error => {
       for(let erro in error.response.data.errors) {
@@ -117,14 +117,13 @@ export default function EditProfile () {
   }
 
 
-  // useEffect(() => {
-  //   document.getElementById('alert').innerHTML = alert;
-  // })
+  useEffect(() => {
+    (alert) ? document.getElementById('alert').innerHTML = alert : '';
+  })
 
 
   return (
     <Screen>
-      {console.log(alert)}
       <Top_Left_Side_Menu />
       <Bottom_Right_Side_Menu />
 

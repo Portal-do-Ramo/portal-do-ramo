@@ -22,7 +22,7 @@ export default function NotificationBox () {
 
   function markAsRead(id){
     api.put(`/api/usuarios/notificacoes/ler/${id}`, {}, { headers: { Authorization: access_token } })
-    .then(() => document.getElementById(id).style.backgroundColor = '#E9EDF5')
+    .then(() => document.getElementById(id).style.backgroundColor = '#E0E0E0')
     .catch(error => console.log(error))
   }
 

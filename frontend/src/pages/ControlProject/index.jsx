@@ -39,11 +39,9 @@ export default function ControlProject () {
   const [isEnabled, setIsEnabled] = useState(false);
   const [base64, setBase64] = useState('');
 
-
   if (urlData === '') {
     window.location.href = '/error';
   }
-
 
   useEffect(() => {
     api.get( `/api/projetos/projeto-completo/${urlData}`, { headers: { Authorization: access_token } })
@@ -128,24 +126,20 @@ export default function ControlProject () {
 
 
   function newAdvisor() {
-    console.log(advisor)
     api.post(`/api/projetos/${urlData}/adicionar-assessor`, { matricula_assessor: advisor.matricula }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria alterada com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
   function removeAdvisor(matricula) {
-    console.log(matricula)
     api.post(`/api/projetos/${urlData}/adicionar-assessor`, { matricula_assessor: matricula }, { headers: { Authorization: access_token } })
     .then(() => {
       setAdvisor('')
       setInitialAdvisor('')
       setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria removida com sucesso!</strong></div>')
     })
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -252,7 +246,6 @@ export default function ControlProject () {
     const newArea = document.getElementById('area-name').value;
     let aux = areas;
     aux.push(newArea);
-    console.log(aux);
     setAreas(aux);
     api.patch(`/api/projetos/atualizar-areas/${urlData}`, {
       areas: areas,
@@ -266,7 +259,7 @@ export default function ControlProject () {
     let aux = areas;
     aux.splice(areas.indexOf(areaToRemove), 1);
     setAreas(aux);
-    console.log(aux)
+
     api.patch(`/api/projetos/atualizar-areas/${urlData}`, {
       areas: areas,
     }, { headers: { Authorization: access_token } })

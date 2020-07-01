@@ -6,16 +6,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class MatriculaAssessor implements Rule
 {
-    protected $matriculaAssessor;
+    protected $assessor;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(string $matriculaAssessor)
+    public function __construct($assessor)
     {
-        $this->matriculaAssessor = $matriculaAssessor;
+        $this->assessor = $assessor;
     }
 
     /**
@@ -27,7 +27,8 @@ class MatriculaAssessor implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $value !== $this->matriculaAssessor;
+        if($this->assessor) return $value !== $this->assessor->matricula;
+        else return true;
     }
 
     /**

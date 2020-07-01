@@ -108,7 +108,7 @@ export default function RegisterMembers () {
       return
     }
 
-    if (data_nascimento.length === 1) {
+    if (data_nascimento.length !== 3) {
       setAlert('<div class="alert alert-danger" role="alert"><strong>Data de nascimento inválida!</strong></div>')
       return
     }

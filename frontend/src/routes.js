@@ -38,13 +38,14 @@ import Search from './pages/Search';
 import TermosDeUso from './pages/TermosDeUso';
 import PoliticasDePrivacidade from './pages/PoliticasDePrivacidade';
 
-/* LOGIN, HOME, ERROR AND RECOVER PASSWORD */
+/* LOGIN, HOME, ERROR AND OTHERS*/
 import Home from './pages/Home';
 import Login from './pages/LoginForm';
 import FirstLogin from './pages/FirstLogin';
 import RecoverPassword from './pages/RecoverPassword';
 import NewPassword from './pages/NewPassword';
 import ErrorServer from './pages/ErrorServer'
+import NotAccess from './pages/NotAccess';
 
 /* PSI */
 import ControlPSI from './pages/ControlPSI';
@@ -85,6 +86,7 @@ import MyRequests from './pages/MyRequests';
 
 /* MARKETING */
 import ViewPartners from './pages/ViewPartners';
+
 
 function isAuthenticated() {
   const access_token = sessionStorage.getItem("access_token");
@@ -148,7 +150,7 @@ export default function Routes () {
           <PrivateRoute path='/team/manageteams/manage' exact component={ () => <ControlTeam /> } />
           <PrivateRoute path='/team/manageteams/newteam' component={ () => <NewTeam /> } />
           <PrivateRoute path='/team/selected' component={ () => <TeamScreen /> } />
-          <PrivateRoute path='/team/view' component={ () => <ViewTeam /> } />
+          <Route path='/team/view' component={ () => <ViewTeam /> } />
 
           {/* Routers - Projetos */}
           <PrivateRoute path='/projects/manage/control' component={ () => <ControlProject /> } />
@@ -192,6 +194,7 @@ export default function Routes () {
           <PrivateRoute path='/notifications' component={ () => <Notifications /> } />
           <PrivateRoute path='/termos' component={ () => <TermosDeUso /> } />
           <PrivateRoute path='/politicas' component={ () => <PoliticasDePrivacidade /> } />
+          <PrivateRoute path='/noaccess' component={ () => <NotAccess /> } />
         </Switch>
       </Router>
     </Provider>

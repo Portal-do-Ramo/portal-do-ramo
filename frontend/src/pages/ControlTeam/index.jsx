@@ -38,6 +38,9 @@ export default function ControlTeam() {
   const [archives, setArchives] = useState([]);
   const [selectedArchive, setSelectedArchive] = useState();
 
+  if (urlData === '') {
+    window.location.href = '/error';
+  }
 
   useEffect(() => {
     api.get(`/api/equipes/equipe-completa/${urlData}`, { headers: { Authorization: access_token } })

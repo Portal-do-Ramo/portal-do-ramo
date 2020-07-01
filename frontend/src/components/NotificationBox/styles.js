@@ -28,7 +28,7 @@ export const Notifications = styled.div`
 `
 
 export const Notification = styled.button`
-  background: #E0E0E0;
+  background: #E9EDF5;
   border-radius: 5px;
   border: none;
   text-align: justify;

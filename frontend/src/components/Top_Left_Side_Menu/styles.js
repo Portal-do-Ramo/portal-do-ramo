@@ -25,10 +25,6 @@ export const Menu = styled.div`
     .logo-ramo {
       display: none;
     }
-
-    .logo-portal {
-      display: none;
-    }
   }
 
   #check {
@@ -53,8 +49,12 @@ export const Menu = styled.div`
     width: 260px;
     position: fixed;
     transition: all .2s linear;
-    left: -260px;
+    left: -261px;
     z-index: 1;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    background: red;
   }
 
   nav {
@@ -96,39 +96,45 @@ export const Menu = styled.div`
       margin-top: 4px;
     }
 
-
     a:hover {
       background: rgba(0,0,0,0.2);
       transition: 0.8s;
     }
+  }
 
-    .dropdown-menu {
-      background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
-      margin-left: 10px;
-      color: white;
+  .dropdown-menu {
+    background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #1D5EA8;
+    outline: none;
+  }
 
-      .menu-dropdown-option {
-        margin-left: 7px;
-        background-color: #1D5EA8;
-        padding: 10px;
-        width: 94%;
-        border: none;
-        color: #FFF;
-        border-radius: 5px;
-        margin-bottom: 7px;
-        font-size: 11pt;
-      }
+  .menu-dropdown-option {
+    margin-left: 7px;
+    width: 100%;
+    border: none;
+    padding: 7px;
+    color: #FFF;
+    margin-bottom: 4px;
+    margin-left: 0px;
+    font-size: 11pt;
+    border-radius: 5px;
 
-      .menu-dropdown-option:hover {
-        background: rgba(0,0,0,0.2);
-        transition: .8s;
-      }
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
 
-      .menu-dropdown-option:disabled {
-        background: rgba(255,255,255,0.2);
-        cursor: default;
-      }
-    }
+  .menu-dropdown-option:hover {
+    background: rgba(0,0,0,0.1);
+    transition: .5s;
+  }
+
+  .menu-dropdown-option:disabled {
+    background: rgba(255,255,255,0.2);
+    cursor: default;
   }
 
   @media (min-width: 319px) and (max-width: 767.98px) {
@@ -199,8 +205,8 @@ export const MenuOption = styled.li`
 `
 
 export const Search = styled.form`
-  margin-top: 80px;
-  margin-bottom: 60px;
+  margin-top: 50px;
+  margin-bottom: 30px;
   background: #E5E5E5;
   border-radius: 5px;
   width: 200px;
@@ -234,5 +240,9 @@ export const Search = styled.form`
 
   @media (min-width: 319px) and (max-width: 359.98px) {
     margin-bottom: 30px;
+  }
+
+  @media (min-width: 319px) and (max-width: 767.98px) {
+    margin-top: 80px;
   }
 `

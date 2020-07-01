@@ -9,6 +9,7 @@ use App\Http\Requests\Equipe\CriarEquipeRequest;
 use App\Http\Requests\Equipe\AtualizarEquipeRequest;
 use App\Http\Requests\Equipe\AtualizarLogoEquipeRequest;
 use App\Http\Resources\EquipeCompletaResource;
+use App\Http\Resources\EquipeMembroResource;
 use App\Http\Resources\EquipeResource;
 use App\Jobs\AlterarLogoEquipeJob;
 use App\Jobs\CriarEquipeJob;
@@ -56,6 +57,11 @@ class EquipeController extends AbstractEquipeController
         return new EquipeResource($equipe, $this->equipeRepository);
     }
 
+    public function showMember(Equipe $equipe)
+    {
+        return new EquipeMembroResource($equipe, $this->equipeRepository);
+    }
+
     public function showFully(Equipe $equipe)
     {
         return new EquipeCompletaResource($equipe, $this->equipeRepository);
@@ -98,7 +104,7 @@ class EquipeController extends AbstractEquipeController
             'index' => 'viewAny',
             'store' => 'create',
             'updateCoordenador' => 'create',
-            'show' => 'view',
+            'showMember' => 'view',
             'showFully' => 'viewFully',
             'update' => 'update', 
             'updateLogo' => 'update',

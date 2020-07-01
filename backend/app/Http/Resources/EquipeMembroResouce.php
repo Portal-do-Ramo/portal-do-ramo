@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EquipeResource extends JsonResource
+class EquipeMembroResource extends JsonResource
 {
     protected $equipeRepository;
 
@@ -25,10 +25,12 @@ class EquipeResource extends JsonResource
     {
         return [
             'nome_equipe' => $this->nome_equipe,
+            'foto_url' => $this->foto_url,
             'coordenador' => $this->coordenador,
             'assessor' => $this->assessor,
-            'foto_url' => $this->foto_url,
             'capitulo' => $this->capitulo,
+            'arquivos' => $this->equipeRepository->getArquivos($this->resource),
+            'eventos' => $this->equipeRepository->getEventos($this->resource),
             'projetos' => $this->equipeRepository->getProjetos($this->resource),
             'membros' => $this->equipeRepository->getMembros($this->resource)
         ];

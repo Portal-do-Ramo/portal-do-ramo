@@ -19,7 +19,7 @@ export default function Header() {
 
           <Info className="col-md-8">
             <div>
-              <h2>{nome}</h2>
+              <h2>{(nome.split(' ')[0]).concat(' ' + nome.split(' ')[1])}</h2>
               <h3>{hierarquia}</h3>
             </div>
           </Info>

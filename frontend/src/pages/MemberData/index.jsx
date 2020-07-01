@@ -12,9 +12,9 @@ import { Screen, Content, Subtitles } from './styles';
 
 export default function MemberData() {
   document.title = 'Gerenciar dados';
-
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const matricula = window.location.search.slice(1);
+
   const [hierarchies, setHierarchies] = useState([]);
   const [courses, setCourses] = useState([]);
   const [dataMember, setDataMember] = useState();
@@ -34,6 +34,10 @@ export default function MemberData() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   const [alert, setAlert] = useState('');
+
+  if (matricula === '') {
+    window.location.href = '/error';
+  }
 
   useEffect(() => {
     api.get('/api/cursos', {headers: { Authorization: access_token }})
@@ -61,25 +65,65 @@ export default function MemberData() {
       setSelectedHierarchy(response.data.hierarquia)
       setSelectedCourse(response.data.curso)
       setIsLoaded(true)
+      setIsAssessor(response.data.assessor_flag)
+      setIsMarketing(response.data.marketing_flag)
+      setIsPagante(response.data.pagante)
     })
     .catch(() =>  window.location.href = '/error')
   }, [])
 
 
   function setDataProfile() {
+    const data_nascimento = document.getElementById('dtnasc_usuario').value.split('-');
+    const data_nascimento_padrao = data_nascimento[2] + '/' + data_nascimento[1] + '/' + data_nascimento[0];
+
+    const data_fim_membresia = document.getElementById('data_fim_membresia').value.split('-');
+    const data_fim_membresia_padrao = data_fim_membresia[2] + '/' + data_fim_membresia[1] + '/' + data_fim_membresia[0];
+
+    const hierarquia_nome = document.getElementById('hierarchy').value;
+    let hierarquia_id = 0;
+
+    for(let index in hierarchies) {
+      if(hierarchies[index].nome === hierarquia_nome) {
+        hierarquia_id = hierarchies[index].id
+      }
+    }
+
+    const curso_nome = document.getElementById('courses').value;
+    let curso_id = 0;
+
+    for(let index in courses) {
+      if(courses[index].nome === curso_nome) {
+        curso_id = courses[index].id
+      }
+    }
+
+    if (isPagante) {
+      if (numero_ieee === '') {
+        setAlert(`<div class="alert alert-danger" role="alert">Número do IEEE obrigatório!</div>`)
+        return
+      }
+
+      if (data_fim_membresia.length !== 3) {
+        setAlert(`<div class="alert alert-danger" role="alert">Data de fim da membresia obrigatório!</div>`)
+        return
+      }
+    }
+
     api.put(`api/usuarios/atualizar-totalmente/${matricula}`, {
       matricula_usuario: document.getElementById('matricula_usuario').value,
       rg_usuario: document.getElementById('rg_usuario').value,
       orgao_emissor: document.getElementById('orgao_emissor').value,
       cpf_usuario: document.getElementById('cpf_usuario').value,
       nome_completo: document.getElementById('nome_usuario').value,
-      hierarquia: document.getElementById('hierarchy').value,
-      data_nascimento: document.getElementById('dtnasc_usuario').value,
-      curso: document.getElementById('courses').value,
-      email: document.getElementById('email_usuario').value,
+      hierarquia_usuario: hierarquia_id,
+      data_nascimento: data_nascimento_padrao,
+      curso_usuario: curso_id,
+      email_usuario: document.getElementById('email_usuario').value,
       telefone_principal: document.getElementById('telefone_principal_usuario').value,
       telefone_secundario: document.getElementById('telefone_secundario_usuario').value,
       numero_ieee: document.getElementById('numero_ieee').value,
+      data_fim_membresia: data_fim_membresia_padrao,
       cadastro_robocore: document.getElementById('robocore_usuario').value,
       assessor: isAssessor,
       marketing: isMarketing,
@@ -148,7 +192,7 @@ export default function MemberData() {
     api.patch(`/api/usuarios/foto-perfil/${matricula}`, {
       foto: base64
     }, { headers: { Authorization: access_token }})
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Equipe criada com sucesso!</strong></div>'))
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Foto de perfil atualizada com sucesso!</strong></div>'))
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a equipe.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -202,6 +246,7 @@ export default function MemberData() {
                       name="matricula_usuario"
                       id="matricula_usuario"
                       maxLength="12"
+                      autoComplete="off"
                       defaultValue={(dataMember) ? dataMember.matricula : ''}
                       required
                     />
@@ -217,6 +262,7 @@ export default function MemberData() {
                       className="form-control"
                       name="rg_usuario"
                       id="rg_usuario"
+                      autoComplete="off"
                       defaultValue={(dataMember) ? dataMember.rg : ''}
                       required
                     />
@@ -232,6 +278,7 @@ export default function MemberData() {
                     name="orgao_emissor"
                     id="orgao_emissor"
                     autoComplete="off"
+                    defaultValue={(dataMember) ? dataMember.orgao_emissor : ''}
                     required
                   />
                 </div>
@@ -264,6 +311,7 @@ export default function MemberData() {
                       name="nome_usuario"
                       id="nome_usuario"
                       maxLength="90"
+                      autoComplete="off"
                       defaultValue={(dataMember) ? dataMember.nome_completo : ''}
                       required
                     />
@@ -288,6 +336,7 @@ export default function MemberData() {
                       className="form-control"
                       name="dtnasc_usuario"
                       id="dtnasc_usuario"
+                      autoComplete="off"
                       defaultValue={(dataMember) ? dataMember.data_nascimento : ''}
                       required
                     />
@@ -339,7 +388,7 @@ export default function MemberData() {
               </div>
 
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
                     <label htmlFor="telefone_secundario_usuario">Telefone Secundário</label>
                     <InputMask
@@ -356,9 +405,9 @@ export default function MemberData() {
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
-                    <label htmlFor="numero_ieee">N° IEEE *</label>
+                    <label htmlFor="numero_ieee">N° IEEE</label>
                     <input
                       type="text"
                       className="form-control"
@@ -366,13 +415,27 @@ export default function MemberData() {
                       id="numero_ieee"
                       defaultValue={(dataMember) ? dataMember.numero_ieee : ''}
                     />
-                    <small id="helpId" className="form-text text-muted">Registro do membro pagante</small>
+                    <small id="helpId" className="form-text text-muted">Obrigatório caso pagante</small>
                   </div>
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
-                    <label htmlFor="robocore_usuario">Usuário na Robocore *</label>
+                    <label htmlFor="data_fim_membresia">Vencimento da membresia</label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      name="data_fim_membresia"
+                      id="data_fim_membresia"
+                      defaultValue={(dataMember) ? dataMember.data_fim_membresia : ''}
+                    />
+                    <small id="helpId" className="form-text text-muted">Obrigatório caso pagante</small>
+                  </div>
+                </div>
+
+                <div className="col-md-3">
+                  <div className="form-group">
+                    <label htmlFor="robocore_usuario">Usuário na Robocore</label>
                     <input
                       type="text"
                       className="form-control"
@@ -393,8 +456,8 @@ export default function MemberData() {
                       type="checkbox"
                       name="item"
                       id="isAssessor"
-                      value={true}
                       className="checkbox"
+                      checked={isAssessor}
                       onClick={() => setIsAssessor(!isAssessor)}
                     />
                     <label htmlFor="isAssessor">Assessor</label>
@@ -409,8 +472,8 @@ export default function MemberData() {
                       type="checkbox"
                       name="item"
                       id="isMarketing"
-                      value={true}
                       className="checkbox"
+                      checked={isMarketing}
                       onClick={() => setIsMarketing(!isMarketing)}
                     />
                     <label htmlFor="isMarketing">Marketing</label>
@@ -425,8 +488,8 @@ export default function MemberData() {
                       type="checkbox"
                       name="item"
                       id="isPagante"
-                      value={true}
                       className="checkbox"
+                      checked={isPagante}
                       onClick={() => setIsPagante(!isPagante)}
                     />
                     <label htmlFor="isPagante">Pagante</label>

@@ -84,6 +84,20 @@ export const Screen = styled.div`
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
   }
+
+  .btn-send-picture:hover {
+    box-shadow: 0px 0px 7px #888;
+  }
+
+  .btn-send-picture:disabled {
+    background-color: #E5E5E5;
+    color: #555;
+    cursor: default;
+
+    :hover {
+      box-shadow: none;
+    }
+  }
 `
 
 export const CardItem = styled.div`

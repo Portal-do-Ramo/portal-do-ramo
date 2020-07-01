@@ -131,7 +131,7 @@ export default function RefundRequest() {
               <h1 className="title-box">Anexe o comprovante *</h1>
               <div className="center">
                 <div className="table">
-                  <label htmlFor="url-img">Comprovante da compra</label>
+                  <label htmlFor="url-img">Imagem do comprovante da compra</label>
                   <input type="file" name="url-img" id="url-img" className="form-control-file" accept="image/png, image/jpeg" title="Anexe o comprovante da compra"/>
                   <button className="btn-send-picture" onClick={() => {
                     setStateOfButton()
