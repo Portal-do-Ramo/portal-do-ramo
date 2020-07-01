@@ -18,6 +18,10 @@ export default function HistoricStrikes() {
   const [listAppliedStrikes, setListAppliedStrikes] = useState([]);
   const [username, setUsername] = useState('');
 
+  if (url === '') {
+    window.location.href = '/error';
+  }
+
   let cardBGColor, tagBGColor;
 
   function getSituation(situation) {

@@ -21,8 +21,12 @@ export default function TeamScreen() {
   const [selectedEvent, setSelectedEvent] = useState();
   const [archives, setArchives] = useState([]);
 
+  if (urlData === '') {
+    window.location.href = '/error';
+  }
+
   useEffect(() => {
-    api.get(`/api/equipes/${urlData}`, { headers: { Authorization: access_token } })
+    api.get(`/api/equipes/equipe-membro/${urlData}`, { headers: { Authorization: access_token } })
     .then(response => {
       setEvents(response.data.eventos)
       setTeamData(response.data)

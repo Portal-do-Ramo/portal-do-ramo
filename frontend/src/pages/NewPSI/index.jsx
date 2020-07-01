@@ -30,6 +30,8 @@ export default function NewPSI() {
   const [enabledSecondPart, setIsEnabledSecondPart] = useState(false);
   const [enabledThirdPart, setIsEnabledThirdPart] = useState(false);
   const [enabledFourthPart, setIsEnabledFourthPart] = useState(false);
+  const [uuid, setUUID] = useState('');
+  const [alert, setAlert] = useState('');
 
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function NewPSI() {
   }, [])
 
 
-  function createNewPSI() {
+  function initializePSI() {
     const name = document.getElementById('namePSI').value;
     const initial_date = document.getElementById('initialDate').value;
     const final_date = document.getElementById('finalDate').value;
@@ -65,9 +67,65 @@ export default function NewPSI() {
     .then(response => {
       setIsEnabledFirstPart(false)
       setIsEnabledSecondPart(true)
-      console.log(response)
+      // setUUID(response.data.uuid)
+      console.log(response.data)
     })
     .catch(error => console.log(error))
+  }
+
+
+  function sendSecondPart() {
+    let projects_formatted = '';
+
+    api.post(`psis/${uuid}/projetos`, {
+      projetos: projects_formatted
+    }, { headers: { Authorization: access_token } })
+    .then(response => {
+      setIsEnabledSecondPart(false)
+      setIsEnabledThirdPart(true)
+      console.log(response.data)
+    })
+    .catch(error => console.log(error.response))
+  }
+
+
+  function sendThirdPart() {
+    let teams_formatted = '';
+
+    projeto = ''
+    areas_vagas = []
+    for (let i=0; i < id_projects; i++) {
+      const project = document.getElementById(`card-project-${i}`)
+      // card-project-' + id_cards_projects + '-' + (id_projects++)
+      // for (let j=0; j < id_cards_projects; j++) {
+
+      // }
+    }
+
+    api.post(`psis/${uuid}/equipes`, {
+      equipes: teams_formatted
+    }, { headers: { Authorization: access_token } })
+    .then(response => {
+      setIsEnabledSecondPart(false)
+      setIsEnabledThirdPart(true)
+      console.log(response.data)
+    })
+    .catch(error => console.log(error.response))
+  }
+
+
+  function sendFourthPart() {
+    let management_formatted = '';
+
+    api.post(`psis/${uuid}/gestao`, {
+      gestao: management_formatted
+    }, { headers: { Authorization: access_token } })
+    .then(response => {
+      setIsEnabledThirdPart(false)
+      setIsEnabledFourthPart(true)
+      console.log(response.data)
+    })
+    .catch(error => console.log(error.response))
   }
 
 
@@ -81,7 +139,7 @@ export default function NewPSI() {
           <div className="area-alert" id="alert" />
         </div>
         <Header />
-        <Title title="Novo Processo Seletivo Interno" />
+        <Title title="Novo PSI" />
 
         {(enabledFirstPart) ?
           <div className="content">
@@ -120,12 +178,7 @@ export default function NewPSI() {
 
               <div className="col-md-3">
                 <br />
-                <button className="btn-send" onClick={ () => {
-                setIsEnabledFirstPart(false)
-                setIsEnabledSecondPart(true)
-                }
-
-                }>
+                <button className="btn-send" onClick={ () => initializePSI() }>
                   Enviar
                 </button>
               </div>
@@ -167,10 +220,7 @@ export default function NewPSI() {
                 : ''
               ))}
               <div className="button-area">
-                <button className="btn-send" onClick={() => {
-                  setIsEnabledSecondPart(false)
-                  setIsEnabledThirdPart(true)
-                }}>
+                <button className="btn-send" onClick={ () => sendSecondPart() }>
                   Salvar
                 </button>
               </div>
@@ -193,10 +243,7 @@ export default function NewPSI() {
                 </CardInput>
               ))}
               <div className="button-area">
-                <button className="btn-send" onClick={() => {
-                  setIsEnabledThirdPart(false)
-                  setIsEnabledFourthPart(true)
-                }}>
+                <button className="btn-send" onClick={ () => sendThirdPart() }>
                   Salvar
                 </button>
               </div>
@@ -218,7 +265,7 @@ export default function NewPSI() {
                 </CardInput>
               ))}
               <div className="button-area">
-                <button className="btn-send" onClick={() => setIsEnabledFourthPart(true)}>Salvar</button>
+                <button className="btn-send" onClick={ () => sendFourthPart() }>Salvar</button>
               </div>
             </div>
           : ''

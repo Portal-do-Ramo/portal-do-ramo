@@ -21,6 +21,10 @@ export default function ProjectScreen () {
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const urlData = window.location.search.slice(1);
 
+  if (urlData === '') {
+    window.location.href = '/error';
+  }
+
   const [project, setProject] = useState([]);
   const [leader, setLeader] = useState();
   const [advisor, setAdvisor] = useState();
@@ -32,7 +36,7 @@ export default function ProjectScreen () {
 
 
   useEffect(() => {
-    api.get(`/api/projetos/${urlData}`, { headers: { Authorization: access_token } })
+    api.get(`/api/projetos/projeto-membro/${urlData}`, { headers: { Authorization: access_token } })
     .then(response => {
       setProject(response.data)
       setLeader(response.data.lider)
@@ -77,10 +81,10 @@ export default function ProjectScreen () {
 
         {(isLoaded) ?
           <Content>
-            <header>{console.log(statusManageButton())}
+            <header>
               <h1>{(project) ? project.nome : ''}</h1>
               <h2>{(project) ? project.nome_equipe : ''}</h2>
-              <button className="btn-manage" onClick={() => `/team/manageteams/manage?${urlData}`} disabled={ statusManageButton() }>Gerenciar</button>
+              <button className="btn-manage" onClick={() => window.location.href=`/projects/manage/control?${urlData}`} disabled={ statusManageButton() }>Gerenciar</button>
             </header>
 
             <div className="row">
@@ -132,11 +136,13 @@ export default function ProjectScreen () {
                   <h2>Membros</h2>
                   <hr />
                   {(project != '') ?
-                    (project.membros).map(member => (
-                      <Link to={'/profile?'.concat(member.matricula)} key={member.matricula} >
-                        <img src={member.foto_url} className='member-icon' title={member.nome_completo} alt={member.nome_completo}/>
-                      </Link>
-                    ))
+                    (project.membros) ?
+                      (project.membros).map(member => (
+                        <Link to={'/profile?'.concat(member.matricula)} key={member.matricula} >
+                          <img src={member.foto_url} className='member-icon' title={member.nome_completo} alt={member.nome_completo}/>
+                        </Link>
+                      ))
+                    : ''
                   : ''}
                 </div>
               </div>

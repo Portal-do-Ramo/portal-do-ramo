@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Menu, MenuOption, Search } from './styles';
+import { Menu, Search } from './styles';
 
 import menu_icon from './images/icone.png';
 import logo_ramo from './images/Logo_Ramo_Branco.png'
@@ -13,6 +13,7 @@ import team_icon from './images/team_icon.png';
 import project_icon from './images/project_icon.png';
 import strike_icon from './images/strike_icon.png';
 import finance_icon from './images/finance_icon.png';
+import marketing_icon from './images/marketing_icon.png';
 import search_icon from './images/search.png';
 import arrow from './images/arrow.png';
 
@@ -21,6 +22,12 @@ import Dropdown from 'react-bootstrap/Dropdown';
 export default function Top_Left_Side_Menu() {
   const username = (useSelector(state => state.data[1])).split(' ')[0];
   const hierarquia = (useSelector(state => state.data[4]));
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  window.addEventListener('resize', function(){
+    setWidth(window.innerWidth)
+  });
 
   function sendSearch(e) {
     e.preventDefault();
@@ -91,6 +98,18 @@ export default function Top_Left_Side_Menu() {
     }
   }
 
+  function statusMarketingButtons() {
+    if (
+      hierarquia === 'Presidente' ||
+      hierarquia === 'Vice-Presidente' ||
+      hierarquia === 'Diretor de Marketing'
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   return (
     <Menu>
       <input type="checkbox" id="check" />
@@ -106,93 +125,106 @@ export default function Top_Left_Side_Menu() {
                 <button className="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit"><img src={search_icon} id="img-search" alt="search"/></button>
               </Search>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={user_icon} className="Icon" alt="icon"/>
                   {username}
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/absences/myabsences" id="btn-my-absences">Minhas Faltas</Dropdown.Item>
-                  <Dropdown.Item href="/teams/myteams" id="btn-my-teams">Minhas equipes</Dropdown.Item>
-                  <Dropdown.Item href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
-                  <Dropdown.Item href="/strikes/mystrikes" id="btn-my-strikes">Meus strikes</Dropdown.Item>
-                  <Dropdown.Item href="/requests/myrequests" id="btn-my-strikes">Meus pedidos</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/absences/myabsences" id="btn-my-absences">Minhas Faltas</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/teams/myteams" id="btn-my-teams">Minhas equipes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strikes/mystrikes" id="btn-my-strikes">Meus strikes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests/myrequests" id="btn-my-strikes">Meus pedidos</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={person_icon} className="Icon" alt="icon"/>
                   Pessoas
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/message" id="btn-message">Mensagem</Dropdown.Item>
-                  <Dropdown.Item href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
-                  <Dropdown.Item href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
-                  <Dropdown.Item href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
-                  <Dropdown.Item href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
-                  <Dropdown.Item href="/managerequests" id="btn-manage-requests" disabled={ statusGPButtons() }>Gerenciar pedidos</Dropdown.Item>
-                  <Dropdown.Item href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu">
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/message" id="btn-message">Mensagem</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managerequests" id="btn-manage-requests" disabled={ statusGPButtons() }>Gerenciar pedidos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={team_icon} className="Icon" alt="icon"/>
                   Equipes
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/teams/myteams" id="btn-my-teams-2">Minhas equipes</Dropdown.Item>
-                  <Dropdown.Item href="/team/manageteams" id="btn-manage-teams" disabled={ statusGPButtons() }>Gerenciar equipes</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu">
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/teams/myteams" id="btn-my-teams-2">Minhas equipes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/team/manageteams" id="btn-manage-teams" disabled={ statusGPButtons() }>Gerenciar equipes</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={project_icon} className="Icon" alt="icon"/>
                   Projetos
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
-                  <Dropdown.Item href="/projects/manage" id="btn-manage-projects" disabled={statusProjectsButtons()}>Gerenciar projetos</Dropdown.Item>
-                  <Dropdown.Item href="/projects/historic" id="btn-historic-projects" disabled={statusProjectsButtons()}>Histórico de projetos</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/projects/myprojects" id="btn-my-projects">Meus projetos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/projects/manage" id="btn-manage-projects" disabled={statusProjectsButtons()}>Gerenciar projetos</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/projects/historic" id="btn-historic-projects" disabled={statusProjectsButtons()}>Histórico de projetos</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={strike_icon} className="Icon" alt="icon"/>
                   Strikes
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/strikes/mystrikes" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
-                  <Dropdown.Item href="/strike" id="btn-apply-strike">Aplicar strikes</Dropdown.Item>
-                  <Dropdown.Item href="/strike/manage" id="btn-manage-strikes" disabled={statusGPButtons()}>Gerenciar strikes</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strikes/mystrikes" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strike" id="btn-apply-strike">Aplicar strikes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strike/manage" id="btn-manage-strikes" disabled={statusGPButtons()}>Gerenciar strikes</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
-              <Dropdown drop={'right'}>
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
                 <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
                   <img src={finance_icon} className="Icon" alt="icon"/>
                   Financeiro
                   <img src={arrow} className="Arrow" alt="arrow"/>
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu  >
-                  <Dropdown.Item href="/finances" id="btn-finances">Ver caixa</Dropdown.Item>
-                  <Dropdown.Item href="/finances/manage" id="btn-manage-finances" disabled={statusFinanceButtons()}>Gerenciar caixa</Dropdown.Item>
-                  <Dropdown.Item href="/finances/manage/advisor" id="btn-manage-finances" disabled={statusFinanceAssessorButtons()}>Tela do Assessor</Dropdown.Item>
-                  <Dropdown.Item href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances" id="btn-finances">Ver caixa</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances/manage" id="btn-manage-finances" disabled={statusFinanceButtons()}>Gerenciar caixa</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances/manage/advisor" id="btn-manage-finances" disabled={statusFinanceAssessorButtons()}>Tela do Assessor</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop={(width < 767.98) ? 'down' : 'right'}>
+                <Dropdown.Toggle variant="menu-option" id="menu-option" className="menu-option">
+                  <img src={marketing_icon} className="Icon" alt="icon"/>
+                  Marketing
+                  <img src={arrow} className="Arrow" alt="arrow"/>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/partners" id="btn-finances">Parcerias</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/partners/manage" id="btn-manage-finances" disabled={statusMarketingButtons()}>Gerenciar parcerias</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </ul>

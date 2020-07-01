@@ -15,7 +15,6 @@ export default function HistoricAbsences() {
 
   const [listAbsences, setListAbsences] = useState([]);
   const [absenceData, setAbsenceData] = useState();
-  const [username, setUsername] = useState('');
 
   let rows = [];
 
@@ -23,6 +22,10 @@ export default function HistoricAbsences() {
     for (var index in absenceData.faltas_projeto){
       rows.push({"project":index,"qty":absenceData.faltas_projeto[index]})
     }
+  }
+
+  if (url === '') {
+    window.location.href = '/error';
   }
 
   useEffect(() => {

@@ -61,6 +61,10 @@ export const Menu = styled.div`
       transition: .2s ease-out;
     }
 
+    button:disabled {
+      background: red;
+    }
+
     .btn-icon {
       width: 22px;
     }

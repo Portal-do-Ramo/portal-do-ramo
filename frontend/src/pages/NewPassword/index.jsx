@@ -6,12 +6,16 @@ import Logo_Ramo from './Logo_Ramo_Branco.png';
 
 export default function NewPassword () {
   const [alert, setAlert] = useState('');
+  const url = window.location.search.slice(1);
+
+  if (url === '') {
+    window.location.href = '/error';
+  }
 
   function setPassword (e) {
     e.preventDefault();
     const senha = document.getElementById("user-password").value;
     const senha_confirmada = document.getElementById("confirm-user-password").value;
-    const url = window.location.search.slice(1);
     const data = url.split("&");
     const token = data[0].substr(6);
     const email = data[1].substr(6);
@@ -20,9 +24,6 @@ export default function NewPassword () {
       setAlert('<div class="alert alert-danger" role="alert">Senha informadas inválidas!</div>');
       document.getElementById("user-password").focus();
     } else {
-      console.log(token)
-      console.log(email)
-      console.log(senha)
       api.post(`/api/auth/alterar-senha`, {
         token: token,
         email: email,

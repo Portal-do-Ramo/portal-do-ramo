@@ -88,7 +88,7 @@ export default function Profile(){
                   <ul>
                     {(teams) ? teams.map(team => (
                       <li key={team.nome_equipe_slug}>
-                        <button className="card" onClick={() => window.location.href=`/equipes/${team.nome_equipe_slug}`}>
+                        <button className="card" onClick={() => window.location.href=`/team/view?${team.nome_equipe_slug}`}>
                           <div>
                             <img src={team.foto_url} alt="logo" />
                             <div>
@@ -114,7 +114,7 @@ export default function Profile(){
                   <ul>
                     {projects.map(project => (
                       <li key={project.nome_projeto_slug}>
-                        <button className="card" onClick={() => window.location.href=`/project/selected?${project.nome_equipe_slug}`}>
+                        <button className="card" onClick={() => window.location.href=`/projects/view?${project.nome_equipe_slug}`}>
                           <div>
                             <img src={project.foto_url} alt="logo" />
                             <div>
