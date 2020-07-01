@@ -106,6 +106,7 @@ Route::prefix('reavaliacoes')->group(function() {
 Route::prefix('projetos')->group(function() {
     Route::get('/select-projetos', 'Projeto\ProjetoController@selectProjetos');
     Route::get('/select-projetos-psi', 'Projeto\ProjetoController@selectProjetosPSI');
+    Route::get('/projeto-membro/{projeto}', 'Projeto\ProjetoController@showMember');
     Route::get('/projeto-completo/{projeto}', 'Projeto\ProjetoController@showFully');
     Route::get('/meus-projetos', 'Projeto\ProjetoMembroController@meusProjetos');
     Route::get('/historico-projetos/{usuario}', 'Projeto\ProjetoMembroController@historicoProjetos');
@@ -126,6 +127,7 @@ Route::apiResource('projetos', 'Projeto\ProjetoController');
  */
 Route::prefix('equipes')->group(function() {
     Route::get('/select-equipes', 'Equipe\EquipeController@selectEquipes');
+    Route::get('/equipe-membro/{equipe}', 'Equipe\EquipeController@showMember');
     Route::get('/equipe-completa/{equipe}', 'Equipe\EquipeController@showFully');
     Route::match(['PUT', 'PATCH'], '/alterar-coordenador/{equipe}', 'Equipe\EquipeController@updateCoordenador');
     Route::match(['PUT', 'PATCH'], '/alterar-assessor/{equipe}', 'Equipe\EquipeController@updateAssessor');

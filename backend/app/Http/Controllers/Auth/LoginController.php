@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\LoginResource;
-use App\Rules\Matricula;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends ApiController

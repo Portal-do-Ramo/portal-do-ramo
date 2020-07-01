@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Repositories\Interfaces\ProjetoRepositoryInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjetoResource extends JsonResource
+class ProjetoMembroResource extends JsonResource
 {
     protected $projetoRepository;
 
@@ -38,6 +38,8 @@ class ProjetoResource extends JsonResource
             'areas' => $this->areas,
             'ativo' => $this->ativo,
             'link_trello' => $this->link_trello,
+            'arquivos' => $this->projetoRepository->getArquivos($this->resource),
+            'eventos' => $this->projetoRepository->getEventos($this->resource),
             'membros' => $membros->whereIn('funcao', ['Membro', 'Líder'])->values()
         ];
     }

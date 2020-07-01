@@ -22,7 +22,7 @@ class CriarProjetoRequest extends FormRequest
             'nome_projeto' => 'bail|required|unique:projetos,nome_projeto',
             'data_inicio' => 'bail|required|date_format:d/m/Y',
             'data_fim' => 'bail|present|nullable|date_format:d/m/Y|after:data_inicio',
-            'matricula_lider' => ['bail', 'present', 'nullable', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '=', 1))],
+            'matricula_lider' => ['bail', 'present', 'nullable', 'different:matricula_assessor', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '=', 1))],
             'matricula_assessor' => ['bail', 'present', 'nullable', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '=', 1))],
             'nome_equipe' => 'bail|required|exists:equipes,nome_equipe_slug',
             'porcentagem_orcamento' => 'bail|required|numeric',

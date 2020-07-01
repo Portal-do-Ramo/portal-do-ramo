@@ -36,7 +36,6 @@ class Membro extends BaseModel
         'telefones' => 'array',
         'matriz_habilidade' => 'array',
         'info_contato' => 'array',
-        'data_fim_membresia' => DataFormatadaCast::class
     ];
     
     /**
@@ -56,6 +55,11 @@ class Membro extends BaseModel
     public function setDataNascimentoAttribute($value)
     {
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
+    }
+
+    public function setDataFimMembresia($value)
+    {
+        $this->attributes['data_fim_membresia'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
     /**

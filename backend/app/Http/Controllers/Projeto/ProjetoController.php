@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\ProjetoRepositoryInterface;
 use App\Http\Requests\Projeto\AtualizarProjetoRequest;
 use App\Http\Requests\Projeto\CriarProjetoRequest;
 use App\Http\Resources\ProjetoCompletoResource;
+use App\Http\Resources\ProjetoMembroResource;
 use App\Http\Resources\ProjetoResource;
 use App\Models\Projeto;
 use Illuminate\Http\Request;
@@ -61,6 +62,11 @@ class ProjetoController extends AbstractProjetoController
         return new ProjetoResource($projeto, $this->projetoRepository);
     }
 
+    public function showMember(Projeto $projeto)
+    {
+        return new ProjetoMembroResource($projeto, $this->projetoRepository);
+    }
+
     public function showFully(Projeto $projeto)
     {
         return new ProjetoCompletoResource($projeto, $this->projetoRepository);
@@ -89,7 +95,7 @@ class ProjetoController extends AbstractProjetoController
     {
         return [
             'index' => 'viewAny',
-            'show' => 'view',
+            'showMember' => 'view',
             'showFully' => 'viewFully',
             'update' => 'update',
             'atualizarAreas' => 'update'
