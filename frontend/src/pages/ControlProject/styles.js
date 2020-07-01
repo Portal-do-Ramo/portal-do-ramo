@@ -236,6 +236,12 @@ export const Content = styled.section`
     transition: .8s;
   }
 
+  .btn-remove:disabled {
+    cursor: default;
+    background-color: #888;
+    color: #FFF;
+  }
+
   .btn-remove-advisor {
     background: #AA0000;
     color: #FFF;

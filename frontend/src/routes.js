@@ -193,8 +193,8 @@ export default function Routes () {
           <PrivateRoute path='/search' component={ () => <Search /> } />
           <PrivateRoute path='/notifications' component={ () => <Notifications /> } />
           <PrivateRoute path='/termos' component={ () => <TermosDeUso /> } />
-          <PrivateRoute path='/politicas' component={ () => <PoliticasDePrivacidade /> } />
-          <PrivateRoute path='/noaccess' component={ () => <NotAccess /> } />
+          <Route path='/politicas' component={ () => <PoliticasDePrivacidade /> } />
+          <Route path='/noaccess' component={ () => <NotAccess /> } />
         </Switch>
       </Router>
     </Provider>

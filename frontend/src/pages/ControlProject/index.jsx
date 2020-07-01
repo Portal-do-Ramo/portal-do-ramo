@@ -32,6 +32,7 @@ export default function ControlProject () {
   const [areas, setAreas] = useState();
   const [selectedMember, setSelectedMember] = useState();
   const [archives, setArchives] = useState([]);
+  const [selectedArchive, setSelectedArchive] = useState();
   const [areaToRemove, setAreaToRemove] = useState('');
   const [loaded, setLoaded] = useState(false);
   const [percent, setPercent] = useState(0);
@@ -56,6 +57,7 @@ export default function ControlProject () {
       setEvents(response.data.eventos)
       setAreas(response.data.areas)
       setPercent(response.data.porcentagem_orcamento)
+      setArchives(response.data.arquivos)
     })
     .catch(() => window.location.href = '/error')
     .finally(() => setLoaded(true))
@@ -198,8 +200,21 @@ export default function ControlProject () {
 
 
   function removeArchive() {
-    console.log('removeArchive')
+    let aux = archives;
+    let index = -1;
 
+    for (let i = 0; i < archives.length; i++) {
+      if (archives[i].uuid === selectedArchive) {
+        index = i;
+      }
+    }
+
+    aux.splice(index, 1);
+    setArchives(aux);
+
+    api.delete(`/api/arquivos/${urlData}/remover-arquivo-projeto/${selectedArchive}`, { headers: { Authorization: access_token } })
+    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -566,17 +581,21 @@ export default function ControlProject () {
                   <hr />
                     <div className="row">
                       <div className="col-md-8">
-                        <select className="form-control" id="archives">
-                          <option value="">Arquivo 1</option>
-                          <option value="">Arquivo 2</option>
-                          <option value="">Arquivo 3</option>
-                          {/* {(archives) ? archives.map(archive => (
-                            <option value="">Arquivo 1</option>
-                          )) : ''} */}
+                        <select className="form-control" id="archives" onChange={e => setSelectedArchive(e.target.value)}>
+                          {(archives) ? archives.map(archive => (
+                            <option value={archive.uuid}>{(archive.nome).substring(0, 20)}</option>
+                          )) : ''}
                         </select>
                       </div>
                       <div className="col-md-4">
-                        <button className="btn-remove">Remover</button>
+                        <button className="btn-remove" onClick={() => {
+                          if(selectedArchive === '') {
+                            selectedArchive = archives[0].uuid
+                            removeArchive()
+                          } else {
+                            removeArchive()
+                          }
+                        }} disabled={(archives.length > 0) ? false : true}>Remover</button>
                       </div>
                     </div>
                   </div>

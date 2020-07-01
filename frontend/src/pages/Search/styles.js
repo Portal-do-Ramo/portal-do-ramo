@@ -15,7 +15,7 @@ export const Screen = styled.div`
 
 export const View = styled.div`
   background-color: #CECECE;
-  padding: 20px;
+  padding: 10px;
   margin-top: 50px;
   height: 650px;
   box-shadow: 0px 0px 5px #888888;
@@ -25,13 +25,22 @@ export const View = styled.div`
   -webkit-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+
+  h1 {
+    font-size: 22pt;
+    font-weight: bold;
+    color: #1D5EA8;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+  }
 `
 
 export const ViewResults = styled.div`
   background-color: #FFF;
   padding: 5px;
   overflow-y: scroll;
-  height: 515px;
+  height: 88%;
   border-radius: 5px;
 
   -moz-border-radius: 5px;

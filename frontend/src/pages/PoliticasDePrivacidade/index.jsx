@@ -50,7 +50,11 @@ export default function PoliticasDePrivacidade() {
       <h3>
         <strong>3. Dados técnicos recolhidos</strong>
       </h3>
-      <p className="red">3.1 - Não salvamos informações pessoais suas por meio de cookies. Os cookies do Portal do Ramo são utilizados para guardar informações de sessões ativas, sempre visando trazer maior segurança para o usuário.</p>
+      <p>
+        3.1 - Não salvamos informações pessoais suas por meio de cookies. Os
+        cookies do Portal do Ramo são utilizados para guardar informações de
+        sessões ativas, sempre visando trazer maior segurança para o usuário.
+      </p>
       <br />
       <h3>
         <strong>4. Coleta de dados por terceiros</strong>

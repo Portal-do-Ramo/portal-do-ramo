@@ -117,9 +117,9 @@ export default function EditProfile () {
   }
 
 
-  useEffect(() => {
-    (alert) ? document.getElementById('alert').innerHTML = alert : '';
-  })
+  // useEffect(() => {
+  //   (alert) ? document.getElementById('alert').innerHTML = alert : '';
+  // })
 
 
   return (

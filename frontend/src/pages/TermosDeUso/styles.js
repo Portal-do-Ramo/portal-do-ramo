@@ -30,6 +30,7 @@ export const Screen = styled.div`
   p {
     font-size: 11pt;
     text-indent: 2em;
+    text-align: justify;
   }
 
   .space-left {

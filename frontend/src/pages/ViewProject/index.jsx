@@ -32,7 +32,7 @@ export default function ViewProject() {
         <Header />
 
         {/* <Title title={project.nome_projeto} /> */}
-        <Title title="Teste2" />
+        <Title title="PÁGINA EM CONSTRUÇÃO" />
 
         <div className="row">
           <div className="col-md-6">

@@ -39,13 +39,19 @@ export const Screen = styled.div`
     padding: 25px;
 
     input {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     input:focus {
       border-color: rgba(255, 0, 0, 0.8);
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 0, 0, 1);
       outline: 0 none;
+    }
+
+    .password-force {
+      margin-top: -30px;
+      font-weight: bold;
+      font-size: 12px;
     }
 
     h4 {

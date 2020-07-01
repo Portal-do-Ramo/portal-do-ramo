@@ -1,198 +1,157 @@
 import styled from 'styled-components';
+import PlanoDeFundo from './images/plano_de_fundo.png';
 
 export const Screen = styled.div`
-  background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  text-align: center;
-
-  .center-area {
-    display: table-cell;
-    margin-top: -400px;
-  }
-
-  header {
-    height: 250px;
-
-    img {
-      width: 200px;
-      position: absolute;
-      left: 50%;
-      transform:translate(-50%);
-    }
-  }
+  width: 100%;
+  background-image: url(${PlanoDeFundo});
+  background-size: cover;
 
   form {
-    width: 500px;
-    background: #044187;
-    position: absolute;
+    width: 400px;
+    position: relative;
     left: 50%;
     transform:translate(-50%);
-    box-shadow: 2px 2px 10px rgba(50, 50, 50, 0.88);
-    padding: 20px;
     border-radius: 10px;
+    padding: 50px;
+    background: linear-gradient(177.03deg, rgba(221, 221, 221, 0.8) 0%, rgba(255, 255, 255, 1) 97.23%);
 
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -o-border-radius: 10px;
-    -ms-border-radius: 10px;
-
-    h2, p {
-      color: #FFF;
+    img {
+      margin-bottom: 30px;
     }
 
-    input {
-      margin-top: 15px;
-    }
-
-    button {
-      background-color: #2B8DFC;
-      color: #FFF;
-      width: 120px;
-      padding: 7px;
-      border: none;
-      outline: none;
-      margin-top: 20px;
-      border-radius: 5px;
-
-      -moz-border-radius: 5px;
-      -webkit-border-radius: 5px;
-      -o-border-radius: 5px;
-      -ms-border-radius: 5px;
+    h2 {
+      font-size: 15pt;
+      margin-bottom: 10px;
+      color: #1D5EA8;
+      text-align: center;
+      font-weight: bold;
     }
 
     .center {
       display: flex;
       justify-content: center;
-      width: 100%;
+    }
+
+    button {
+      margin-top: 10px;
+      margin-bottom: -10px;
+      width: 120px;
+      padding: 5px;
+      background: #1D5EA8;
+      color: #FFF;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      box-shadow: 0px 0px 7px #888;
+    }
+
+    input {
+      margin-bottom: 10px;
+      border: 1px solid #CECECE;
+    }
+
+    span {
+      font-size: 10pt;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+
+    .alert-warning {
+      color: #856404;
+      background-color: #fff3cd;
+      border-color: #ffeeba;
     }
   }
 
-  footer {
-    color: white;
-    text-align: center;
-    bottom: 10px;
-    position: absolute;
-    left: 50%;
-    transform:translate(-50%);
-  }
-
-  @media (max-width: 359.98px){
-    header {
-      height: 150px;
-
-      img {
-        width: 150px;
-      }
-    }
+  @media (min-width: 319px) and (max-width: 330.98px) {
+    padding: 10px;
 
     form {
       width: 300px;
-      padding: 30px;
+      padding: 15px;
+      margin-top: -150px;
 
-      h2 {
-        font-size: 20px;
+      h3 {
+        font-size: 12pt;
       }
 
-      p {
-        font-size: 10px;
+      input {
+        width: 100%;
       }
+    }
+  }
+
+  @media (max-width: 359.98px){
+    padding: 10px;
+
+    form {
+      padding: 40px;
+      padding-bottom: 60px;
+      width: 300px;
 
       button {
         margin-top: 5px;
       }
     }
-
-    footer {
-      visibility: hidden;
-    }
-  }
-
-  @media (min-width: 319px) and (max-width: 330px) {
-    header {
-      height: 150px;
-      margin-top: 40px;
-
-      img {
-        width: 130px;
-      }
-    }
-
-    form {
-      width: 300px;
-      padding: 20px;
-
-      p {
-        font-size: 12px;
-      }
-    }
-
   }
 
   @media (min-width: 360px) and (max-width: 374.98px) {
-    header {
-      height: 150px;
-      margin-top: -150px;
-
-      img {
-        display: none;
-      }
-    }
+    padding: 10px;
 
     form {
+      padding: 40px;
+      padding-bottom: 60px;
       width: 300px;
-      padding: 20px;
+
+      button {
+        margin-top: 5px;
+      }
     }
   }
 
   @media (min-width: 375px) and (max-width: 410.98px) {
-    header {
-      height: 150px;
-      margin-top: -50px;
-
-      img {
-        width: 150px;
-      }
-    }
+    padding: 10px;
 
     form {
-      margin-top: 40px;
+      padding: 40px;
+      padding-bottom: 60px;
       width: 300px;
 
-      p {
-        font-size: 13px;
+      button {
+        margin-top: 5px;
       }
-    }
-
-    footer {
-      display: none;
     }
   }
 
   @media (min-width: 411px) and (max-width: 575.98px) {
-    header {
-      height: 200px;
-      margin-top: -50px;
-
-      img {
-        width: 150px;
-      }
-    }
+    padding: 10px;
 
     form {
-      width: 350px;
+      padding: 40px;
+      padding-bottom: 60px;
+      width: 300px;
+
+      button {
+        margin-top: 5px;
+      }
     }
   }
 
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    header {
-      height: 200px;
-
-      img {
-        width: 200px;
-      }
+  @media (min-width: 1024px) and (max-width: 1365.98px) {
+    form {
+      margin-top: -150px;
     }
   }
 `

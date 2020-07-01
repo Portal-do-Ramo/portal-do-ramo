@@ -2,17 +2,63 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 
 import { Screen } from './styles';
-import Logo_Ramo from './Logo_Ramo_Branco.png';
+import Logo from './images/logo.png';
 
 export default function NewPassword () {
   const [alert, setAlert] = useState('');
   const url = window.location.search.slice(1);
 
+  const [password, setPassword] = useState('');
+  let passwordPoints = 0;
+
   if (url === '') {
     window.location.href = '/error';
   }
 
-  function setPassword (e) {
+  function verificaForcaDaSenha() {
+    const caracteresEspeciais = "!£$%^&*_@#~?";
+
+    if (/[0-9]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    if (/[A-Z]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    if (/[a-z]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    for (let i=0; i < password.length; i++) {
+      if (caracteresEspeciais.indexOf(password.charAt(i)) > -1) {
+        passwordPoints += 20;
+      }
+    }
+
+    if (password.length > 7) {
+      passwordPoints += 20;
+    }
+
+    if (password.length <= 1) {
+      document.getElementById('password-force').innerHTML = '';
+    } else {
+      if (passwordPoints >= 100 ) {
+        document.getElementById('password-force').innerHTML = 'Senha forte';
+        document.getElementById('password-force').style.color = '#018F30';
+      } else {
+        if (passwordPoints < 100 && passwordPoints >= 60) {
+          document.getElementById('password-force').innerHTML = 'Senha média';
+          document.getElementById('password-force').style.color = '#B38902';
+        } else {
+          document.getElementById('password-force').innerHTML = 'Senha fraca';
+          document.getElementById('password-force').style.color = '#721c24';
+        }
+      }
+    }
+ }
+
+  function sendNewPassword (e) {
     e.preventDefault();
     const senha = document.getElementById("user-password").value;
     const senha_confirmada = document.getElementById("confirm-user-password").value;
@@ -20,7 +66,7 @@ export default function NewPassword () {
     const token = data[0].substr(6);
     const email = data[1].substr(6);
 
-    if(senha != senha_confirmada) {
+    if(senha !== senha_confirmada) {
       setAlert('<div class="alert alert-danger" role="alert">Senha informadas inválidas!</div>');
       document.getElementById("user-password").focus();
     } else {
@@ -40,58 +86,41 @@ export default function NewPassword () {
 
   return (
     <Screen>
-      <div className="center-area">
-        <header>
-          <img src={Logo_Ramo} className="img-fluid"/>
-        </header>
+      <section>
+        <form onSubmit={sendNewPassword}>
+          <img src={Logo} className="img-fluid" alt="logo" />
+          <h2>Redefinição de senha</h2>
+          <div id="alert" />
+          <span id="password-force" />
+          <input
+            className="form-control"
+            name="user-password"
+            id="user-password"
+            type="password"
+            placeholder="Nova senha"
+            title="Utilize letras maiúsculas e minúsculas, números e caracteres especiais para uma senha forte."
+            value={password}
+            onChange={e => {
+              verificaForcaDaSenha()
+              setPassword(e.target.value)
+            }}
+            required
+          />
 
-        <form onSubmit={setPassword}>
-          <div className="container">
-            <h2>Nova senha</h2>
-            <p>Guarde sua nova senha pois ela será utilizada na próxima vez que for acessar ao portal.</p>
-            <div id="alert" />
-            <div className="row">
-              <div className="col-md-6">
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    name="user-password"
-                    id="user-password"
-                    type="password"
-                    placeholder="Nova senha"
-                    required
-                  />
-                </div>
-              </div>
+          <input
+            className="form-control"
+            name="confirm-user-password"
+            id="confirm-user-password"
+            type="password"
+            placeholder="Confirme a nova senha"
+            required
+          />
 
-              <div className="col-md-6">
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    name="confirm-user-password"
-                    id="confirm-user-password"
-                    type="password"
-                    placeholder="Confirme a nova senha"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="center">
-                <button type="submit">Salvar</button>
-              </div>
-            </div>
+          <div className="center">
+            <button type="submit">Salvar</button>
           </div>
         </form>
-      </div>
-
-      <footer>
-        <div className="container">
-          <span>Portal do Ramo - 2020<br/>
-                Todos os direitos reservados
-          </span>
-        </div>
-      </footer>
+      </section>
     </Screen>
   )
 }

@@ -21,6 +21,7 @@ export default function FirstLogin() {
   const [telefone, setTelefone] = useState("");
   const [isActive, setIsActive] = useState("");
   const [isAccept, setIsAccept] = useState(false);
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
 
@@ -43,6 +44,53 @@ export default function FirstLogin() {
   const criar_membros = useSelector(state => state.data[17]);
   const gerenciar_strikes = useSelector(state => state.data[18]);
   const gerenciar_faltas = useSelector(state => state.data[19]);
+
+  let passwordPoints = 0;
+
+
+  function verificaForcaDaSenha() {
+    const caracteresEspeciais = "!£$%^&*_@#~?";
+
+    if (/[0-9]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    if (/[A-Z]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    if (/[a-z]/.test(password)) {
+      passwordPoints += 20;
+    }
+
+    for (let i=0; i < password.length; i++) {
+      if (caracteresEspeciais.indexOf(password.charAt(i)) > -1) {
+        passwordPoints += 20;
+      }
+    }
+
+    if (password.length > 7) {
+      passwordPoints += 20;
+    }
+
+    if (password.length <= 1) {
+      document.getElementById('password-force').innerHTML = '';
+    } else {
+      if (passwordPoints >= 100 ) {
+        document.getElementById('password-force').innerHTML = 'Senha forte';
+        document.getElementById('password-force').style.color = '#00FF00';
+      } else {
+        if (passwordPoints < 100 && passwordPoints >= 60) {
+          document.getElementById('password-force').innerHTML = 'Senha média';
+          document.getElementById('password-force').style.color = '#FFFF00';
+        } else {
+          document.getElementById('password-force').innerHTML = 'Senha fraca';
+          document.getElementById('password-force').style.color = '#FF0000';
+        }
+      }
+    }
+ }
+
 
   function EnviarCadastro(e) {
     e.preventDefault();
@@ -207,9 +255,15 @@ export default function FirstLogin() {
                 id="senha_usuario"
                 placeholder="Nova senha *"
                 maxLength="40"
+                value={password}
+                onChange={e => {
+                  verificaForcaDaSenha()
+                  setPassword(e.target.value)
+                }}
                 autoComplete="off"
                 required
               />
+              <span id="password-force" className="password-force"/>
             </div>
 
             <div className="col-md-6">

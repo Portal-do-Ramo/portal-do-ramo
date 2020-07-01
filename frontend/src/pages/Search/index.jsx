@@ -4,7 +4,6 @@ import api from '../../services/api';
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
 import Header from '../../components/Home_Header';
-import Title from '../../components/Title';
 import Loader from '../../components/LoaderSpinner';
 
 import { Screen, View, ViewResults } from './styles';
@@ -29,7 +28,7 @@ export default function Search () {
         <Header />
         {(members != '') ?
           <View>
-            <Title title={ `Encontramos ${members.length} resultados!` } />
+            <h1>Resultados</h1>
             <ViewResults>
               <ul id="view">
                 {members.map(member => (
