@@ -45,6 +45,8 @@ services:
             MAIL_USERNAME: 6e9564fe670657
             MAIL_PASSWORD: f19bd0dd74e55b
             MAIL_ENCRYPTION: tls
+        ports: 
+            - "8080:8080"
         volumes: 
             - ./backend:/var/www/html
         depends_on: 

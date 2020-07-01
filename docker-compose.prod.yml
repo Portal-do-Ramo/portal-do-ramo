@@ -29,6 +29,7 @@ services:
         volumes:
             - .docker/nginx/certbot/conf:/etc/letsencrypt
             - .docker/nginx/certbot/www:/var/www/certbot
+            - .docker/nginx/certbot/letsencrypt:/var/lib/letsencrypt
         depends_on: 
             - frontend
         networks: 
