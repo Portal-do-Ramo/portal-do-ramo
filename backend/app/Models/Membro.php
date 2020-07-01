@@ -57,7 +57,7 @@ class Membro extends BaseModel
         $this->attributes['data_nascimento'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    public function setDataFimMembresia($value)
+    public function setDataFimMembresiaAttribute($value)
     {
         $this->attributes['data_fim_membresia'] = Carbon::createFromFormat('d/m/Y', $value);
     }

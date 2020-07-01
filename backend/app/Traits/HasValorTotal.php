@@ -11,7 +11,8 @@ trait HasValorTotal
         });
 
         static::updating(function($model) {
-            $model->dados_pedido['valor_total'] = self::calcularValorTotal($model);
+            if($model->isDirty('dados_pedido'))
+                $model->dados_pedido['valor_total'] = self::calcularValorTotal($model);
         });
     }
 

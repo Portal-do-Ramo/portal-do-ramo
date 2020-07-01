@@ -52,7 +52,7 @@ class PedidoRepository implements PedidoRepositoryInterface
     public function indexPessoasPendentes()
     {
         return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
-            ->rightJoin('tipo_pedidos', 'pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')
+            ->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
             ->addSelect('usuarios.matricula as matricula_membro_solcitou', 'usuarios.nome_completo as nome_membro_solicitou')
@@ -60,7 +60,7 @@ class PedidoRepository implements PedidoRepositoryInterface
             ->addSelect('hierarquias.nome as hierarquia_membro_solicitou')
             ->leftJoin('projetos', 'pedidos.nome_projeto_solicitado', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto_slug as nome_projeto_solicitado_slug', 'projetos.nome_projeto as nome_projeto_solicitado')
-            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Pessoas')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
+            ->where('tipo_pedidos.area', 'Pessoas')
             ->get()
             ->groupBy(fn($item) => str_replace('-', '_', $item['tipo_pedido']))
             ->map(fn($pedidos) => $pedidos->whereNotNull('uuid'));
@@ -69,7 +69,7 @@ class PedidoRepository implements PedidoRepositoryInterface
     public function indexFinanceiroPendentes()
     {
         return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
-            ->rightJoin('tipo_pedidos', 'pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')
+            ->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
             ->addSelect('usuarios.matricula as matricula_membro_solicitou', 'usuarios.nome_completo as nome_membro_solicitou')
@@ -77,7 +77,7 @@ class PedidoRepository implements PedidoRepositoryInterface
             ->addSelect('hierarquias.nome as hierarquia_membro_solicitou')
             ->leftJoin('projetos', 'pedidos.nome_projeto_solicitado', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto_slug as nome_projeto_solicitado_slug', 'projetos.nome_projeto as nome_projeto_solicitado')
-            ->where(fn($query) => $query->where('tipo_pedidos.area', 'Financeiro')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
+            ->where('tipo_pedidos.area', 'Financeiro')
             ->get()
             ->groupBy(fn($item) => str_replace('-', '_', $item['tipo_pedido']))
             ->map(fn($pedidos) => $pedidos->whereNotNull('uuid'));
@@ -146,10 +146,5 @@ class PedidoRepository implements PedidoRepositoryInterface
     public function criarPedidoDeCompra(array $dadosValidos)
     {
         Auth::user()->pedidos()->save(new PedidoDeCompra(['dados_pedido' => ['pedidos' => $dadosValidos['pedidos'], 'valor_frete' => $dadosValidos['valor_frete']], 'nome_projeto_solicitado' => $dadosValidos['nome_projeto']]));
-    }
-
-    public function atualizarPedidoDeCompra(PedidoDeCompra $pedidoDeCompra, array $dadosValidos)
-    {
-        $pedidoDeCompra->update(['dados_pedido' => ['pedidos' => $dadosValidos['pedidos'], 'valor_frete' => $dadosValidos['valor_frete']], 'nome_projeto_solicitado' => $dadosValidos['nome_projeto']]);
     }
 }

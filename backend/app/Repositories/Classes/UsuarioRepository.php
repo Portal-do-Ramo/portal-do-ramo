@@ -142,7 +142,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
                 'ativo' => true
             ]);
     
-            $usuario->membro()->update([
+            $usuario->membro->update([
                 'cpf' => $dadosValidos['cpf_usuario'],
                 'orgao_emissor' => $dadosValidos['orgao_emissor'],
                 'rg' => $dadosValidos['rg_usuario'],
@@ -164,7 +164,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
         DB::transaction(function () use ($usuario, $dadosValidos) {
             $usuario->update(['email' => $dadosValidos['email_usuario']]);
             
-            $usuario->membro()->update([
+            $usuario->membro->update([
                 'telefones' => ['telefone_principal' => $dadosValidos['telefone_principal'], 'telefone_secundario' => $dadosValidos['telefone_secundario']],
                 'tipo_sanguineo' => $dadosValidos['tipo_sanguineo'],
                 'medicamentos_utiliza' => $dadosValidos['medicamentos_utiliza'],
@@ -190,7 +190,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
                 'marketing' => $dadosValidos['marketing']    
             ]);
     
-            $usuario->membro()->update([
+            $usuario->membro->update([
                 'cpf' => $dadosValidos['cpf_usuario'],
                 'orgao_emissor' => $dadosValidos['orgao_emissor'],
                 'rg' => $dadosValidos['rg_usuario'],

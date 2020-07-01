@@ -9,12 +9,12 @@ class ParceriaRepository implements ParceriaRepositoryInterface
 {
     public function index()
     {
-        return Parceria::select('uuid', 'beneficio', 'equipes_beneficiadas', 'consolidada', 'como_encaixamos', 'link_site_empresa', 'telefone_contato', 'email_contato')->get();
+        return Parceria::select('uuid', 'beneficios', 'equipes_beneficiadas', 'consolidada', 'como_encaixamos', 'link_site_empresa', 'telefone_empresa', 'email_empresa')->get();
     }
 
     public function indexPublicas()
     {
-        return Parceria::select('uuid', 'beneficio', 'equipes_beneficiadas', 'link_site_empresa', 'telefone_contato', 'email_contato')
+        return Parceria::select('uuid', 'beneficios', 'equipes_beneficiadas', 'link_site_empresa', 'telefone_empresa', 'email_empresa')
             ->whereConsolidada(true)
             ->get();
     }

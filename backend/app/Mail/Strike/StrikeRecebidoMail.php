@@ -10,7 +10,6 @@ class StrikeRecebidoMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $membro;
     public $strike;
     
     /**
@@ -18,9 +17,8 @@ class StrikeRecebidoMail extends Mailable
      *
      * @return void
      */
-    public function __construct($membro, $strike)
+    public function __construct($strike)
     {
-        $this->membro = $membro;
         $this->strike = $strike;
     }
 

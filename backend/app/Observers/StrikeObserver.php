@@ -7,6 +7,7 @@ use App\Models\UsuarioAtivo;
 use App\Mail\Strike\AudienciaDesmarcadaMail;
 use App\Mail\Strike\AudienciaMarcadaMail;
 use App\Mail\Strike\AudienciaRemarcadaMail;
+use App\Mail\Strike\StrikeRecebidoMail;
 use App\Notifications\Strike\AudienciaRemarcadaNotification;
 use App\Notifications\Strike\AudienciaDesmarcadaNotification;
 use App\Notifications\Strike\AudienciaMarcadaNotification;
@@ -31,8 +32,12 @@ class StrikeObserver
 
     public function approved(Strike $strike)
     {
-        Notification::send(UsuarioAtivo::diretoria()->get()->merge([$strike->membroRecebeu])->unique('matricula'), (new StrikeRecebidoAprovadoNotification($strike))->onQueue('strike-recebido'));
+        $membros = $this->getMembros($strike);
+
+        $strike->membroRecebeu->notifv(new StrikeRecebidoAprovadoNotification($strike));
         $strike->membroAplicou->notify(new StrikeSolicitadoAprovadoNotification($strike));
+
+        Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new StrikeRecebidoMail($strike))->onQueue('strike-recebido'));
     }
 
     public function audienceRequested(Strike $strike)
@@ -42,26 +47,26 @@ class StrikeObserver
 
     public function audienceScheduled(Strike $strike)
     {
-        $membros = UsuarioAtivo::diretoria()->get()->merge([$strike->membroAplicou, $strike->membroRecebeu])->unique('matricula');
+        $membros = $this->getMembros($strike);
 
         Notification::send($membros, new AudienciaMarcadaNotification($strike));
-        Mail::to($membros)->queue((new AudienciaMarcadaMail($strike))->onQueue('audiencia-strike-mail'));
+        Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new AudienciaMarcadaMail($strike))->onQueue('audiencia-strike-mail'));
     }
 
     public function audienceRescheduled(Strike $strike)
     {
-        $membros = UsuarioAtivo::diretoria()->get()->merge([$strike->membroAplicou, $strike->membroRecebeu])->unique('matricula');
+        $membros = $this->getMembros($strike);
 
         Notification::send($membros, new AudienciaRemarcadaNotification($strike));
-        Mail::to($membros)->queue((new AudienciaRemarcadaMail($strike))->onQueue('audiencia-strike-mail'));
+        Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new AudienciaRemarcadaMail($strike))->onQueue('audiencia-strike-mail'));
     }
 
     public function audienceRemoved(Strike $strike)
     {
-        $membros = UsuarioAtivo::diretoria()->get()->merge([$strike->membroAplicou, $strike->membroRecebeu])->unique('matricula');
+        $membros = $this->getMembros($strike);
 
         Notification::send($membros, new AudienciaDesmarcadaNotification($strike));
-        Mail::to($membros)->queue((new AudienciaDesmarcadaMail($strike))->onQueue('audiencia-strike-mail'));
+        Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new AudienciaDesmarcadaMail($strike))->onQueue('audiencia-strike-mail'));
     }
 
     public function disapproved(Strike $strike)
@@ -79,5 +84,10 @@ class StrikeObserver
     {
         $strike->membroAplicou->notify(new StrikeSolicitadoMantidoNotification($strike));
         $strike->membroRecebeu->notify(new StrikeRecebidoMantidoNotification($strike));
+    }
+
+    private function getMembros(Strike $strike)
+    {
+        return UsuarioAtivo::diretoria()->get()->merge([$strike->membroAplicou, $strike->membroRecebeu])->unique('matricula');
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Notifications\Strike;
 
-use App\Mail\Strike\StrikeRecebidoMail;
 use App\Models\Strike;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class StrikeRecebidoAprovadoNotification extends Notification implements ShouldQueue
+class StrikeRecebidoAprovadoNotification extends Notification
 {
     use Queueable;
 
@@ -32,18 +30,7 @@ class StrikeRecebidoAprovadoNotification extends Notification implements ShouldQ
      */
     public function via($notifiable)
     {
-        return $notifiable->is($this->strike->membroRecebeu) ? ['database', 'mail'] : ['mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new StrikeRecebidoMail($notifiable, $this->strike))->to($notifiable->email);
+        return ['database'];
     }
 
     /**

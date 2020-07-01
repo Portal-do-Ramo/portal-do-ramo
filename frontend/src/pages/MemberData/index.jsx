@@ -98,6 +98,7 @@ export default function MemberData() {
       }
     }
 
+    const numero_ieee = document.getElementById('numero_ieee').value;
     if (isPagante) {
       if (numero_ieee === '') {
         setAlert(`<div class="alert alert-danger" role="alert">Número do IEEE obrigatório!</div>`)
@@ -122,7 +123,7 @@ export default function MemberData() {
       email_usuario: document.getElementById('email_usuario').value,
       telefone_principal: document.getElementById('telefone_principal_usuario').value,
       telefone_secundario: document.getElementById('telefone_secundario_usuario').value,
-      numero_ieee: document.getElementById('numero_ieee').value,
+      numero_ieee: numero_ieee,
       data_fim_membresia: data_fim_membresia_padrao,
       cadastro_robocore: document.getElementById('robocore_usuario').value,
       assessor: isAssessor,
