@@ -16,7 +16,7 @@ class CriarPsiRequest extends FormRequest
             'data_inicio' => 'bail|required|date_format:d/m/Y|after_or_equal:today',
             'data_fim' => 'bail|required|date_format:d/m/Y|after:data_inicio',
 
-            'projetos' => 'present|arrays',
+            'projetos' => 'present|array',
             'projetos.*.projeto' => 'bail|required_with:projetos|exists:projetos,nome_projeto_slug',
             'projetos.*.areas_vagas' => 'required_with:projetos', //Campo das áreas
 
@@ -33,8 +33,7 @@ class CriarPsiRequest extends FormRequest
     public function messages()
     {
         return [
-            'exists' => 'O campo :attribute está indicando um :attribute que não existe no sistema.',
-            'before_or_equal' => 'O campo :attribute inserido deve ser posterior ou igual a data atual.',
+            'exists' => 'O campo :attribute está indicando um :attribute que não existe no sistema.'
         ];
     }
 

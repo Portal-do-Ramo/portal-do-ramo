@@ -85,6 +85,7 @@ class PsiRepository implements PsiRepositoryInterface
         {
             $this->adicionarEquipe($psi, $equipe);
         }
+        return $psi->nome_psi_slug;
     }
 
     /**
@@ -151,7 +152,7 @@ class PsiRepository implements PsiRepositoryInterface
      */
     public function storeProjetos(Psi $psi, $projetos)
     {
-        foreach($projetos as $projeto)
+        foreach($projetos['projetos'] as $projeto)
         {
             $psi->buscaProjeto($projeto['projeto'])->get()->isEmpty() ?
             $this->adicionarProjeto($psi, $projeto) :
@@ -197,7 +198,7 @@ class PsiRepository implements PsiRepositoryInterface
      */
     public function storeEquipes(Psi $psi, $equipes)
     {
-        foreach($equipes as $equipe)
+        foreach($equipes['equipes'] as $equipe)
         {
             $psi->buscaEquipe($equipe['equipe'])->get()->isEmpty() ?
             $this->adicionarEquipe($psi, $equipe) :
@@ -219,21 +220,25 @@ class PsiRepository implements PsiRepositoryInterface
 
     public function storeGestao(Psi $psi, array $dadosValidos)
     {
-        $gestao = collect($psi->gestao_areas_vagas);
-        !$gestao->contains('nome_area_slug', $dadosValidos['nome_area_slug']) ?
-            $this->adicionarGestao($psi, $dadosValidos, $gestao) :
-            $this->atualizarGestao($psi, $dadosValidos, $gestao);
+
+        $gestaoPSI = collect($psi->gestao_areas_vagas);
+        foreach($dadosValidos['gestao'] as $gestao)
+        {
+            !$gestaoPSI->contains('nome_area_slug', $gestao['nome_area_slug']) ?
+                $this->adicionarGestao($psi, $gestao, $gestaoPSI) :
+                $this->atualizarGestao($psi, $gestao, $gestaoPSI);
+        }
     }
 
-    private function adicionarGestao(Psi $psi, array $dadosValidos, $gestao)
+    private function adicionarGestao(Psi $psi, array $gestao, $gestaoPSI)
     {
-        $psi->update(['gestao_areas_vagas' => $gestao->push($dadosValidos)]);
+        $psi->update(['gestao_areas_vagas' => $gestaoPSI->push($gestao)]);
     }
 
-    private function atualizarGestao(Psi $psi, array $dadosValidos, $gestao)
+    private function atualizarGestao(Psi $psi, array $gestao, $gestaoPSI)
     {
-        $dadosAtualizados = $gestao->put( $gestao->where('nome_area_slug', $dadosValidos['nome_area_slug'])->keys()->first(), $dadosValidos );
-        $psi->update(['gestao_areas_vagas' => $dadosAtualizados ]);
+        $dadosAtualizados = $gestaoPSI->put($gestaoPSI->where('nome_area_slug', $gestao['nome_area_slug'])->keys()->first(), $gestao);
+        $psi->update(['gestao_areas_vagas' => $dadosAtualizados  ]);
     }
 
     public function destroyGestao(Psi $psi, $area_gestao, $gestao)

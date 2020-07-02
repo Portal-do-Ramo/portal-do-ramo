@@ -36,9 +36,9 @@ class PsiController extends AbstractPsiController
      */
     public function store(CriarPsiRequest $request)
     {
-        $this->psiRepository->create($request->validated() + ['membro_criou' => Auth::id()]);
+        $psi_slug = $this->psiRepository->create($request->validated() + ['membro_criou' => Auth::id()]);
 
-        return response()->json('PS Interno criado com sucesso', 201);
+        return response()->json($psi_slug, 201);
     }
 
     /**

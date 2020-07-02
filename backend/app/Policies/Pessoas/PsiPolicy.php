@@ -57,28 +57,4 @@ class PsiPolicy
     {
         //
     }
-
-    /**
-     * Determine whether the user can restore the psi.
-     *
-     * @param  \App\Models\UsuarioSistema  $user
-     * @param  \App\Models\Psi  $psi
-     * @return mixed
-     */
-    public function restore(UsuarioSistema $user, Psi $psi)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the psi.
-     *
-     * @param  \App\Models\UsuarioSistema  $user
-     * @param  \App\Models\Psi  $psi
-     * @return mixed
-     */
-    public function forceDelete(UsuarioSistema $user, Psi $psi)
-    {
-        //
-    }
 }

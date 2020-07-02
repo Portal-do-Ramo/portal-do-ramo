@@ -12,9 +12,9 @@ class AddAreaGestaoRequest extends FormRequest
     public function rules()
     {
         return [
-            'gestao' => 'present|array',
-            'gestao.*.nome_area_slug' => 'required_with:gestao',
-            'gestao.*.area_vagas' => 'required_with:gestao',
+            'gestao' => 'required|array',
+            'gestao.*.nome_area_slug' => 'required',
+            'gestao.*.area_vagas' => 'required',
         ];
     }
 }
