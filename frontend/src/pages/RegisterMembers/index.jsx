@@ -24,6 +24,11 @@ export default function RegisterMembers () {
   const [isAssessor, setIsAssessor] = useState(false);
   const [isMarketing, setIsMarketing] = useState(false);
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('/api/cursos', {headers: { Authorization: access_token }})

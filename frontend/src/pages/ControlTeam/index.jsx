@@ -72,6 +72,13 @@ export default function ControlTeam() {
   }, []);
 
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
+
   function sendGeneralInfo() {
     api.put(`/api/equipes/${urlData}`, {
       nome_equipe: document.getElementById('team-name').value,
@@ -163,13 +170,20 @@ export default function ControlTeam() {
     const event_date = document.getElementById('event-date').value.split('-');
     const event_date_formated = event_date[2] + '/' + event_date[1] + '/' + event_date[0];
 
+    let newEvent = {};
+
     api.post(`/api/eventos/criar-evento-equipe/${urlData}`, {
       nome_evento: document.getElementById('event-name').value,
       data_evento: event_date_formated,
       hora_evento: document.getElementById('event-time').value,
       descricao: document.getElementById('event-description').value
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Evento adicionado com sucesso!</strong></div>'))
+    .then(() => {
+      newEvent = {nome_evento: document.getElementById('event-name').value, data_evento: document.getElementById('event-date').value, hora_evento: document.getElementById('event-time').value, descricao: document.getElementById('event-description').value}
+      setEvents(events => [...events, newEvent])
+      document.getElementById('add-events-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Evento adicionado com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível salvar o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -186,7 +200,10 @@ export default function ControlTeam() {
       hora_evento: time_formated,
       descricao: document.getElementById('edit-event-description').value
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Evento editado com sucesso!</strong></div>'))
+    .then(() => {
+      window.location.href = `/team/manageteams/manage?${urlData}`
+      setAlert('<div class="alert alert-success" role="alert"><strong>Evento editado com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível editar o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -197,6 +214,7 @@ export default function ControlTeam() {
     api.delete(`/api/eventos/${urlData}/deletar-evento-equipe/${selectedEvent.uuid}`, { headers: { Authorization: access_token } } )
     .then(() => {
       setEvents(aux)
+      document.getElementById('edit-events-area').style.display='none'
       setAlert('<div class="alert alert-success" role="alert"><strong>Evento excluido com sucesso!</strong></div>')
     })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
@@ -216,8 +234,6 @@ export default function ControlTeam() {
       return
     }
 
-    console.log(base64)
-
     api.post(`/api/arquivos/upload-arquivo-equipe/${urlData}`, {
       nome_arquivo: archive_name,
       arquivo: base64
@@ -232,7 +248,10 @@ export default function ControlTeam() {
     aux.splice(archives.indexOf(selectedArchive), 1);
     setArchives(aux);
     api.delete(`/${urlData}/remover-arquivo-equipe/${selectedArchive.uuid}`, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>'))
+    .then(() => {
+      document.getElementById('confirm-delete-archive-area').style.display = 'none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -398,8 +417,11 @@ export default function ControlTeam() {
                   <div className="view-archives">
                     {(archives) ?
                       archives.map(archive => (
-                        <button className="archive-card" onClick={() => document.getElementById('confirm-delete-archive-area').style.display = 'block'}>
-                          <h1>Lançamento Portal do Ramo</h1>
+                        <button className="archive-card" key={archive.uuid} onClick={() => {
+                          setSelectedArchive(archive)
+                          document.getElementById('confirm-delete-archive-area').style.display = 'block'
+                        }}>
+                          <h1>{archive.nome.substring(0, 25)}</h1>
                           <h2>x</h2>
                         </button>
                       ))
@@ -657,7 +679,6 @@ export default function ControlTeam() {
               </div>
               <div className="row input-area">
                 <div className="col-md-6">
-                  <label htmlFor="event-date"> </label>
                   <button className="btn-delete" onClick={() => deleteEvent()}>Apagar evento</button>
                 </div>
               </div>
@@ -665,10 +686,10 @@ export default function ControlTeam() {
               <div className="right">
                 <div className="row buttons-area">
                   <div>
-                    <button className="btn btn-primary" onClick={() => document.getElementById('edit-events-area').style.display='none'}>
+                    <button className="btn btn-primary margin-up" onClick={() => document.getElementById('edit-events-area').style.display='none'}>
                       Cancelar
                     </button>
-                    <button className="btn btn-primary" onClick={() => editEvent()}>Salvar</button>
+                    <button className="btn btn-primary margin-up" onClick={() => editEvent()}>Salvar</button>
                   </div>
                 </div>
               </div>
@@ -724,7 +745,7 @@ export default function ControlTeam() {
                 <button className="btn btn-primary" onClick={() => document.getElementById('confirm-delete-archive-area').style.display = 'none'}>
                   Cancelar
                 </button>
-                <button className="btn btn-primary" onClick={() => deleteArchive(selectedArchive)}>
+                <button className="btn btn-primary" onClick={() => deleteArchive()}>
                   Salvar
                 </button>
               </div>

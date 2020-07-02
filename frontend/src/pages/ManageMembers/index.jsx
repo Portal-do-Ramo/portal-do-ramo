@@ -137,7 +137,6 @@ function ManageMembers(){
                     <ul>
                       <Link to={'/profile?'.concat(selectedMember.matricula)}><li>Ver perfil público</li></Link>
                       <Link to={'/managemembers/member?'.concat(selectedMember.matricula)}><li>Dados pessoais</li></Link>
-                      <Link to={'/team/selected?'.concat(selectedMember.matricula)}><li>Equipes</li></Link>
                       <Link to={'/projects/historic?'.concat(selectedMember.matricula)}><li>Projetos</li></Link>
                       <Link to={'/strike/manage/historic?'.concat(selectedMember.matricula)}><li>Strikes</li></Link>
                       <Link to={'/manageabsences/historic?'.concat(selectedMember.matricula)}><li>Faltas</li></Link>

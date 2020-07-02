@@ -22,6 +22,7 @@ export default function ControlProject () {
   const [projectData, setProjectData] = useState();
 
   const [status, setStatus] = useState('');
+  const [membersOfProject, setMembersOfProject] = useState([])
   const [leader, setLeader] = useState();
   const [initialLeader, setInitialLeader] = useState();
   const [advisor, setAdvisor] = useState();
@@ -58,6 +59,7 @@ export default function ControlProject () {
       setAreas(response.data.areas)
       setPercent(response.data.porcentagem_orcamento)
       setArchives(response.data.arquivos)
+      setMembersOfProject(response.data.membros)
     })
     .catch(() => window.location.href = '/error')
     .finally(() => setLoaded(true))
@@ -69,6 +71,13 @@ export default function ControlProject () {
     .then(response => setAllMembers((response.data.Ativo).concat(response.data.Inativo)))
     .catch(() => window.location.href = '/error')
   }, [])
+
+
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
 
   function setStateOfButtonPDF() {
@@ -129,7 +138,10 @@ export default function ControlProject () {
 
   function newAdvisor() {
     api.post(`/api/projetos/${urlData}/adicionar-assessor`, { matricula_assessor: advisor.matricula }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria alterada com sucesso!</strong></div>'))
+    .then(() => {
+      document.getElementById('confirm-set-advisor-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Assessoria alterada com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a assessoria.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -152,17 +164,24 @@ export default function ControlProject () {
       funcao: "Membro"
     },{ headers: { Authorization: access_token } })
     .then(() => {
+      setMembersOfProject(membersOfProject => [...membersOfProject, addMemberSelected])
       document.getElementById('add-members-part2-area').style.display='none'
       setAlert('<div class="alert alert-success" role="alert"><strong>Membro adicionado com sucesso!</strong></div>')
-      setMembers(members => [...members, addMemberSelected])
     })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível adicionar o membro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
-  function removeMember(uuid) {
-    api.delete(`/api/projetos/${urlData}/remover-membro/${uuid}`, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Membro removido com sucesso!</strong></div>'))
+  function removeMember() {
+    let aux = members;
+    aux.splice(members.indexOf(selectedMember), 1);
+
+    api.delete(`/api/projetos/${urlData}/remover-membro/${selectedMember.uuid_inscricao}`, { headers: { Authorization: access_token } })
+    .then(() => {
+      setMembers(aux)
+      document.getElementById('confirm-remove-member-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Membro removido com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível remover o membro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -172,7 +191,10 @@ export default function ControlProject () {
       funcao: selectedMember.funcao,
       area: document.getElementById('new-area-member').value
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Área alterada com sucesso!</strong></div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert"><strong>Área alterada com sucesso!</strong></div>')
+      window.location.href = `/projects/manage/control?${urlData}`
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a área.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -194,7 +216,10 @@ export default function ControlProject () {
       nome_arquivo: archive_name,
       arquivo: base64
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado com sucesso!</strong></div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo enviado para upload com sucesso!</strong></div>')
+      window.location.href = `/projects/manage/control?${urlData}`
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -222,13 +247,20 @@ export default function ControlProject () {
     const event_date = document.getElementById('event-date').value.split('-');
     const event_date_formated = event_date[2] + '/' + event_date[1] + '/' + event_date[0];
 
+    let newEvent = {};
+
     api.post(`/api/eventos/criar-evento-projeto/${urlData}`, {
       nome_evento: document.getElementById('event-name').value,
       data_evento: event_date_formated,
       hora_evento: document.getElementById('event-time').value,
       descricao: document.getElementById('event-description').value
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Evento criado com sucesso!</strong></div>'))
+    .then(() => {
+      newEvent = {nome_evento: document.getElementById('event-name').value, data_evento: document.getElementById('event-date').value, hora_evento: document.getElementById('event-time').value, descricao: document.getElementById('event-description').value}
+      setEvents(events => [...events, newEvent])
+      document.getElementById('add-events-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Evento criado com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -245,14 +277,24 @@ export default function ControlProject () {
       hora_evento: time_formated,
       descricao: document.getElementById('edit-event-description').value
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Evento editado com sucesso!</strong></div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert"><strong>Evento editado com sucesso!</strong></div>')
+      window.location.href = `/projects/manage/control?${urlData}`
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível editar o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
   function deleteEvent() {
+    let aux = events;
+    aux.splice(events.indexOf(selectedEvent), 1);
+
     api.delete(`/api/eventos/${urlData}/deletar-evento-projeto/${selectedEvent.uuid}`, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Evento removido com sucesso!</strong></div>'))
+    .then(() => {
+      setEvents(aux);
+      document.getElementById('edit-events-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Evento removido com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o evento.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -265,7 +307,10 @@ export default function ControlProject () {
     api.patch(`/api/projetos/atualizar-areas/${urlData}`, {
       areas: areas,
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Área adicionada com sucesso!</strong></div>'))
+    .then(() => {
+      document.getElementById('add-areas-area').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Área adicionada com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível adicionar a área.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -273,24 +318,29 @@ export default function ControlProject () {
   function removeArea() {
     let aux = areas;
     aux.splice(areas.indexOf(areaToRemove), 1);
-    setAreas(aux);
 
     api.patch(`/api/projetos/atualizar-areas/${urlData}`, {
-      areas: areas,
+      areas: aux,
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Área removida com sucesso!</strong></div>'))
+    .then(() => {
+      window.location.href = `/projects/manage/control?${urlData}`
+      setAlert('<div class="alert alert-success" role="alert"><strong>Área removida com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir a área.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
-
+  //Função não usada
   function editArea(area) {
     let aux = areas;
     aux.splice(areas.indexOf(area), 1);
-    setAreas(aux);
+
     api.patch(`/api/projetos/area/${urlData}`, {
       areas: area,
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Área alterada com sucesso!</strong></div>'))
+    .then(() => {
+      setAreas(aux);
+      setAlert('<div class="alert alert-success" role="alert"><strong>Área alterada com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível alterar a área.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -353,22 +403,10 @@ export default function ControlProject () {
 
             <div className="row">
               <div className="col-md-4 down">
-                <label htmlFor="percent" title="Em relação ao caixa da equipe selecionada">{percent}% no Orçamento</label>
-                <input
-                  type="range"
-                  id="percent"
-                  minLength={0}
-                  maxLength={100}
-                  className="form-control"
-                  value={percent}
-                  onChange={e => setPercent(e.target.value)}
-                />
-              </div>
-              <div className="col-md-4 down">
-                <label htmlFor="money">Caixa da Equipe</label>
+                <label htmlFor="money">Caixa do projeto</label>
                 <input type="text" className="form-control" id="money" defaultValue={(projectData) ? 'R$ ' + projectData.valor_caixa : ''} readOnly />
               </div>
-              <div className="col-md-2 down" />
+              <div className="col-md-6 down" />
               <div className="col-md-2 down">
                 <label> </label>
                 <button className="btn-save" onClick={() => sendData()}>Salvar</button>
@@ -543,10 +581,7 @@ export default function ControlProject () {
                         Cancelar
                       </button>
 
-                      <button className="btn btn-primary" onClick={() => {
-                        newAdvisor()
-                        document.getElementById('confirm-set-advisor-area').style.display='none'
-                      }}>
+                      <button className="btn btn-primary" onClick={() => newAdvisor()}>
                         Salvar
                       </button>
                     </div>
@@ -561,9 +596,9 @@ export default function ControlProject () {
                   <h2><button className="btn-circle" onClick={() => document.getElementById('add-members-area').style.display='block'}>+</button>Membros</h2>
                   <hr />
                   <div>
-                    {(projectData) ?
-                      (projectData.membros).map(member => (
-                        <button key={member.uuid_inscricao} className="btn-member" onClick={() => {
+                    {(membersOfProject) ?
+                      (membersOfProject).map(member => (
+                        <button key={member.matricula} className="btn-member" onClick={() => {
                           setSelectedMember(member)
                           document.getElementById('control-member-area').style.display='block'
                         }}>
@@ -751,10 +786,7 @@ export default function ControlProject () {
                         Cancelar
                       </button>
 
-                      <button className="btn btn-primary" onClick={() => {
-                        removeMember(selectedMember.uuid_inscricao)
-                        document.getElementById('confirm-remove-member-area').style.display='none'
-                      }}>
+                      <button className="btn btn-primary" onClick={() => removeMember()}>
                         Remover
                       </button>
                     </div>

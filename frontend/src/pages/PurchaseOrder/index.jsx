@@ -18,6 +18,11 @@ export default function PurchaseOrder() {
   const [alert, setAlert] = useState('');
   const [inputsHidden, setInputsHidden] = useState([]);
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('/api/projetos/select-projetos', { headers: { Authorization: access_token } })

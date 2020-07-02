@@ -20,8 +20,7 @@ export default function ManageProjects () {
   useEffect(() => {
     api.get('api/projetos', { headers: { Authorization: access_token } })
     .then(response => setProjects(response.data))
-    // .catch(() => window.location.href = '/error')
-    .catch(error => console.log(error.response))
+    .catch(() => window.location.href = '/error')
   }, [])
 
   return (

@@ -64,6 +64,9 @@ export default function ManageFinances () {
   const [registers, setRegisters] = useState([]);
   const [dataCash, setDataCash] = useState([]);
   const [caixa, setCaixa] = useState([]);
+  const [percents, setPercents] = useState([]);
+
+  var count_id = 0;
 
 
   useEffect(() => {
@@ -158,6 +161,11 @@ export default function ManageFinances () {
     .finally(() => setIsLoadedCaixas(true))
   }, [])
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   function setCash(type) {
     let value = 0;
@@ -216,6 +224,11 @@ export default function ManageFinances () {
   function setPercent() {
     let teamsPercents = [];
     let projectsPercents = [];
+    let values = [];
+
+    for (let i=0; i < dataCash.map; i++) {
+      values.push(document.getElementById(`percent-cash-${i}`).value)
+    }
 
     api.put('/api/caixas', {
       equipes: teamsPercents,
@@ -995,16 +1008,20 @@ export default function ManageFinances () {
             <BoxModalScreen className="container box-modal-screen">
               <div className="modal-content animate view">
                 <div className='row'>
-                  <h1 className="title">Pedido</h1>
+                  <h1 className="title">Porcentagem</h1>
                 </div>
                 <div className="inside-area">
                   <div className="view-products">
-                    {/* {(percents) ?
-                      percents.map(percent => (
-                        <div>
-                        </div>
-                      ))
-                    : ''} */}
+                    <div className="row">
+                      {(percents) ?
+                        percents.map(percent => (
+                          <div className="col-md-4" key={percent.nome_caixa_slug}>
+                            <label htmlFor="percent">{percent.nome_caixa.replace('Caixa ', '')}</label>
+                            <input type="text" id={"percent-cash-".concat(count_id++)} className="form-control" defaultValue={percent.porcentagem_orcamento} />
+                          </div>
+                        ))
+                      : ''}
+                    </div>
                   </div>
                   <div className="row buttons-area">
                     <button className="btn btn-primary" onClick={() => document.getElementById('set-percent').style.display='none'}>

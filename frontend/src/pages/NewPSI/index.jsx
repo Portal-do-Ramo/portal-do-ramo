@@ -9,7 +9,7 @@ import Title from '../../components/Title';
 import { Screen, CardInput } from './styles';
 
 export default function NewPSI() {
-  document.title = 'Novo Processo Seletivo Interno';
+  document.title = 'Novo PSI';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
 
   const [listProjects, setListProjects] = useState([]);
@@ -51,81 +51,104 @@ export default function NewPSI() {
   }, [])
 
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
+
   function initializePSI() {
     const name = document.getElementById('namePSI').value;
-    const initial_date = document.getElementById('initialDate').value;
-    const final_date = document.getElementById('finalDate').value;
+    const initial_date = document.getElementById('initialDate').value.split('-');
+    const initial_date_formatted = initial_date[2] + '/' + initial_date[1] + '/' + initial_date[0];
 
-    api.post('api/psis', {
-      nome: name,
-      data_inicio: initial_date,
-      data_fim: final_date,
-      gestao_areas_vagas: [],
+    const final_date = document.getElementById('finalDate').value.split('-');
+    const final_date_formatted = final_date[2] + '/' + final_date[1] + '/' + final_date[0];
+
+    api.post('/api/psis', {
+      nome_psi: name,
+      data_inicio: initial_date_formatted,
+      data_fim: final_date_formatted,
+      gestao: [],
       projetos: [],
       equipes: []
     }, { headers: { Authorization: access_token } })
     .then(response => {
       setIsEnabledFirstPart(false)
       setIsEnabledSecondPart(true)
-      // setUUID(response.data.uuid)
-      console.log(response.data)
+      setUUID(response.data)
+      setAlert('<div class="alert alert-success" role="alert">PSI inicializado com sucesso! Complete o cadastro agora!</div>')
     })
-    .catch(error => console.log(error))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert">Não foi possível inicializar o PSI! Se o problema persistir, contate a diretoria!</div>'))
   }
 
 
   function sendSecondPart() {
-    let projects_formatted = '';
+    let projects_formatted = [];
+    let obj_aux = {projeto: '', areas_vagas: {}};
 
-    api.post(`psis/${uuid}/projetos`, {
+    for(let i = 0; i < listProjects.length; i++) {
+      let areas = listProjects[i].areas;
+      let areas_vagas = [];
+      for (let j = 0; j < areas.length; j++) {
+        if (document.getElementById('card-project-'+areas[j]).value === 'yes') {
+          areas_vagas.push(areas[j])
+        }
+      }
+      if(areas_vagas.length > 0) {
+        obj_aux = {projeto: document.getElementById('card-project-nome-' + i).value, areas_vagas: areas_vagas}
+        projects_formatted.push(obj_aux);
+      }
+    }
+
+    api.post(`/psis/${uuid}/projetos`, {
       projetos: projects_formatted
     }, { headers: { Authorization: access_token } })
-    .then(response => {
+    .then(() => {
       setIsEnabledSecondPart(false)
       setIsEnabledThirdPart(true)
-      console.log(response.data)
     })
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert">Não foi possível adicionar áreas a PSI! Se o problema persistir, contate a diretoria!</div>'))
   }
 
 
   function sendThirdPart() {
-    let teams_formatted = '';
+    let teams_formatted = [];
 
-    // let projeto = ''
-    // let areas_vagas = []
-    // for (let i=0; i < id_projects; i++) {
-    //   const project = document.getElementById(`card-project-${i}`)
-    //   // card-project-' + id_cards_projects + '-' + (id_projects++)
-    //   // for (let j=0; j < id_cards_projects; j++) {
-
-    //   // }
-    // }
+    for (let i = 0; i < listTeams.length; i++) {
+      if (document.getElementById('card-team-'+listTeams[i].nome_equipe_slug).value === 'yes') {
+        let obj_aux = {equipe: listTeams[i].nome_equipe_slug, areas_vagas: ['Assessor de coordenador']};
+        teams_formatted.push(obj_aux);
+      }
+    }
 
     api.post(`psis/${uuid}/equipes`, {
       equipes: teams_formatted
     }, { headers: { Authorization: access_token } })
-    .then(response => {
+    .then(() => {
       setIsEnabledSecondPart(false)
       setIsEnabledThirdPart(true)
-      console.log(response.data)
     })
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert">Não foi possível adicionar assessorias a PSI! Se o problema persistir, contate a diretoria!</div>'))
   }
 
 
   function sendFourthPart() {
-    let management_formatted = '';
+    let management_formatted = [];
+
+    for (let i = 0; i < listManagement.length; i++) {
+      if (document.getElementById('card-management-'+listManagement[i].nome_slug).value === 'yes') {
+        let obj_aux = {nome_area_slug: listManagement[i].nome_slug, areas_vagas: [listManagement[i].nome]};
+        management_formatted.push(obj_aux);
+      }
+    }
 
     api.post(`psis/${uuid}/gestao`, {
       gestao: management_formatted
     }, { headers: { Authorization: access_token } })
-    .then(response => {
-      setIsEnabledThirdPart(false)
-      setIsEnabledFourthPart(true)
-      console.log(response.data)
-    })
-    .catch(error => console.log(error.response))
+    .then(() => setAlert('<div class="alert alert-success" role="alert">Criação do PSI finalizada com sucesso!</div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert">Não foi possível adicionar áreas de gestão a PSI! Se o problema persistir, contate a diretoria!</div>'))
   }
 
 
@@ -207,13 +230,14 @@ export default function NewPSI() {
                           <label>{area}</label>
                         </div>
                         <div className="col-sm-2">
-                          <select className="form-control" id={'card-project-' + id_cards_projects + '-' + (id_projects++)}>
+                          <select className="form-control" id={'card-project-'+ area}>
                             <option value="no">Não</option>
                             <option value="yes">Sim</option>
                           </select>
                         </div>
                       </div>
                     )) : ''}
+                    <input type="hidden" id={'card-project-nome-' + (id_cards_projects)} value={project.nome_projeto_slug} />
                     <div hidden={true}>{ last_project = project.nome_projeto_slug }</div>
                     <div hidden={true}>{ id_cards_projects++ }</div>
                   </CardInput>
@@ -239,7 +263,17 @@ export default function NewPSI() {
               <p>Marque as equipes que você deseja abrir vagas para assessoria de coordenador. <strong>Preste atenção, após clicar em "Salvar" não é possível mais fazer alterações.</strong></p>
               {(listTeams).map(team => (
                 <CardInput>
-                  <h1><input type="checkbox" />{team.nome_equipe}</h1>
+                  <div className="row">
+                    <div className="col-sm-3 down">
+                      <label>{team.nome_equipe}</label>
+                    </div>
+                    <div className="col-sm-2">
+                      <select className="form-control" id={'card-team-'+ team.nome_equipe_slug}>
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                      </select>
+                    </div>
+                  </div>
                 </CardInput>
               ))}
               <div className="button-area">
@@ -261,7 +295,17 @@ export default function NewPSI() {
               <p>Marque as áreas de gestão que você deseja abrir vagas. <strong>Preste atenção, após clicar em "Salvar" não é possível mais fazer alterações.</strong></p>
               {(listManagement).map(management => (
                 <CardInput>
-                  <h1><input type="checkbox" />{management.nome}</h1>
+                  <div className="row">
+                    <div className="col-sm-3 down">
+                      <label>{management.nome}</label>
+                    </div>
+                    <div className="col-sm-2">
+                      <select className="form-control" id={'card-management-'+ management.nome_slug}>
+                        <option value="no">Não</option>
+                        <option value="yes">Sim</option>
+                      </select>
+                    </div>
+                  </div>
                 </CardInput>
               ))}
               <div className="button-area">
@@ -275,7 +319,6 @@ export default function NewPSI() {
           </div>
         }
       </div>
-      {/* {console.log(JSON.stringify(projects))} */}
     </Screen>
   )
 }

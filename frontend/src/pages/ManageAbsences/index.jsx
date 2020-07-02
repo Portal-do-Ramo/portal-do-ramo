@@ -10,6 +10,7 @@ import Title from '../../components/Title';
 import Loader from '../../components/LoaderSpinner';
 
 import { Screen, RightBox, TitleBox, ViewResults, Card, ApplyAbsence } from './styles';
+import download from './download.png';
 
 export default function ManageAbsences() {
   document.title = 'Gerenciar Faltas';
@@ -40,6 +41,12 @@ export default function ManageAbsences() {
       return false;
     }
   }
+
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('api/faltas', { headers: { Authorization: access_token } })
@@ -91,7 +98,22 @@ export default function ManageAbsences() {
       nome_projeto: (type == 1 || type == 2 || type == 4) ? null : project_name
     }, {headers: { Authorization: access_token }})
     .then(() => setAlert('<div class="alert alert-success" role="alert">Falta enviada com sucesso!</div>'))
-    .catch(error => setAlert(`<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar a falta!</strong> Se o problema persistir, favor comunicar a diretoria</div>`))
+    .catch(() => setAlert(`<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar a falta!</strong> Se o problema persistir, favor comunicar a diretoria</div>`))
+  }
+
+
+  function downloadFile() {
+    api.get(`/api/faltas/lista-faltas`, { headers: { Authorization: access_token },  responseType: 'blob' })
+    .then(response => {
+      const downloadUrl = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'lista-faltas.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível fazer o download.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -102,7 +124,6 @@ export default function ManageAbsences() {
 
   return (
     <Screen>
-      {/* {(window.onloadstart = isViewed()) ? */}
         <>
           <Top_Left_Side_Menu />
           <Bottom_Right_Side_Menu />
@@ -121,6 +142,9 @@ export default function ManageAbsences() {
                     <TitleBox>
                       Membros
                     </TitleBox>
+                    <button className="btn-add" onClick={() => downloadFile()}>
+                      <img src={download} title="Baixar lista de faltas" className="icon" />
+                    </button>
                   </div>
 
                   <select className="form-control" name="filter" id="filter" onChange={e => setFilter(e.target.value)}>

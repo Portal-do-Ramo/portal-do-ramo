@@ -28,6 +28,11 @@ export default function NewTeam() {
   const [base64, setBase64] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('api/usuarios', { headers: { Authorization: access_token } })

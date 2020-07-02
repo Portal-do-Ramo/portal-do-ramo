@@ -27,6 +27,12 @@ export default function InactivityRequest() {
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar seu pedido.</strong> Tente novamente mais tarde ou entre em contato direto com a diretoria através do e-mail: gp.ramocefet@gmail.com</div>'))
   }
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   useEffect(() => {
     document.getElementById('alert').innerHTML = alert
   })

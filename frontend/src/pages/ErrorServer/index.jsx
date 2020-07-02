@@ -43,6 +43,6 @@ export default () =>
     <div>
       <img src={Error} />
       <h2>Ooops! Algo de errado aconteceu!</h2>
-      <p>Caso necessite, entre em contato com nosso suporte enviando um e-mail para example@ieee.org.<br /><strong>Portal do Ramo - 2020</strong></p>
+      <p>Caso necessite, entre em contato com nosso suporte enviando um e-mail para gp.ramocefetrj@gmail.com.<br /><strong>Portal do Ramo - 2020</strong></p>
     </div>
   </Screen>

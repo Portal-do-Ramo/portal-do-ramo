@@ -19,6 +19,12 @@ export default function RefundRequest() {
   const [base64, setBase64] = useState('');
   const [lastCard, setLastCard] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   useEffect(() => {
     api.get('/api/pedidos/meus-pedidos', { headers: { Authorization: access_token } })
     .then(response => setMyRequests(response.data.pedido_de_compra))
@@ -37,7 +43,12 @@ export default function RefundRequest() {
       return
     }
 
-    api.post(`/api/pedidos/${selectedRequest}/solicitar-reembolso`, {
+    if (selectedRequest.dados_pedido.valor_total > 80) {
+      setAlert('<div class="alert alert-danger" role="alert">Reembolsos só podem ser solicitados em pedidos com valor menor que 80 reais.</div>')
+      return
+    }
+
+    api.post(`/api/pedidos/${selectedRequest.uuid}/solicitar-reembolso`, {
       foto_comprovante: base64
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Pedido de reembolso enviado com sucesso!</strong></div>'))
@@ -106,7 +117,7 @@ export default function RefundRequest() {
         <Header />
         <Title title="Pedido de Reembolso" />
 
-        <div className="row">
+        <div className="row">{console.log(selectedRequest)}
           <div className="col-md-6">
             <div className="left-box-blue-gradient">
               <h1 className="title-box white">Selecione o pedido *</h1>
@@ -115,11 +126,12 @@ export default function RefundRequest() {
                   myRequests.map(request => (
                     <CardItem key={request.uuid} id={request.uuid} onClick={() => {
                       setBGColorOfCards(request.uuid)
-                      setSelectedRequest(request.uuid)
+                      setSelectedRequest(request)
                     }}>
                       <h4><strong>Data de solicitação:</strong> {request.data_criado}</h4>
                       <h4><strong>Quantidade de items:</strong> {request.dados_pedido.pedidos.length}</h4>
-                      <h4><strong>Projeto:</strong> {request.nome_projeto_solicitado}</h4>
+                      <h4><strong>Projeto:</strong> {(request.nome_projeto_solicitado) ? request.nome_projeto_solicitado : 'Geral'}</h4>
+                      <h4><strong>Valor:</strong> {(request) ? request.dados_pedido.valor_total : ''}</h4>
                     </CardItem>
                   ))
                 : ''}

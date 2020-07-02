@@ -39,7 +39,7 @@ export default function TeamScreen() {
 
         {(isLoaded) ?
           <div>
-            <Title title="WolfByte" />
+            <Title title={teamData.nome_equipe} />
 
             <div className="row">
               <div className="col-md-6">
@@ -48,10 +48,8 @@ export default function TeamScreen() {
                     {(teamData) ?
                       <div>
                         <img src={teamData.foto_url} />
-                        <h1><Link to={'/profile?' + teamData.matricula_coordenador}>{teamData.nome_coordenador}</Link></h1>
-                        <span>Coordenador</span>
-                        <h2><Link to={'/profile?' + teamData.matricula_assessor}>{teamData.nome_assessor}</Link></h2>
-                        <span>Assessor</span>
+                        <h1>{teamData.coordenador.nome_completo.split(' ')[0].concat(' ' + teamData.coordenador.nome_completo.split(' ')[1])}</h1>
+                        <span><strong>Coordenador</strong></span>
                         <br />
                         <br />
                         <h3><strong>Membros:</strong> {teamData.membros.length}</h3>

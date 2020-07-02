@@ -72,7 +72,7 @@ export default function TermosDeUso() {
         por quaisquer motivos ou na suspeita de fraude, obtenção de benefício ou
         vantagem de forma ilícita, ou pelo não cumprimento de quaisquer
         condições previstas nestes Termos de USO, na Política de Privacidade, no
-        Estatuto Ramo Estudantil IEEE CEFETRJ ([inserir URL/link]) ou na
+        Estatuto Ramo Estudantil IEEE CEFETRJ (<a href='/download/estatuto' target="_blank">Download</a>) ou na
         legislação aplicável. Nesses casos não será devida qualquer indenização
         a você, e o Ramo poderá promover a competente ação de regresso, se
         necessário, bem como tomar quaisquer outras medidas necessárias para
@@ -85,7 +85,7 @@ export default function TermosDeUso() {
       <p>
         2.1 - Para acessar o Portal do Ramo e utilizar suas funcionalidades é
         necessário participar do Ramo, seguindo as exigências descritas no
-        Estatuto Ramo Estudantil IEEE CEFETRJ ([inserir URL/link]) e ter sido
+        Estatuto Ramo Estudantil IEEE CEFETRJ (<a href='/download/estatuto' target="_blank">Download</a>) e ter sido
         cadastrado pela Diretoria de Gestão de Pessoas. Para o cadastro, será
         utilizado informações pessoais passadas por você à Diretoria de Gestão
         de Pessoas, conforme descrito em nossa Política de Privacidade. Para

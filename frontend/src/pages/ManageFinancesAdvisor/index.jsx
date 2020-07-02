@@ -418,6 +418,13 @@ export default function ManageFinancesAdvisor () {
   );
 
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
+
   useEffect(() => {
     document.getElementById('alert').innerHTML = alert;
   })

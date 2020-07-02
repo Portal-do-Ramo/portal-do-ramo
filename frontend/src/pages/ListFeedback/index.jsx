@@ -18,8 +18,7 @@ export default function HistoricAbsences() {
   useEffect(() => {
     api.get(`/api/feedbacks`, {headers: { Authorization: access_token }})
     .then(response => setListFeedbacks(response.data))
-    // .catch(() => window.location.href = '/error')
-    .catch(error => console.log(error.response))
+    .catch(() => window.location.href = '/error')
   }, [])
 
   return (

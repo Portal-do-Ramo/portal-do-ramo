@@ -5,7 +5,7 @@ import { Screen } from './styles';
 import Logo from './images/logo.png';
 
 export default function RecoverPassword () {
-  const [alert, setAlert] = useState('')
+  const [alert, setAlert] = useState('');
 
   function sendEmail(e){
     e.preventDefault();

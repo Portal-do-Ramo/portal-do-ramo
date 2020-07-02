@@ -13,6 +13,11 @@ export default function SendFeedback () {
   const hierarquia = (useSelector(state => state.data[4]));
   const [alert, setAlert] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   function send(e){
     e.preventDefault()

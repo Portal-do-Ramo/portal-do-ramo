@@ -31,6 +31,11 @@ export default function ManageStrikes() {
 
   const allMembers = [{nome_equipe_slug:"allMembers", nome_equipe:"Todos"}];
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('api/strikes', { headers: { Authorization: access_token } })

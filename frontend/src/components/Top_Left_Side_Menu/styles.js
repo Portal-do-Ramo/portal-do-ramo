@@ -25,6 +25,24 @@ export const Menu = styled.div`
     .logo-ramo {
       display: none;
     }
+
+    .logo-portal {
+      display: none;
+    }
+  }
+
+  @media only screen and (max-height: 859.98px) {
+    .logo-menu {
+      height: 100px;
+    }
+
+    .logo-ramo {
+      display: none;
+    }
+
+    .logo-portal {
+      display: none;
+    }
   }
 
   #check {
@@ -244,5 +262,9 @@ export const Search = styled.form`
 
   @media (min-width: 319px) and (max-width: 767.98px) {
     margin-top: 80px;
+  }
+
+  @media (min-width: 1175px) and (max-height: 859.98px) {
+    margin-top: -50px;
   }
 `

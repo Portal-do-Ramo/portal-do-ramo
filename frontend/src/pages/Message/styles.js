@@ -274,16 +274,37 @@ export const Card = styled.button`
 
 export const Addressee = styled.button`
   background-color: transparent;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  padding: 5px;
   color: #FFF;
   margin: 2.5px;
-  width: 120px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   text-align: center;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: 2px solid #FFF;
+  }
+
+  /* :hover {
+    img {
+      border: 2px solid #CC0000;
+      transition: .5s;
+    }
+  } */
+
+  :hover {
+    cursor: default;
+  }
 `
 
 export const ListAddressee = styled.div`

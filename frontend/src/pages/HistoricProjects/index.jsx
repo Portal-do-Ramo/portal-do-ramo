@@ -60,8 +60,6 @@ export default function HistoricProjects () {
                   <Card id={pjt.uuid} key={pjt.uuid} onClick={() => window.location.href = '/projects/manage/control?' + pjt.nome_projeto_slug}>
                     <h1 className="project-name">{pjt.nome_projeto}</h1>
                     <h2 className="project-info">{pjt.nome_equipe} - {pjt.funcao}</h2>
-                    <h3 className="project-subinfo"><strong>Data de entrada:</strong> {pjt.data_entrada}</h3>
-                    <h3 className="project-subinfo"><strong>Data de saída:</strong> {pjt.data_saida}</h3>
                     <h3 className="project-subinfo"><strong>Área:</strong> {pjt.area}</h3>
                   </Card>
                 )) : ''}

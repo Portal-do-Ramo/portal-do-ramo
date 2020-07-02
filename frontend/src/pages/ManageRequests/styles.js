@@ -84,15 +84,15 @@ export const Screen = styled.div`
     .area-buttons {
       display: flex;
       justify-content: center;
+      margin-top: 20px;
 
       button {
         background: transparent;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 120px;
+        padding: 7px;
         border: 2px solid #FFF;
-        width: 150px;
-        padding: 6px;
-        margin-top: 30px;
-        font-size: 12pt;
-        font-weight: bold;
         color: #FFF;
         border-radius: 5px;
 
@@ -103,7 +103,7 @@ export const Screen = styled.div`
       }
 
       button:hover {
-        background: rgba(255,255,255,.1);
+        box-shadow: 0px 0px 5px #e5e5e5;
       }
     }
   }

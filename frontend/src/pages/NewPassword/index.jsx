@@ -8,6 +8,12 @@ export default function NewPassword () {
   const [alert, setAlert] = useState('');
   const url = window.location.search.slice(1);
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   const [password, setPassword] = useState('');
   let passwordPoints = 0;
 

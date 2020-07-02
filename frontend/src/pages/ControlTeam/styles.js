@@ -227,7 +227,7 @@ export const EventsArea = styled.div`
   }
 
   .event-card {
-    background: #E5E5E5;
+    background: #E9EDF5;
     height: 60px;
     padding: 7px;
     cursor: pointer;
@@ -421,6 +421,10 @@ export const BoxModalScreen = styled.div`
 
     button:hover {
       box-shadow: 0px 0px 7px #888;
+    }
+
+    .margin-up {
+      margin-top: -20px;
     }
   }
 

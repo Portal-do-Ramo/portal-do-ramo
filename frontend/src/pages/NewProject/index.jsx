@@ -26,6 +26,11 @@ export default function ManageProject () {
   const [count_id, setCount_ID] = useState(0);
   const [viewAreas, setViewAreas] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   useEffect(() => {
     api.get('api/usuarios', { headers: { Authorization: access_token } })

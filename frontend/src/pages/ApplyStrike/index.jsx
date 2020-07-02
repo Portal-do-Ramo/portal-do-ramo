@@ -7,7 +7,7 @@ import Header from '../../components/Home_Header';
 import Title from '../../components/Title';
 import Loader from '../../components/LoaderSpinner';
 
-import { Screen, BoxLeft, BoxRight, ViewMembers, Card } from './styles';
+import { Screen, ViewMembers, Card } from './styles';
 import avatar from './images/avatar.png';
 
 export default function ApplyStrike (){
@@ -40,6 +40,12 @@ export default function ApplyStrike (){
   useEffect(() => {
     document.getElementById('alert').innerHTML = alert;
   })
+
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   function sendStrike(e){
     e.preventDefault()
@@ -92,7 +98,7 @@ export default function ApplyStrike (){
                 <ul>
                   { (isLoaded) ? null : <Loader /> }
                   {members.map(member => (
-                    ((filter != 'allMembers') && (member.equipes).indexOf(filter) != -1) ?
+                    ((filter !== 'allMembers') && (member.equipes).indexOf(filter) !== -1) ?
                       <Card key={member.matricula} className="card" id={member.matricula} onClick={() => setSelectedMember(member)}>
                         <li className="member-item">
                           <header>

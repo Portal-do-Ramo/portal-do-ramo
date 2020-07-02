@@ -15,6 +15,30 @@ export const Screen = styled.div`
   .btn-edit {
     display: none;
   }
+
+  .btn-add {
+    background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
+    height: 34px;
+    width: 34px;
+    margin-left: 10px;
+    margin-top: -28px;
+    font-size: 25px;
+    color: #FFF;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+
+    img {
+      width: 17px;
+      margin-top: 7px;
+    }
+  }
 `
 
 export const RightBox = styled.div`

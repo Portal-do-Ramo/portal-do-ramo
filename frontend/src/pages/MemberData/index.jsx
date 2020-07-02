@@ -35,6 +35,12 @@ export default function MemberData() {
 
   const [alert, setAlert] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   if (matricula === '') {
     window.location.href = '/error';
   }

@@ -208,10 +208,10 @@ export default function Top_Left_Side_Menu() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances" id="btn-finances">Ver caixa</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances/manage" id="btn-manage-finances" disabled={statusFinanceButtons()}>Gerenciar caixa</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/finances/manage/advisor" id="btn-manage-finances" disabled={statusFinanceAssessorButtons()}>Tela do Assessor</Dropdown.Item>
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests" id="btn-requests-2">Pedidos</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 

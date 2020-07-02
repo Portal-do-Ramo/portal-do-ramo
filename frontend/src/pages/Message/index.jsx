@@ -42,12 +42,13 @@ export default function Message(){
 
     await api.get(`/api/usuarios/search?nome_completo=${nameSearched}`, { headers: { Authorization: access_token } })
     .then(response => {
-      ((response.data).length !== 0) ?
+      if(response.data.length !== 0) {
         setSearchedMembers(response.data)
-        // document.getElementById('searchMessage').innerHTML = ''
-      :
+        document.getElementById('searchMessage').innerHTML = ''
+      } else {
         setSearchedMembers([])
         document.getElementById('searchMessage').innerHTML = ''
+      }
     })
 
     .catch(() => document.getElementById('viewAllResults').innerHTML = `<p>Não foi possível realizar a pesquisa</p>`)
@@ -57,6 +58,7 @@ export default function Message(){
 
   function removeAddressee(addressee) {
     let aux = destinatarios;
+    setDestinatarios([]);
     aux.splice(destinatarios.indexOf(addressee), 1);
     setDestinatarios(aux);
   }
@@ -91,6 +93,13 @@ export default function Message(){
   }
 
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
+
   useEffect(() => {
     document.getElementById('alert').innerHTML = alert;
   })
@@ -103,7 +112,7 @@ export default function Message(){
 
       <Content className="container">
         <Title>Mensagem</Title>
-        <p>Envie com facilidade um e-mail para membros</p>{console.log(destinatarios)}
+        <p>Envie com facilidade um e-mail para membros</p>
 
         <div id="alert" />
         <div className="row">
@@ -122,10 +131,7 @@ export default function Message(){
                   ((filter != 'allMembers') && (member.equipes).indexOf(filter) != -1) ?
                     <Card key={member.matricula} onClick={() => {
                       if (destinatarios.indexOf(member) === -1) {
-                        console.log(member)
                         setDestinatarios(destinatarios => [...destinatarios, member])
-                      } else {
-                        console.log(member)
                       }
                     }}
                     >
@@ -204,12 +210,12 @@ export default function Message(){
                 <Addressee
                   key={addressee.matricula}
                   id={addressee.matricula}
-                  onClick={e => {
-                    removeAddressee(addressee)
-                    document.getElementById(e.target.id).hidden = true
-                  }}
+                  // onClick={e => {
+                  //   removeAddressee(addressee)
+                  //   document.getElementById(e.target.id).hidden = true
+                  // }}
                   title={addressee.nome_completo}>
-                  {addressee.nome_completo.split(' ')[0]}
+                  <img src={addressee.foto_url} id={addressee.matricula} />
                 </Addressee>
               ))}
             </ListAddressee>

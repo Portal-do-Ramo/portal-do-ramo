@@ -28,21 +28,32 @@ export default function ManageRequests() {
       setInactivityRequest(response.data.pedido_de_inatividade)
       setShutdownRequest(response.data.pedido_de_desligamento)
     })
-    .catch(error => console.log(error.response))
+    .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(true))
   }, [])
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
 
   function approveRequest() {
     api.put(`/api/pedidos/pedido-de-${selectedType}/aprovar/${selectedRequest.uuid}`, {}, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert">Pedido aprovado com sucesso!</div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert">Pedido aprovado com sucesso!</div>')
+      window.location.href = '/managerequests'
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível aprovar o pedido.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
   function disapproveRequest() {
     api.delete(`/api/pedidos/pedido-de-${selectedType}/recusar/${selectedRequest.uuid}`, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert">Pedido reprovado com sucesso!</div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert">Pedido reprovado com sucesso!</div>')
+      window.location.href = '/managerequests'
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível reprovar o pedido.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -82,7 +93,7 @@ export default function ManageRequests() {
                         <Card key={request.uuid} onClick={() => setSelectedRequest(request)}>
                           <h1>{(request.nome_membro_solicitou.split(' ')[0]).concat(' ' + request.nome_membro_solicitou.split(' ')[1])}</h1>
                           <h2><strong>Data do pedido:</strong> {request.data_criado}</h2>
-                          <h2><strong>Situação:</strong> {(request.data_aprovado) ? 'Aprovado' : 'Solicitado'}</h2>
+                          <h2><strong>Situação:</strong> {request.situacao}</h2>
                         </Card>
                       ))
                     : ''
@@ -93,7 +104,7 @@ export default function ManageRequests() {
                           <Card key={request.uuid} onClick={() => setSelectedRequest(request)}>
                             <h1>{(request.nome_membro_solicitou.split(' ')[0]).concat(' ' + request.nome_membro_solicitou.split(' ')[1])}</h1>
                             <h2><strong>Data do pedido:</strong> {request.data_criado}</h2>
-                            <h2><strong>Situação:</strong> {(request.data_aprovado) ? 'Aprovado' : 'Solicitado'}</h2>
+                            <h2><strong>Situação:</strong> {request.situacao}</h2>
                           </Card>
                         ))
                       : ''
@@ -103,7 +114,7 @@ export default function ManageRequests() {
                           <Card key={request.uuid} onClick={() => setSelectedRequest(request)}>
                             <h1>{(request.nome_membro_solicitou.split(' ')[0]).concat(' ' + request.nome_membro_solicitou.split(' ')[1])}</h1>
                             <h2><strong>Data do pedido:</strong> {request.data_criado}</h2>
-                            <h2><strong>Situação:</strong> {(request.data_aprovado) ? 'Aprovado' : 'Solicitado'}</h2>
+                            <h2><strong>Situação:</strong> {request.situacao}</h2>
                           </Card>
                         ))
                       : ''
@@ -118,12 +129,14 @@ export default function ManageRequests() {
                     <h1>{selectedRequest.nome_tipo}</h1>
                     <h2><strong>Membro:</strong> {(selectedRequest.nome_membro_solicitou.split(' ')[0]).concat(' ' + selectedRequest.nome_membro_solicitou.split(' ')[1])}</h2>
                     <h2><strong>Data do pedido: </strong>{selectedRequest.data_criado}</h2>
-                    <h2><strong>Situação: </strong>{(selectedRequest.data_aprovado) ? 'Aprovado' : 'Solicitado'}</h2>
+                    <h2><strong>Situação: </strong>{selectedRequest.situacao}</h2>
                     <textarea value={selectedRequest.dados_pedido.justificativa} readOnly />
-                    <div className="area-buttons">
-                      <button onClick={() => approveRequest()}>Aprovar</button>
-                      <button onClick={() => disapproveRequest()}>Reprovar</button>
-                    </div>
+                    {(selectedRequest.situacao === 'Pendente') ?
+                      <div className="area-buttons">
+                        <button onClick={() => approveRequest()}>Aprovar</button>
+                        <button onClick={() => disapproveRequest()}>Reprovar</button>
+                      </div>
+                    : ''}
                   </div>
                 : <h1>Selecione um pedido</h1>}
               </div>

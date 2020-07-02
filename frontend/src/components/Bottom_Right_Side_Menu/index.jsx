@@ -10,16 +10,10 @@ import logout_img from './images/logout.png';
 
 export default function Bottom_Right_Side_Menu() {
   const [width, setWidth] = useState(window.innerWidth);
-  const [isActive, setIsActive] = useState();
+  const [isActive, setIsActive] = useState(true);
 
   window.addEventListener('resize', function(){
     setWidth(window.innerWidth)
-
-    if (window.innerWidth <= 1280) {
-      setIsActive(false)
-    } else {
-      setIsActive(true)
-    }
   });
 
   function logout(){
@@ -35,8 +29,16 @@ export default function Bottom_Right_Side_Menu() {
 
   return (
     <Menu className="fab">
-      <button className="main" />
-      <ul>
+      <button
+        className="main"
+        onFocus={() => setIsActive(false)}
+        onBlur={() =>
+          setTimeout(() => {
+            setIsActive(true)
+          }, 500)
+        }
+      />
+      <ul className="teste">
         <li><button id="home" onClick={() => window.location.href = '/home'} title="Home" disabled={(width > 1280) ? false : isActive}><img src={home} className="btn-icon" alt="Home"/></button></li>
         <li><button id="profile" onClick={() => window.location.href = '/profile'} title="Meu perfil" disabled={(width > 1280) ? false : isActive}><img src={profile} className="btn-icon" alt="Profile"/></button></li>
         <li><button id="feedback" onClick={() => window.location.href = '/feedback'} title="Feedback" disabled={(width > 1280) ? false : isActive}><img src={feedback} className="btn-icon" alt="Feedback"/></button></li>

@@ -61,10 +61,6 @@ export const Menu = styled.div`
       transition: .2s ease-out;
     }
 
-    button:disabled {
-      background: red;
-    }
-
     .btn-icon {
       width: 22px;
     }
@@ -92,6 +88,7 @@ export const Menu = styled.div`
       padding-right:5px;
       margin:0;
       list-style:none;
+      height: auto;
       z-index:10;
       -webkit-transition: .2s ease-out;
       -moz-transition: .2s ease-out;

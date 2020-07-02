@@ -20,6 +20,13 @@ export const Screen = styled.div`
   .user-image {
     width: 140px;
     margin-top: 30px;
+    border: 4px solid #FFF;
+    border-radius: 70px;
+
+    -webkit-border-radius: 70px;
+    -moz-border-radius: 70px;
+    -ms-border-radius: 70px;
+    -o-border-radius: 70px;
   }
 
   .username {
@@ -64,7 +71,7 @@ export const ViewProjects = styled.div`
 `
 
 export const Card = styled.div`
-  background-color: #F5F5F5;
+  background-color: #E5E5E5;
   border-radius: 5px;
   padding: 10px;
   color: #353535;

@@ -58,6 +58,7 @@ import Strike from './pages/ApplyStrike';
 import MyStrikes from './pages/MyStrikes';
 import ManageStrikes from './pages/ManageStrikes';
 import HistoricStrikes from './pages/HistoricStrikes';
+import StrikeRevaluation from './pages/StrikeRevaluation';
 
 /* PROJECTS */
 import ProjectScreen from './pages/ProjectScreen';
@@ -86,6 +87,8 @@ import MyRequests from './pages/MyRequests';
 
 /* MARKETING */
 import ViewPartners from './pages/ViewPartners';
+
+import DownloadEstatuto from './pages/DownloadEstatuto';
 
 
 function isAuthenticated() {
@@ -137,7 +140,7 @@ export default function Routes () {
           <PrivateRoute path='/message' component={ () => <Message /> } />
           <PrivateRoute path='/managemembers' exact component={ () => <ManageMembers /> } />
           <PrivateRoute path='/managemembers/member' component={ () => <MemberData /> } />
-          {/* <PrivateRoute path='/managepsi' exact component={ () => <ManagePSI /> } /> */}
+          <PrivateRoute path='/managepsi' exact component={ () => <ManagePSI /> } />
           {/* <PrivateRoute path='/managepsi/control' component={ () => <ControlPSI /> } /> */}
           <PrivateRoute path='/managepsi/new' component={ () => <NewPSI /> } />
           <PrivateRoute path='/manageabsences' exact component={ () => <ManageAbsences /> } />
@@ -164,6 +167,7 @@ export default function Routes () {
           <PrivateRoute path='/strike' exact component={ () => <Strike /> } />
           <PrivateRoute path='/strike/manage' exact component={ () => <ManageStrikes /> } />
           <PrivateRoute path='/strike/manage/historic' component={ () => <HistoricStrikes /> } />
+          <PrivateRoute path='/strike/manage/reavaliacao' component={ () => <StrikeRevaluation /> } />
 
           {/* Routers - Financeiro */}
           <PrivateRoute path='/finances' exact component={ () => <Finances /> } />
@@ -192,9 +196,10 @@ export default function Routes () {
           <PrivateRoute path='/editprofile' component={ () => <EditProfile /> } />
           <PrivateRoute path='/search' component={ () => <Search /> } />
           <PrivateRoute path='/notifications' component={ () => <Notifications /> } />
-          <PrivateRoute path='/termos' component={ () => <TermosDeUso /> } />
+          <Route path='/termos' component={ () => <TermosDeUso /> } />
           <Route path='/politicas' component={ () => <PoliticasDePrivacidade /> } />
           <Route path='/noaccess' component={ () => <NotAccess /> } />
+          <Route path='/download/estatuto' component={ () => <DownloadEstatuto /> } />
         </Switch>
       </Router>
     </Provider>

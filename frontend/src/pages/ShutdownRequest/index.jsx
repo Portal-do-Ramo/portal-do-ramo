@@ -14,6 +14,12 @@ export default function ShutdownRequest() {
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
   const [alert, setAlert] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   function sendShutdown(e){
     e.preventDefault()
     const reason = document.getElementById('reason').value;

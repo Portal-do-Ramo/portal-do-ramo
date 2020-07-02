@@ -16,6 +16,12 @@ export default function OutputProjectRequest() {
   const [listProjects, setListProjects] = useState([]);
   const [alert, setAlert] = useState('');
 
+  setTimeout(() => {
+    if (alert !== '') {
+      setAlert('')
+    }
+  }, 4000);
+
   function sendShutdown(e){
     e.preventDefault();
     const date = document.getElementById('output-date').value.split('-');
