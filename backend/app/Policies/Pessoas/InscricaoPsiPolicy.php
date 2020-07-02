@@ -25,7 +25,7 @@ class InscricaoPsiPolicy
             if(!$projeto) //Caso não encontre o projeto
                 return Response::deny('Projeto não encontrado');
 
-            else if(!collect($projeto->pivot->areas_vagas)->has($dadosValidos['area'])) //Caso não encontre a área no projeto
+            else if(!collect($projeto->pivot->areas_vagas)->contains($dadosValidos['area'])) //Caso não encontre a área no projeto
                 return Response::deny('Área do projeto inválida');
         }
         else if($dadosValidos['tipo'] == 'equipe')
@@ -34,17 +34,16 @@ class InscricaoPsiPolicy
             if(!$equipe) //Caso não encontre a equipe
                 return Response::deny('Equipe não encontrada');
 
-            if(!collect($equipe->pivot->areas_vagas)->has($dadosValidos['area'])) //Caso não encontre a área na equipe
+            if(!collect($equipe->pivot->areas_vagas)->contains($dadosValidos['area'])) //Caso não encontre a área na equipe
                 return Response::deny('Área da equipe inválida');
         }
-        else if($dadosValidos['tipo'] == 'gestão')
+        else if($dadosValidos['tipo'] == 'gestao')
         {
-            if(collect($psi->gestao_areas_vagas)->pluck('area_vagas')->where($dadosValidos['area'])->isEmpty()) //Caso não encontre a área de gestão
+            if(!collect($psi->gestao_areas_vagas)->pluck('area_vagas')->contains($dadosValidos['area'])) //Caso não encontre a área de gestão
                 return Response::deny('Área da gestão inválida');
         }
         else
             return Response::deny('Tipo de inscrição inválida');
-
         return Response::allow();
     }
 

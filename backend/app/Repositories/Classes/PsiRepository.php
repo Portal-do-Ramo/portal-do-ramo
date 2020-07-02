@@ -40,8 +40,6 @@ class PsiRepository implements PsiRepositoryInterface
                         });
 
                         $psi['membro_inscrito'] = $psi->membroInscritoFormatado(Auth::id());
-
-                        return $psi;
                     });
     }
 
@@ -55,8 +53,8 @@ class PsiRepository implements PsiRepositoryInterface
                     return $equipe;
             }),
             'gestão' => [
-                ['nome-slug' => 'assessor-de-gestao', 'nome' => 'Assessor de Gestão'],
-                ['nome-slug' => 'assessor-de-presidencia', 'nome' =>'Assessor de Presidência']
+                ['nome_slug' => 'assessor-de-gestao', 'nome' => 'Assessor de Gestão'],
+                ['nome_slug' => 'assessor-de-presidencia', 'nome' =>'Assessor de Presidência']
             ]
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Classes;
 
+use App\Models\InscricaoProjeto;
 use App\Models\InscricaoPsi;
 use App\Repositories\Interfaces\InscricaoPsiRepositoryInterface;
 
@@ -44,9 +45,7 @@ class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
         $inscricao->update(['condicao'=>$condicao]);
 
         if($condicao == 'Aprovado')
-        {
             $this->aprovarInscricao($inscricao);
-        }
     }
 
     /**
@@ -58,36 +57,12 @@ class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
     {
         if($inscricao->tipo == 'projeto')
         {
-            $projeto = $inscricao->projeto;
-
-            if($inscricao->area_solicitada == "Líder")
-                $cargo = "Líder";
-
-            else if($inscricao->area_solicitada == "Assessor")
-                $cargo = "Assessor";
-
-            else
-                $cargo = "Membro";
-
-            if($projeto->matriculaMembrosPertencentes()->contains($inscricao->membro_inscrito))
-            {
-                $projeto->todosMembros()->updateExistingPivot($inscricao->membro_inscrito,
-                    ['nome_projeto'=>$inscricao->nome_projeto,
-                    'funcao'=>$cargo]);
-            }
-            else
-            {
-                $projeto->todosMembros()->attach($inscricao->membro_inscrito,
-                    ['nome_projeto'=>$inscricao->nome_projeto,
-                    'data_entrada'=>today()->format('d/m/Y'),
-                    'funcao'=>$cargo]);
-            }
         }
         else if($inscricao->tipo == 'equipe')
         {
-            $inscricao->equipe->update(['matricula_assessor' => $inscricao->membro_inscrito]);
+
         }
-        else if($inscricao->tipo == 'gestão')
+        else if($inscricao->tipo == 'gestao')
         {
             $hierarquiaAtual = $inscricao->membro->hierarquia;
             if(!$hierarquiaAtual->diretoria) //Se a hierarquia do inscrito não for de diretoria a alteração é feita no BD.

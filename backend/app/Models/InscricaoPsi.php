@@ -12,7 +12,7 @@ class InscricaoPsi extends BaseModel
 
     public function getTipoAttribute()
     {
-        $tipo = 'gestão';
+        $tipo = 'gestao';
 
         if($this->nome_projeto and !$this->nome_equipe)
             $tipo = 'projeto';

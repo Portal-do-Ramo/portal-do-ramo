@@ -14,7 +14,7 @@ class SeInscreverPsiRequest extends FormRequest
         return [
             'nome_psi' => 'bail|required|exists:psis,nome_psi_slug',
             'tipo' => 'required',
-            'nome' => 'required_unless:tipo,gestão',
+            'nome' => 'required_unless:tipo,gestao',
             'area' => 'required',
         ];
     }

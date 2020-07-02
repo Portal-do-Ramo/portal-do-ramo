@@ -1,5 +1,6 @@
 .docker/database
 .docker/redis
 .docker/nginx/certbot
+.docker/echo/laravel-echo-server.lock
 *.sql
 
