@@ -68,47 +68,55 @@ export default function StrikeRevaluation () {
           <div className="col-md-6">
             <div className="left-box-gray">
               <div className="view-strikes">
-                <Card>
-                  <h3><strong>Aplicou:</strong> Anthony Vinicius</h3>
-                  <h3><strong>Recebeu:</strong> Todo mundo</h3>
-                  <h3><strong>Data de aprovação:</strong> 28/06/2020</h3>
-                  <h3><strong>Última reavaliação:</strong> 29/06/2020</h3>
-                  <textarea value="Testeee" readOnly />
-                </Card>
+                {(strikes) ?
+                  strikes.map(strike => (
+                    <Card key={strike.uuid} onClick={() => setSelectedStrike(strike)}>
+                      <h3><strong>Aplicou:</strong> {strike.nome_membro_aplicou}</h3>
+                      <h3><strong>Recebeu:</strong> {strike.nome_membro_recebeu}</h3>
+                      <h3><strong>Data de aprovação:</strong> {strike.data_aprovado}</h3>
+                      <h3><strong>Última reavaliação:</strong> {strike.data_ultima_reavaliacao}</h3>
+                      <textarea value={strike.motivo} readOnly />
+                    </Card>
+                  ))
+                : ''}
               </div>
             </div>
           </div>
           <div className="col-md-6">
             <div className="right-box-blue-gradient">
-              <h3><strong>Aplicou:</strong> Anthony Vinicius</h3>
-              <h3><strong>Recebeu:</strong> Todo mundo</h3>
-              <h3><strong>Data de aprovação:</strong> 28/06/2020</h3>
-              <h3><strong>Última reavaliação:</strong> 29/06/2020</h3>
+              {(selectedStrike) ?
+                <div>
+                  <h3><strong>Aplicou:</strong> {selectedStrike.nome_membro_aplicou}</h3>
+                  <h3><strong>Recebeu:</strong> {selectedStrike.nome_membro_recebeu}</h3>
+                  <h3><strong>Data de aprovação:</strong> {selectedStrike.data_aprovado}</h3>
+                  <h3><strong>Última reavaliação:</strong> {selectedStrike.data_ultima_reavaliacao}</h3>
 
-              <div className="row">
-                <div className="col-md-6">
-                  <label htmlFor="data-reavaliacao">Data da reavaliação *</label>
-                  <input type="date" id="data-reavaliacao" name="data-reavaliacao" className="form-control" />
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label htmlFor="data-reavaliacao">Data da reavaliação *</label>
+                      <input type="date" id="data-reavaliacao" name="data-reavaliacao" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label htmlFor="votos-favor">Votos p/ manter *</label>
+                      <input type="text" id="votos-favor" name="votos-favor" className="form-control"></input>
+                    </div>
+                    <div className="col-md-6">
+                      <label htmlFor="votos-contra">Votos p/ retirar *</label>
+                      <input type="text" id="votos-contra" name="votos-contra" className="form-control"></input>
+                    </div>
+                  </div>
+                  <div className="buttons-area">
+                    <button onClick={() => novaSituacaoStrike('Manter')}>
+                      Manter
+                    </button>
+                    <button onClick={() => novaSituacaoStrike('Retirar')}>
+                      Retirar
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <label htmlFor="votos-favor">Votos p/ manter *</label>
-                  <input type="text" id="votos-favor" name="votos-favor" className="form-control"></input>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="votos-contra">Votos p/ retirar *</label>
-                  <input type="text" id="votos-contra" name="votos-contra" className="form-control"></input>
-                </div>
-              </div>
-              <div className="buttons-area">
-                <button onClick={() => novaSituacaoStrike('Manter')}>
-                  Manter
-                </button>
-                <button onClick={() => novaSituacaoStrike('Retirar')}>
-                  Retirar
-                </button>
-              </div>
+              : ''}
             </div>
           </div>
         </div>
