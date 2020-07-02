@@ -41,7 +41,7 @@ class PerfilCompletoResource extends JsonResource
             'alimentos_alergico' => $this->membro->alimentos_alergico,
             'condicoes_especiais' => $this->membro->condicoes_especiais,
             'info_contato' => $this->membro->info_contato,
-            'quantidade_strikes' => $this->strikesRecebeuAprovados()->where('strikes.situacao', 'Aprovado')->count(),
+            'quantidade_strikes' => $this->strikesRecebeuAprovados()->count(),
             'quantidade_faltas_rg' => $this->getQuantidadeFaltas('Reunião Geral', null),
             'quantidade_faltas_exposup' => $this->getQuantidadeFaltas('Exposup', null),
             'quantidade_faltas_equipe' => $this->getQuantidadeFaltas('Reunião de Projeto', null),

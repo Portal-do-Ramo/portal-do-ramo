@@ -17,12 +17,12 @@ class CriarPedidoDeReembolsoRequest extends FormRequest
     public function rules()
     {
         return [
-            'foto' => 'required|base64image'
+            'foto_comprovante' => 'required|base64image'
         ];
     }
 
     protected function prepareForValidation()
     {
-        $this->merge(['foto' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto)]);
+        $this->merge(['foto_comprovante' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto)]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Strike;
 
+use App\Http\Requests\Strike\CriarReavaliacaoRequest;
 use App\Http\Requests\Strike\CriarStrikeRequest;
 use App\Http\Resources\HistoricoStrikeResource;
 use App\Models\Strike;
@@ -54,6 +55,12 @@ class StrikeController extends AbstractStrikeController
         return response()->json('Registro de strike criado com sucesso', 201);
     }
 
+    public function adicionarReavaliacao(CriarReavaliacaoRequest $request, Strike $strike)
+    {
+        $this->strikeRepository->addReavaliacao($strike, $request->validated());
+        return response()->json('Registro de reavaliação criada com sucesso', 201);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -90,8 +97,8 @@ class StrikeController extends AbstractStrikeController
     {
         if($strike->aprovado)
         {
-            $strike->remover();
-            return response()->json('Strike removido com sucesso', 200);
+            $strike->retirar();
+            return response()->json('Strike retirado com sucesso', 200);
         }
             
         $strike->reprovar();
@@ -104,6 +111,7 @@ class StrikeController extends AbstractStrikeController
             'index' => 'viewAny',
             'historico' => 'viewAny',
             'strikesSolicitados' => 'viewAny',
+            'adicionarReavaliacao' => 'adicionarReavaliacao',
             'aprovar' => 'aprovar',
             'manter' => 'manter',
             'destroy' => 'delete'

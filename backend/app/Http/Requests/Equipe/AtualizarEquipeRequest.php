@@ -17,7 +17,7 @@ class AtualizarEquipeRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome_equipe' => ['bail', 'required', Rule::unique('equipes')->ignore($this->route('equipe'),'nome_equipe_slug')],
+            'nome_equipe' => ['bail', 'required', Rule::unique('equipes')->ignore($this->route('equipe'))],
             'capitulo' => 'present|nullable'
         ];
     }

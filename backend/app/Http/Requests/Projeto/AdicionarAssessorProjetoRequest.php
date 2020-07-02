@@ -20,7 +20,7 @@ class AdicionarAssessorProjetoRequest extends FormRequest
     public function rules()
     {
         return [
-            'matricula_assessor' => ['bail', 'present', 'nullable', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3)), new MatriculaAssessor($this->route('projeto')->assessor->first())],
+            'matricula_assessor' => ['bail', 'present', 'nullable', "different:{$this->route}", new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3)), new MatriculaAssessor($this->route('projeto')->assessor->first())],
         ];
     }
 

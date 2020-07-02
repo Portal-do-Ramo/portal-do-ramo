@@ -19,7 +19,7 @@ class AtualizarAssessorRequest extends FormRequest
     public function rules()
     {
         return [
-            'matricula_assessor' => ['bail', 'required', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '=', 1))],
+            'matricula_assessor' => ['bail', 'required', "different:{$this->route('equipe')->matricula_assessor}", "different:{$this->route('equipe')->matricula_coordenador}", new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '=', 1))],
         ];
     }
 

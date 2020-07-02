@@ -39,7 +39,7 @@ class Strike extends BaseModel
 
     protected $dates = ['data_aprovado', 'data_audiencia'];
 
-    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'disapproved', 'sustained', 'removed'];
+    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'createApproved', 'disapproved', 'sustained', 'removed'];
 
     /**
      * Definição do escopo para recuperar somente os strikes que foram aprovados
@@ -91,10 +91,16 @@ class Strike extends BaseModel
     {
         $this->attributes['data_audiencia'] = $value ? Carbon::createFromFormat('d/m/Y', $value) : NULL;
     }
+
+    public static function createApproved($dadosValidos)
+    {
+        $strike = self::create($dadosValidos);
+        $strike->fireModelEvent('createdApproved', false);
+    }
     
     public function aprovar()
     {
-        $this->update(['aprovado' => true, 'data_aprovado' => now(), 'situacao' => 'Aprovado']);
+        $this->update(['data_aprovado' => now(), 'situacao' => 'Aprovado']);
         $this->fireModelEvent('approved', false);
     }
 
@@ -138,7 +144,7 @@ class Strike extends BaseModel
         $this->fireModelEvent('disapproved', false);
     }
 
-    public function remover()
+    public function retirar()
     {
         $this->update(['situacao' => 'Retirado']);
         $this->when($this->audiencia_marcada, fn($query) => $query->update(['data_audiencia' => null, 'hora_audiencia' => null]));

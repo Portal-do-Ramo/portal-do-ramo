@@ -32,7 +32,7 @@ class CriarPedidoDeReembolsoJob implements ShouldQueue
     {
         $this->usuario = $usuario;
         $this->pedidoDeCompra = $pedidoDeCompra;
-        $this->fotoCodificada = $dadosValidos['foto'];
+        $this->fotoCodificada = $dadosValidos['foto_comprovante'];
         $this->pedidoRepository = $pedidoRepository;
         $this->service = $service;
     }

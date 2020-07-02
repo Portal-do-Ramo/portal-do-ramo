@@ -34,7 +34,7 @@ class StrikeObserver
     {
         $membros = $this->getMembros($strike);
 
-        $strike->membroRecebeu->notifv(new StrikeRecebidoAprovadoNotification($strike));
+        $strike->membroRecebeu->notify(new StrikeRecebidoAprovadoNotification($strike));
         $strike->membroAplicou->notify(new StrikeSolicitadoAprovadoNotification($strike));
 
         Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new StrikeRecebidoMail($strike))->onQueue('strike-recebido'));
@@ -67,6 +67,15 @@ class StrikeObserver
 
         Notification::send($membros, new AudienciaDesmarcadaNotification($strike));
         Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new AudienciaDesmarcadaMail($strike))->onQueue('audiencia-strike-mail'));
+    }
+
+    public function createdApproved(Strike $strike)
+    {
+        $membros = $this->getMembros($strike);
+
+        $strike->membroRecebeu->notify(new StrikeRecebidoAprovadoNotification($strike));
+        
+        Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new StrikeRecebidoMail($strike))->onQueue('strike-recebido'));
     }
 
     public function disapproved(Strike $strike)

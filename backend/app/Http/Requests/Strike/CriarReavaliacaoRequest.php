@@ -4,6 +4,7 @@ namespace App\Http\Requests\Strike;
 
 use App\Traits\ApiRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CriarReavaliacaoRequest extends FormRequest
 {
@@ -17,8 +18,10 @@ class CriarReavaliacaoRequest extends FormRequest
     public function rules()
     {
         return [
-            'constatacao' => 'required',
-            'data' => 'required|date_format:d/m/Y|before_or_equal:today'
+            'constatacao' => ['required', Rule::in(['Manter', 'Retirar'])],
+            'data' => 'required|date_format:d/m/Y|before_or_equal:today',
+            'votos_manter' => 'required|integer',
+            'votos_retirar' => 'required|integer',
         ];
     }
 
@@ -32,7 +35,9 @@ class CriarReavaliacaoRequest extends FormRequest
     public function attributes()
     {
         return [
-            'constatacao' => 'constatação'
+            'constatacao' => 'constatação',
+            'votos_manter' => 'votos para manter',
+            'votos_retirar' => 'votos para retirar',
         ];
     }
 }

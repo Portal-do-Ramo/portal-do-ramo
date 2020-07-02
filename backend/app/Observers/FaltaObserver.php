@@ -33,8 +33,8 @@ class FaltaObserver
 
         if($strike)
         {
-            $strike += ['membro_recebeu' => $membro->matricula, 'membro_aplicou' => Auth::id()];
-            $this->strikeRepository->create($strike);
+            $strike += ['membro_recebeu' => $membro->matricula, 'membro_aplicou' => Auth::id(), 'situacao' => 'Aprovado'];
+            $this->strikeRepository->createApproved($strike);
         }
     }
 }

@@ -69,4 +69,9 @@ class StrikePolicy
     {
         return $user->isPresidencia() or $user->isDiretor('de Gestão de Pessoas');
     }
+
+    public function adicionarReavaliacao(UsuarioSistema $user, Strike $strike)
+    {
+        return $user->isPresidencia() or $user->isDiretor('de Gestão de Pessoas') and $strike->aprovado;
+    }
 }

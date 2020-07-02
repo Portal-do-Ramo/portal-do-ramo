@@ -20,7 +20,7 @@ class CriarEquipeRequest extends FormRequest
         return [
             'nome_equipe' => 'bail|required|unique:equipes',
             'matricula_coordenador' => ['bail', 'required', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
-            'matricula_assessor' => ['bail','present', 'nullable', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
+            'matricula_assessor' => ['bail','present', 'nullable', 'different:matricula_coordenador', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
             'capitulo' => 'present|nullable',
             'porcentagem_orcamento' => 'required|numeric',
             'logo_equipe' => 'present|nullable|base64image'

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Arquivo;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use App\Models\Arquivo;
 use Illuminate\Support\Facades\Storage;
 
-class DownloadArquivoController extends Controller
+class DownloadArquivoController extends ApiController
 {
     /**
      * Handle the incoming request.

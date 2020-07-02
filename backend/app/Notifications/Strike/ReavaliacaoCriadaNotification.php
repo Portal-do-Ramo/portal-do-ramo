@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Strike;
 
-use App\Mail\Strike\ReavaliacaoCriadaMail;
 use App\models\Reavaliacao;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,18 +31,7 @@ class ReavaliacaoCriadaNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
-    }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return App\Mail\Reavaliacao\ReavaliacaoCriadaMail
-     */
-    public function toMail($notifiable)
-    {
-        return (new ReavaliacaoCriadaMail($notifiable, $this->reavaliacao))->to($notifiable->email);
+        return ['database'];
     }
 
     /**
@@ -56,7 +44,7 @@ class ReavaliacaoCriadaNotification extends Notification implements ShouldQueue
     {
         return [
             'titulo' => 'Reavaliação do Strike',
-            'mensagem' => "Seu strike (aprovado no dia: {$this->reavaliacao->strike->data_aprovado}) foi reavaliado! Conclusão da reavaliação: '{$this->reavaliacao->constatacao}' ",
+            'mensagem' => 'O strike que você ' . $notifiable->is($this->reavaliacao->strike->membroAplicou) ? 'aplicou' : 'recebeu' . ", (aprovado no dia: {$this->reavaliacao->strike->data_aprovado}) foi reavaliado!",
             'link' => 'meus-strikes'
         ];
     }

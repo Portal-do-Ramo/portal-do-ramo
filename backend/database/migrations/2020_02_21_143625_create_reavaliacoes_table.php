@@ -16,8 +16,10 @@ class CreateReavaliacoesTable extends Migration
         Schema::create('reavaliacoes', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
             $table->string('strike_id');
+            $table->enum('constatacao', ['Manter', 'Retirar']);
             $table->date('data');
-            $table->text('constatacao');
+            $table->integer('votos_manter');
+            $table->integer('votos_retirar');
             
             $table->foreign('strike_id')->references('uuid')->on('strikes');
             

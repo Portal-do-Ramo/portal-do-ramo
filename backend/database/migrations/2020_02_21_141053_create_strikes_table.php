@@ -18,7 +18,7 @@ class CreateStrikesTable extends Migration
             $table->char('membro_aplicou', 12);
             $table->char('membro_recebeu', 12);
             $table->enum('situacao', ['Solicitado', 'Recusado', 'Aprovado', 'Em Processamento', 'Mantido', 'Retirado'])->default('Solicitado');
-            $table->tinyInteger('aprovado')->default(0);
+            $table->tinyInteger('aprovado')->virtualAs("situacao IN ('Aprovado', 'Mantido')");
             $table->date('data_aprovado')->nullable();
             $table->text('motivo');
             $table->tinyInteger('audiencia_solicitada')->default(0);

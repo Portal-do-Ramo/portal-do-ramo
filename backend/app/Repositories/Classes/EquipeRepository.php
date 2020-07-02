@@ -93,6 +93,7 @@ class EquipeRepository implements EquipeRepositoryInterface
                 $equipe->caixa->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe']), 'nome_caixa' => "Caixa {$dadosValidos['nome_equipe']}"]);
                 $equipe->eventos()->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe'])]);
                 $equipe->arquivos()->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe'])]);
+                $equipe->projetos()->update(['nome_equipe' => Str::slug($dadosValidos['nome_equipe'])]);
             }
 
             $equipe->update($dadosValidos);

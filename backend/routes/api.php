@@ -82,8 +82,10 @@ Route::prefix('/strikes')->group(function() {
     Route::get('/historico-strikes/{usuario}', 'Strike\StrikeController@historico');
     Route::get('/strikes-solicitados', 'Strike\StrikeController@strikesSolicitados');
     Route::get('/strikes-audiencia-solicitada', 'Strike\AudienciaStrikeController@strikesComAudiencia');
+    Route::get('/strikes-a-serem-reavaliados', 'Strike\ReavaliacaoController@strikesASeremReavaliados');
     Route::get('/lista-strikes-aprovados', 'Strike\StrikeExportController@getListaAprovados');
-
+    Route::post('/criar-reavaliacao/{strike}', 'Strike\StrikeController@adicionarReavaliacao');
+    
     Route::match(['PUT', 'PATCH'], '/aprovar/{strike}', 'Strike\StrikeController@aprovar');
     Route::match(['PUT', 'PATCH'], '/manter/{strike}', 'Strike\StrikeController@manter');
     Route::match(['PUT', 'PATCH'], '/solicitar-audiencia/{strike}', 'Strike\AudienciaStrikeController@solicitarAudiencia');
@@ -94,7 +96,6 @@ Route::prefix('/strikes')->group(function() {
 
 Route::prefix('reavaliacoes')->group(function() {
     Route::get('/{strike}/reavaliacoes', 'Strike\ReavaliacaoController@index');
-    Route::post('/{strike}/reavaliacoes', 'Strike\ReavaliacaoController@store');
     Route::delete('/{reavaliacao}', 'Strike\ReavaliacaoController@destroy');
 });
 
@@ -245,6 +246,8 @@ Route::prefix('registros-de-caixa')->group(function() {
  */
 Route::apiResource('/caixas', 'Caixa\CaixaController')->only('index', 'update');
 Route::prefix('caixas')->group(function() {
+    Route::get('/index-porcentagem-equipes-especiais', 'Caixa\CaixaController@indexPorcentagemEquipesEspeciais');
+    Route::get('/index-porcentagem-projetos-emergenciais/{equipe}', 'Caixa\CaixaController@indexPorcentagemProjetosEmergencial');
     Route::get('/info-gerais', 'Caixa\CaixaController@infosGerais');
 });
 
@@ -255,6 +258,7 @@ Route::prefix('caixas')->group(function() {
  */
 Route::prefix('arquivos')->group(function() {
     Route::get('/download/{arquivo}', 'Arquivo\DownloadArquivoController');
+    Route::get('/download-estatuto', 'Arquivo\DownloadEstatutoController');
 
     Route::post('/upload-arquivo-equipe/{equipe}', 'Equipe\EquipeArquivosController@store');
     Route::match(['PUT', 'PATCH'], '/{equipe}/alterar-arquivo-equipe/{arquivo}', 'Equipe\EquipeArquivosController@update');

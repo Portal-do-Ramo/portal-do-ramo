@@ -128,8 +128,8 @@ class ProjetoRepository implements ProjetoRepositoryInterface
     public function addAssessor(Projeto $projeto, array $dadosValidos)
     {
         DB::transaction(function () use ($projeto, $dadosValidos) {
-            if($projeto->assessor()->exists())
-                $projeto->assessor->update(['inscricoes_projetos.ativo' => false]);
+            if($assessor = $projeto->assessor->first())
+                $assessor->update(['inscricoes_projetos.ativo' => false]);
 
             if($dadosValidos['matricula_assessor'])
                 $projeto->inscricoes()->save(new InscricaoProjeto(['matricula_membro' => $dadosValidos['matricula_assessor'], 'funcao' => 'Assessor']));
@@ -141,7 +141,7 @@ class ProjetoRepository implements ProjetoRepositoryInterface
         DB::transaction(function () use($inscricao, $dadosValidos)
         {
             if($inscricao->funcao != 'Líder' and $dadosValidos['funcao'] == 'Líder')
-                $inscricao->projeto->lider->update(['funcao' => 'Membro']);
+                $inscricao->projeto->lider->first()->update(['funcao' => 'Membro']);
 
             $inscricao->update(['funcao' => $dadosValidos['funcao'], 'area' => $dadosValidos['area']]);
         });

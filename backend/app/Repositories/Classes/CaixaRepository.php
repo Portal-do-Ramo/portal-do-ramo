@@ -3,6 +3,7 @@
 namespace App\Repositories\Classes;
 
 use App\Models\Caixa;
+use App\Models\Equipe;
 use App\Models\RegistroDeCaixa;
 use App\Repositories\Interfaces\CaixaRepositoryInterface;
 
@@ -16,6 +17,20 @@ class CaixaRepository implements CaixaRepositoryInterface
             ->get();
     }
 
+    public function indexPorcentagemEquipesEspecias()
+    {
+        return Caixa::equipesEspeciais()->select('caixas.nome_caixa_slug', 'caixas.nome_caixa', 'caixas.porcentagem_orcamento')->get();
+    }
+
+    public function indexPorcentagemProjetosEmergencial(Equipe $equipe)
+    {
+        return Caixa::select('caixas.nome_caixa_slug', 'caixas.nome_caixa', 'caixas.porcentagem_orcamento')
+            ->leftJoin('projetos', 'projetos.nome_projeto_slug', '=', 'caixas.id_relacionado')
+            ->where(fn($subQuery) => $subQuery->where('projetos.nome_equipe', $equipe->nome_equipe_slug)->orWhere(fn($subQuery) => $subQuery->whereNull('projetos.nome_equipe')->where('caixas.id_relacionado', $equipe->nome_equipe_slug)->where('caixas.emergencial_equipe', true)))
+            ->where('caixas.ativo', true)
+            ->get();    
+    }
+
     public function infoGeralCaixa()
     {
         return Caixa::equipesEspeciais()
@@ -25,9 +40,10 @@ class CaixaRepository implements CaixaRepositoryInterface
             ->get();
     }
 
-    public function updateManual(Caixa $caixa, array $dadosValidos)
+    public function updatePorcentagem(array $dadosValidos)
     {
-        $caixa->update(['porcentagem_orcamento' => $dadosValidos['porcentagem_orcamento'], 'orcamento_atual' => $dadosValidos['valor']]);
+        foreach($dadosValidos['caixas'] as $caixa)
+            Caixa::where('nome_caixa_slug', $caixa['nome_caixa'])->update(['porcentagem_orcamento' => $caixa['porcentagem_orcamento']]);   
     }
 
     public function refletirAlteracaoCaixa(Caixa $caixa, float $valor)

@@ -16,6 +16,9 @@ class ReavaliacaoObserver
      */
     public function created(Reavaliacao $reavaliacao)
     {
-        Notification::send([$reavaliacao->strike->membroRecebeu, $reavaliacao->strike->membroAplicou], new ReavaliacaoCriadaNotification($reavaliacao));
+        $strike = $reavaliacao->strike;
+
+        Notification::send([$strike->membroRecebeu, $strike->membroAplicou], new ReavaliacaoCriadaNotification($reavaliacao));
+        $strike->{strtolower($reavaliacao->constatacao)}();
     }
 }

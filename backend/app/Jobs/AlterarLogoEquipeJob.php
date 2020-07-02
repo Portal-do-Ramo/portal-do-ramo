@@ -47,7 +47,7 @@ class AlterarLogoEquipeJob implements ShouldQueue
     {
         $pastaEquipes = $this->service->handle('Equipes');
         $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
-        $path = "$pastaEquipe/logo-equipe-{$this->equipe->nome_equipe_slug}";
+        $path = "$pastaEquipe/logo-{$this->equipe->nome_equipe_slug}";
 
         $this->deletarService->handle($pastaEquipe, "logo-equipe-{$this->equipe->nome_equipe_slug}");
 

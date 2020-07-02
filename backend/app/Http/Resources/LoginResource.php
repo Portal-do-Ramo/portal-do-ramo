@@ -29,7 +29,7 @@ class LoginResource extends JsonResource
             'assessor_flag' => $this->assessor,
             'marketing_flag' => $this->marketing,
             'notificacoes' => $this->notifications()->select('id', 'data', 'read_at', 'created_at')->get()->take(-6)->map(fn($notificacao) => $notificacao->formatar())->values(),
-            'quantidade_strikes' => $this->strikesRecebeuAprovados()->where('strikes.situacao', 'Aprovado')->count(),
+            'quantidade_strikes' => $this->strikesRecebeuAprovados()->count(),
             'quantidade_faltas_rg' => $this->getQuantidadeFaltas('Reunião Geral', null),
             'quantidade_faltas_exposup' => $this->getQuantidadeFaltas('Exposup', null),
             'quantidade_faltas_equipe' => $this->getQuantidadeFaltas('Reunião de Projeto', null),

@@ -18,7 +18,7 @@ class CaixaPolicy
      * @param  \App\Models\Caixa  $caixa
      * @return mixed
      */
-    public function update(UsuarioSistema $user, Caixa $caixa)
+    public function update(UsuarioSistema $user)
     {
         //
     }

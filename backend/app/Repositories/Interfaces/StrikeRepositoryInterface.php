@@ -22,9 +22,13 @@ interface StrikeRepositoryInterface
         
     public function create(array $dadosValidos);
 
+    public function createApproved(array $dadosValidos);
+
     public function addReavaliacao(Strike $strike, array $dadosValidos);
 
     public function getReavaliacoes(Strike $strike);
+
+    public function getStrikesASeremReavaliados();
 
     public function deleteReavaliacao(Reavaliacao $reavaliacao);
 }

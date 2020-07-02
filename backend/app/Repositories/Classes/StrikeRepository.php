@@ -26,6 +26,7 @@ class StrikeRepository implements StrikeRepositoryInterface
         $strikesRecebeu = Auth::user()->strikesRecebeuAprovados()
             ->join('usuarios', 'strikes.membro_aplicou', '=', 'usuarios.matricula')
             ->select($this->selecionarColunasStrike('aplicou'))
+            ->orWhere('strikes.situacao', 'Retirado')
             ->get();
 
         $strikesEnviou = Auth::user()->strikesAplicou()
@@ -72,23 +73,24 @@ class StrikeRepository implements StrikeRepositoryInterface
 
     public function getStrikesSolicitados()
     {
-        return Strike::where('strikes.situacao', 'Solicitado')
-            ->select('uuid', 'motivo', 'strikes.data_criado')
+        return Strike::select('uuid', 'motivo', 'strikes.data_criado')
             ->join('usuarios as membro_aplicou', 'membro_aplicou.matricula', '=', 'strikes.membro_aplicou')
             ->addSelect('membro_aplicou.matricula as matricula_membro_aplicou', 'membro_aplicou.nome_completo as nome_membro_aplicou')
             ->join('usuarios as membro_recebeu', 'membro_recebeu.matricula', '=', 'strikes.membro_recebeu')
             ->addSelect('membro_recebeu.matricula as matricula_membro_recebeu', 'membro_recebeu.nome_completo as nome_membro_recebeu')
+            ->where('strikes.situacao', 'Solicitado')
             ->get();
     }
 
     public function getStrikesAudienciaSolicitada()
     {
-        $strikes = Strike::whereAudienciaSolicitada(true)
-            ->select('uuid', 'motivo', 'data_audiencia_solicitada', 'data_audiencia', 'hora_audiencia', 'data_aprovado', 'strikes.data_criado')
+        $strikes = Strike::select('uuid', 'motivo', 'data_audiencia_solicitada', 'data_audiencia', 'hora_audiencia', 'data_aprovado', 'strikes.data_criado')
             ->join('usuarios as membro_aplicou', 'membro_aplicou.matricula', '=', 'strikes.membro_aplicou')
             ->addSelect('membro_aplicou.matricula as matricula_membro_aplicou', 'membro_aplicou.nome_completo as nome_membro_aplicou')
             ->join('usuarios as membro_recebeu', 'membro_recebeu.matricula', '=', 'strikes.membro_recebeu')
             ->addSelect('membro_recebeu.matricula as matricula_membro_recebeu', 'membro_recebeu.nome_completo as nome_membro_recebeu')
+            ->whereAudienciaSolicitada(true)
+            ->where('strikes.situacao', 'Aprovado')
             ->get();
 
         $strikesAudienciaSolicitada = $strikes->whereNull('data_audiencia')->map(fn($strike) => Arr::except($strike, ['data_audiencia', 'hora_audiencia']))->values();
@@ -99,10 +101,10 @@ class StrikeRepository implements StrikeRepositoryInterface
 
     public function getStrikesAprovados()
     {
-        return Strike::where('strikes.situacao', 'Aprovado')
-            ->join('usuarios as usuario_aplicou', 'strikes.membro_aplicou', '=', 'usuario_aplicou.matricula')
+        return Strike::join('usuarios as usuario_aplicou', 'strikes.membro_aplicou', '=', 'usuario_aplicou.matricula')
             ->join('usuarios as usuario_recebeu', 'strikes.membro_recebeu', '=', 'usuario_recebeu.matricula')
-            ->addSelect('usuario_aplicou.nome_completo as nome_aplicou', 'usuario_recebeu.nome_completo as nome_recebeu','motivo', 'strikes.data_criado', 'data_aprovado')
+            ->select('usuario_aplicou.nome_completo as nome_aplicou', 'usuario_recebeu.nome_completo as nome_recebeu','motivo', 'strikes.data_criado', 'data_aprovado')
+            ->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])
             ->orderBy('data_criado')
             ->get();
     }
@@ -112,6 +114,11 @@ class StrikeRepository implements StrikeRepositoryInterface
         Strike::create($dadosValidos);
     }
 
+    public function createApproved(array $dadosValidos)
+    {
+        Strike::createApproved($dadosValidos);
+    }
+
     public function addReavaliacao(Strike $strike, array $dadosValidos)
     {
         $strike->reavaliacoes()->save(new Reavaliacao($dadosValidos));
@@ -119,7 +126,22 @@ class StrikeRepository implements StrikeRepositoryInterface
 
     public function getReavaliacoes(Strike $strike)
     {
-        return $strike->reavaliacoes()->select('reavaliacoes.uuid', 'reavaliacoes.constatacao', 'reavaliacoes.data')->get();
+        return $strike->reavaliacoes()->select('reavaliacoes.uuid', 'reavaliacoes.constatacao', 'reavaliacoes.votos_manter', 'reavaliacoes.votos_retirar', 'reavaliacoes.data')->get();
+    }
+
+    public function getStrikesASeremReavaliados()
+    {
+        $ultimasReavaliacoes = Reavaliacao::orderBy('data', 'DESC')->groupBy('strike_id');
+
+        return Strike::join('usuarios as usuario_aplicou', 'strikes.membro_aplicou', '=', 'usuario_aplicou.matricula')
+            ->join('usuarios as usuario_recebeu', 'strikes.membro_recebeu', '=', 'usuario_recebeu.matricula')
+            ->leftJoinSub($ultimasReavaliacoes, 'reavaliacoes', fn($join) => $join->on('strikes.uuid', '=', 'reavaliacoes.strike_id'))
+            ->select('strikes.uuid', 'strikes.motivo', 'strikes.data_aprovado', 'usuario_aplicou.nome_completo as nome_membro_aplicou', 'usuario_recebeu.nome_completo as nome_membro_recebeu', 'reavaliacoes.data as data_ultima_reavaliacao')
+            ->where(fn($query) => $query->where('reavaliacoes.constatacao', 'Manter')->orWhereNull('reavaliacoes.constatacao'))
+            ->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])
+            ->when(request('meses'), fn($query) => $query->where(fn($subQuery) => $subQuery->where(fn($subQuery) => $subQuery->whereNull('reavaliacoes.data')->whereMonth('strikes.data_aprovado', today()->subMonth(request('meses'))))->orWhere(fn($subQuery) => $subQuery->whereNotNull('reavaliacoes.data')->whereDate('reavaliacoes.data', today()->subMonth(request('meses'))))))
+            ->withCasts(['data_ultima_reavaliacao' => 'date:d/m/Y'])
+            ->get();
     }
 
     public function deleteReavaliacao(Reavaliacao $reavaliacao)

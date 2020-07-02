@@ -17,7 +17,7 @@ class PedidoRepository implements PedidoRepositoryInterface
 {
     public function indexPessoas()
     {
-        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
+        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.situacao', 'pedidos.data_aprovado', 'pedidos.data_criado')
             ->rightJoin('tipo_pedidos', 'pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
@@ -34,7 +34,7 @@ class PedidoRepository implements PedidoRepositoryInterface
 
     public function indexFinanceiro()
     {
-        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
+        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.situacao', 'pedidos.data_aprovado', 'pedidos.data_criado')
             ->rightJoin('tipo_pedidos', 'pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
@@ -51,7 +51,7 @@ class PedidoRepository implements PedidoRepositoryInterface
     
     public function indexPessoasPendentes()
     {
-        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
+        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.situacao', 'pedidos.data_criado')
             ->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
@@ -68,7 +68,7 @@ class PedidoRepository implements PedidoRepositoryInterface
 
     public function indexFinanceiroPendentes()
     {
-        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.data_criado')
+        return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.data_aprovado', 'pedidos.situacao', 'pedidos.data_criado')
             ->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where(fn($query) => $query->where('pedidos.situacao', 'Pendente')->orWhereNull('pedidos.situacao')))
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('usuarios', 'pedidos.matricula_membro_solicitou', '=', 'usuarios.matricula')
@@ -113,7 +113,7 @@ class PedidoRepository implements PedidoRepositoryInterface
     public function meusPedidos()
     {
         return BasePedido::select('pedidos.uuid', 'pedidos.dados_pedido', 'pedidos.situacao', 'pedidos.data_aprovado', 'pedidos.data_criado')
-            ->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where('pedidos.matricula_membro_solicitou', Auth::id()))
+            ->when(request('situacao'), fn($query) => $query->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where('pedidos.situacao', request('situacao'))->where('pedidos.matricula_membro_solicitou', Auth::id())), fn($query) => $query->rightJoin('tipo_pedidos', fn($join) => $join->on('pedidos.tipo_pedido', '=', 'tipo_pedidos.nome_tipo_pedido_slug')->where('pedidos.matricula_membro_solicitou', Auth::id())))
             ->addSelect('tipo_pedidos.nome_tipo_pedido_slug as tipo_pedido', 'tipo_pedidos.nome_tipo_pedido as nome_tipo')
             ->leftJoin('projetos', 'pedidos.nome_projeto_solicitado', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto_slug as nome_projeto_solicitado_slug', 'projetos.nome_projeto as nome_projeto_solicitado')

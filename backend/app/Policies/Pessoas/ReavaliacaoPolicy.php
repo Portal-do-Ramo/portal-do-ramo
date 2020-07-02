@@ -36,17 +36,6 @@ class ReavaliacaoPolicy
     }
 
     /**
-     * Determine whether the user can create reavaliacaos.
-     *
-     * @param  \App\Models\Usuario  $user
-     * @return mixed
-     */
-    public function create(UsuarioSistema $user)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can delete the reavaliacao.
      *
      * @param  \App\Models\Usuario  $user
