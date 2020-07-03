@@ -9,9 +9,10 @@ import Header from '../../components/Home_Header';
 import Title from '../../components/Title';
 import Loader from '../../components/LoaderSpinner';
 
-import { Screen, Content, ViewEvents, CardEvent, BoxModalScreen, ModalScreen } from './styles';
+import { Screen, Content, ViewEvents, CardEvent, CardArchive, BoxModalScreen, ModalScreen } from './styles';
 import crown from './images/crown.png';
 import avatar from './images/avatar.png';
+import download from './images/download.png';
 
 export default function ProjectScreen () {
   document.title = 'Projetos';
@@ -33,6 +34,7 @@ export default function ProjectScreen () {
   const [areas, setAreas] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [archives, setArchives] = useState([]);
 
 
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function ProjectScreen () {
       setMembers(response.data.membros)
       setEvents(response.data.eventos)
       setAreas(response.data.areas)
+      setArchives(response.data.arquivos)
     })
     .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(true))
@@ -59,13 +62,27 @@ export default function ProjectScreen () {
       return false;
     } else {
       for(let index in teams) {
-        console.log(teams[index])
         if(teams[index].funcao === 'Coordenador') {
           return false;
         }
       }
       return true;
     }
+  }
+
+
+  function downloadFile(archive) {
+    api.get(`/api/arquivos/download/${archive.uuid}`, { headers: { Authorization: access_token },  responseType: 'blob' })
+    .then(response => {
+      const downloadUrl = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', `${archive.nome}.${archive.extensao_arquivo}`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+    .catch(error => console.log(error))
   }
 
 
@@ -153,13 +170,14 @@ export default function ProjectScreen () {
                 <div className="box-height-fixed">
                   <h2 className="title-box">Arquivos</h2>
                   <ViewEvents>
-                    {/* {(archives) ?
+                    {(archives) ?
                       archives.map(archive => (
-                        <CardEvent key={archive}>
-                          <button className="btn" onClick={() => console.log('file action')}></button>
-                        </CardEvent>
+                        <CardArchive key={archive.uuid} title="Download" onClick={() => downloadFile(archive)}>
+                          <h1>{archive.nome}</h1>
+                          <h2><img src={download} alt="download" title="Download" /></h2>
+                        </CardArchive>
                       ))
-                    : ''} */}
+                    : ''}
                   </ViewEvents>
                   <hr />
                 </div>

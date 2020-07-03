@@ -7,7 +7,7 @@ import Header from "../../components/Home_Header";
 import Title from "../../components/Title";
 import Loader from "../../components/LoaderSpinner";
 
-import { Screen, Content, ArchivesArea, EventsArea, BoxModalScreen, ConfirmBoxModalScreen, ModalScreen, Card } from "./styles";
+import { Screen, Content, ArchivesArea, EventsArea, BoxModalScreen, ConfirmBoxModalScreen, ModalScreen, Card, CardEvent, BTNCircle } from "./styles";
 import avatar from './images/avatar.png';
 
 import crown from "./images/crown.png";
@@ -69,6 +69,7 @@ export default function ControlTeam() {
     api.get('api/usuarios', { headers: { Authorization: access_token } })
     .then(response => setMembers((response.data.Ativo).concat(response.data.Inativo)))
     .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, []);
 
 
@@ -221,7 +222,7 @@ export default function ControlTeam() {
   }
 
 
-  function addArchive() {
+  function addArchives() {
     if (base64 === '') {
       setAlert('<div class="alert alert-danger" role="alert">Carregue um arquivo!</div>')
       return
@@ -244,14 +245,8 @@ export default function ControlTeam() {
 
 
   function deleteArchive() {
-    let aux = archives;
-    aux.splice(archives.indexOf(selectedArchive), 1);
-    setArchives(aux);
-    api.delete(`/${urlData}/remover-arquivo-equipe/${selectedArchive.uuid}`, { headers: { Authorization: access_token } })
-    .then(() => {
-      document.getElementById('confirm-delete-archive-area').style.display = 'none'
-      setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>')
-    })
+    api.delete(`/api/equipes/${urlData}/remover-arquivo-equipe/${selectedArchive.uuid}`, { headers: { Authorization: access_token } })
+    .then(() => window.location.href = `/team/manageteams/manage?${urlData}`)
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -417,13 +412,13 @@ export default function ControlTeam() {
                   <div className="view-archives">
                     {(archives) ?
                       archives.map(archive => (
-                        <button className="archive-card" key={archive.uuid} onClick={() => {
-                          setSelectedArchive(archive)
-                          document.getElementById('confirm-delete-archive-area').style.display = 'block'
-                        }}>
-                          <h1>{archive.nome.substring(0, 25)}</h1>
-                          <h2>x</h2>
-                        </button>
+                        <CardEvent key={archive.uuid}>
+                          <h2 className="event-name-tag">{archive.nome.substring(0, 25)}</h2>
+                          <BTNCircle color="#AF0000" hoverColor="#FF0000" onClick={() => {
+                            setSelectedArchive(archive)
+                            document.getElementById('confirm-delete-archive-area').style.display = 'block'
+                          }}>x</BTNCircle>
+                        </CardEvent>
                       ))
                     : ''}
                   </div>
@@ -705,26 +700,22 @@ export default function ControlTeam() {
         <ConfirmBoxModalScreen className="container box-modal-screen">
           <div className="modal-content animate view">
             <div className='row'>
-              <h1 className="title">Adicionar arquivo</h1>
+              <h1 className="title">Arquivos</h1>
             </div>
             <div className="inside-area">
               <input type="text" className="form-control archive-input" id="archive_name" name="archive_name" placeholder="Nome do arquivo *" required /><br />
               <input type="file" className="form-control-file" id="input-file" name="input-file" required />
-              <div className="row">
+              <div className="row center">
                 <button className="btn-send-picture" onClick={() => {
                   setStateOfButtonPDF()
                   convertToBase64PDF()
-                }} disabled={isEnabled2}>
-                  {(isEnabled2) ? 'Carregado' : 'Carregar'}
+                }} disabled={isEnabled}>
+                  {(isEnabled) ? 'Carregado' : 'Carregar'}
                 </button>
-              </div>
-              <div className="row buttons-area">
-                <div>
-                  <button className="btn btn-primary" onClick={() => document.getElementById('add-archives-area').style.display='none' }>
-                    Cancelar
-                  </button>
-                  <button className="btn btn-primary" onClick={() => addArchive()}>Adicionar</button>
-                </div>
+                <button className="btn-send-picture" onClick={() => document.getElementById('add-archives-area').style.display='none' }>
+                  Cancelar
+                </button>
+                <button className="btn-send-picture" onClick={() => addArchives()}>Adicionar</button>
               </div>
             </div>
           </div>

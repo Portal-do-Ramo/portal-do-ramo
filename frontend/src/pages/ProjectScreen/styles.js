@@ -267,6 +267,40 @@ export const CardEvent = styled.div`
   }
 `
 
+export const CardArchive = styled.div`
+  background: #E9EDF5;
+  padding: 7px 10px 2px 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+
+  h1 {
+    font-size: 11pt;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 5px;
+    color: #1D5EA8;
+  }
+
+  img {
+    float: right;
+    width: 20px;
+    margin-top: -27px;
+    margin-right: 10px;
+  }
+
+  :hover {
+    background: #DFE3EB;
+  }
+`
+
 export const ModalScreen = styled.div`
   background: rgba(0,0,0,0.5);
 `

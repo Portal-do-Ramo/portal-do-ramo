@@ -10,7 +10,7 @@ import Loader from '../../components/LoaderSpinner';
 import active from './images/active.png';
 import payingMember from './images/paying.png';
 
-import { Screen, Content, Box, Title } from './styles';
+import { Screen, Content, Box, BoxScroll, Title } from './styles';
 
 export default function Profile(){
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
@@ -78,7 +78,7 @@ export default function Profile(){
               </div>
 
               <div className="col-md-4">
-                <Box>
+                <BoxScroll>
                   <div className="row">
                     <Title>
                       Equipes
@@ -100,11 +100,11 @@ export default function Profile(){
                       </li>
                     )) : ''}
                   </ul>
-                </Box>
+                </BoxScroll>
               </div>
 
               <div className="col-md-4">
-                <Box>
+                <BoxScroll>
                   <div className="row">
                     <Title>
                       Projetos
@@ -126,7 +126,7 @@ export default function Profile(){
                       </li>
                     ))}
                   </ul>
-                </Box>
+                </BoxScroll>
               </div>
             </div>
           </Content>

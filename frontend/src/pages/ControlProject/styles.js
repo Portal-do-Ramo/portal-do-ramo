@@ -146,11 +146,58 @@ export const Content = styled.section`
   }
 
   .box-height-fixed-small {
-    height: 150px;
+    height: 300px;
     border-radius: 5px;
     background-color: #E5E5E5;
     padding: 10px 5px 20px 15px;
     margin-top: 20px;
+
+    .view-members-area {
+      width: 100%;
+      height: 70%;
+      overflow-y: scroll;
+    }
+
+    .view-archives-area {
+      width: 100%;
+      height: 70%;
+      overflow-y: scroll;
+      padding: 5px;
+    }
+
+    .archive-card {
+      background: #CECECE;
+      padding: 7px 10px 2px 10px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+
+      h1 {
+        font-size: 11pt;
+        font-weight: bold;
+        text-align: left;
+        margin-top: 5px;
+      }
+
+      h2 {
+        float: right;
+        font-size: 11pt;
+        margin-top: -27px;
+        margin-right: 10px;
+      }
+    }
+
+    .archive-card:hover {
+      transition: .8s;
+      background-color: #FFC4BC;
+    }
   }
 
   .btn-circle {
@@ -605,6 +652,7 @@ export const ConfirmBoxModalScreen = styled.div`
     button {
       margin-right: 15px;
       margin-top: 5px;
+      width: 100px;
       background-color: #1D5EA8;
       border: none;
     }
@@ -612,6 +660,38 @@ export const ConfirmBoxModalScreen = styled.div`
     button:hover {
       box-shadow: 0px 0px 7px #888;
     }
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .up button {
+    margin-top: -50px;
+    border: 1px solid #FFF;
+  }
+
+  .btn-send-picture {
+    width: 100px;
+    padding: 6px;
+    background-color: #1D5EA8;
+    color: #FFF;
+    border: none;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 20px;
+    border: 1px solid #FFF;
+    border-radius: 5px;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+  }
+
+  .btn-send-picture:hover {
+    box-shadow: 0px 0px 7px #888;
   }
 `
 

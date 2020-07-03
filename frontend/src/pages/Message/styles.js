@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Screen = styled.div`
-  padding-bottom: 50px;
+
 `
 
 export const Title = styled.h1`

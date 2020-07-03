@@ -40,8 +40,8 @@ export default function ManageFinances () {
   // IN/OUT CASH
   const [isInputExclusive, setIsInputExclusive] = useState(false);
   const [isOutputExclusive, setIsOutputExclusive] = useState(false);
-  const [selectedInputCash, setSelectedInputCash] = useState('emergencia');
-  const [selectedOutputCash, setSelectedOutputCash] = useState('emergencia');
+  const [selectedInputCash, setSelectedInputCash] = useState('emergencial');
+  const [selectedOutputCash, setSelectedOutputCash] = useState('emergencial');
   const [selectedLCIMember, setSelectedLCIMember] = useState();
 
   // CHARTS
@@ -176,19 +176,24 @@ export default function ManageFinances () {
     const date_formatted = date[2] + '/' + date[1] + '/' + date[0];
 
     if(type == "output") {
-      value = document.getElementById("output-value").value * (-1);
+      value = document.getElementById("output-value").value;
       value = value.replace(',', '.');
-      exclusive = (isOutputExclusive) ? 'true' : 'false';
+      value = value * -1;
+      exclusive = (isInputExclusive) ? true : false;
       selectedCash = (exclusive) ? selectedOutputCash : '';
     } else {
       value = document.getElementById("input-value").value;
       value = value.replace(',', '.');
-      exclusive = (isInputExclusive) ? 'true' : 'false';
+      exclusive = (isInputExclusive) ? true : false;
       selectedCash =  (exclusive) ? selectedInputCash : '';
     }
 
-    selectedCash = 'caixa-'.concat(selectedCash);
-
+    if(exclusive) {
+      selectedCash = 'caixa-'.concat(selectedCash);
+    } else {
+      selectedCash = '';
+    }
+    console.log(selectedCash)
     api.post('/api/registros-de-caixa', {
       descricao: document.getElementById(type + '-description').value,
       valor: value,
@@ -197,7 +202,8 @@ export default function ManageFinances () {
       caixa_relacionado: selectedCash
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Novo registro de caixa realizado com sucesso!</strong></div>'))
-    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir fazer o registro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir fazer o registro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    .catch(error => console.log(error.response))
   }
 
 
@@ -615,7 +621,7 @@ export default function ManageFinances () {
                           <ul>
                             {(littleCowData.doacoes).map(donate => (
                               <li key={donate.uuid}><strong>[ {donate.data} ]</strong>  {((donate.nome_membro_doador).split(' ')[0]).concat(' ' + (donate.nome_membro_doador).split(' ')[1])} {'--->'} R$ {donate.valor}</li>
-                            ))}
+                            )).reverse()}
                           </ul>
                         </div>
                       </div>

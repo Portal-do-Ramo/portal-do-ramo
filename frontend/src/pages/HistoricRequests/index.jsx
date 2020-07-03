@@ -70,6 +70,9 @@ export default function HistoricRequests () {
                           <div className="col-md-4 down">
                             <h2><strong>Qtd. produtos:</strong> {(order.dados_pedido.pedidos).length}</h2>
                           </div>
+                          <div className="col-md-4 down">
+                            <h2><strong>Situação:</strong> {order.situacao}</h2>
+                          </div>
                         </div>
                       </div>
                     ))

@@ -65,7 +65,7 @@ export default function MyProjects () {
                         <Link to={'/projects/selected?' + project.nome_projeto_slug}>
                           <div className="card">
                             <h1 className="project-title">{project.nome_projeto}</h1>
-                            <h2>{project.nome_equipe}</h2>
+                            <h2 className="project-subtitle">{project.nome_equipe}</h2>
                             <span>{project.funcao}</span>
                           </div>
                         </Link>

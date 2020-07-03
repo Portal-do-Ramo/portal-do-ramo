@@ -129,6 +129,13 @@ export default function ControlProject () {
   }
 
 
+  function concluirProjeto() {
+    api.delete(`/api/projetos/${urlData}`, { headers: { Authorization: access_token } })
+    .then(() => window.location.href = '/projects/manage')
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível finalizar o projeto.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+  }
+
+
   function newLeader() {
     api.put(`/api/projetos/${urlData}/atualizar-membro/${leader.uuid_inscricao}`, { funcao: "Líder", area: "" }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Líder alterado com sucesso!</strong></div>'))
@@ -225,20 +232,8 @@ export default function ControlProject () {
 
 
   function removeArchive() {
-    let aux = archives;
-    let index = -1;
-
-    for (let i = 0; i < archives.length; i++) {
-      if (archives[i].uuid === selectedArchive) {
-        index = i;
-      }
-    }
-
-    aux.splice(index, 1);
-    setArchives(aux);
-
-    api.delete(`/api/arquivos/${urlData}/remover-arquivo-projeto/${selectedArchive}`, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Arquivo deletado com sucesso!</strong></div>'))
+    api.delete(`/api/arquivos/${urlData}/remover-arquivo-projeto/${selectedArchive.uuid}`, { headers: { Authorization: access_token } })
+    .then(() => window.location.href = `/projects/manage/control?${urlData}`)
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir o arquivo.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -406,7 +401,11 @@ export default function ControlProject () {
                 <label htmlFor="money">Caixa do projeto</label>
                 <input type="text" className="form-control" id="money" defaultValue={(projectData) ? 'R$ ' + projectData.valor_caixa : ''} readOnly />
               </div>
-              <div className="col-md-6 down" />
+              <div className="col-md-3 down" />
+              <div className="col-md-3 down">
+                <label htmlFor="money"> </label>
+                <button className="btn-save" onClick={() => concluirProjeto()}>Finalizar projeto</button>
+              </div>
               <div className="col-md-2 down">
                 <label> </label>
                 <button className="btn-save" onClick={() => sendData()}>Salvar</button>
@@ -592,10 +591,10 @@ export default function ControlProject () {
 
             <div className="row">
               <div className="col-md-6">
-                <div className="box-height-fixed-small">
+                <div className="box-height-fixed">
                   <h2><button className="btn-circle" onClick={() => document.getElementById('add-members-area').style.display='block'}>+</button>Membros</h2>
                   <hr />
-                  <div>
+                  <ViewEvents>
                     {(membersOfProject) ?
                       (membersOfProject).map(member => (
                         <button key={member.matricula} className="btn-member" onClick={() => {
@@ -606,34 +605,26 @@ export default function ControlProject () {
                         </button>
                       ))
                     : ''}
-                  </div>
+                  </ViewEvents>
                 </div>
               </div>
 
               <div className="col-md-6">
-                <div className="box-height-fixed-small">
+                <div className="box-height-fixed">
                   <h2><button className="btn-circle" onClick={() => document.getElementById('add-archives-area').style.display='block'}>+</button>Arquivos</h2>
                   <hr />
-                    <div className="row">
-                      <div className="col-md-8">
-                        <select className="form-control" id="archives" onChange={e => setSelectedArchive(e.target.value)}>
-                          {(archives) ? archives.map(archive => (
-                            <option value={archive.uuid}>{(archive.nome).substring(0, 20)}</option>
-                          )) : ''}
-                        </select>
-                      </div>
-                      <div className="col-md-4">
-                        <button className="btn-remove" onClick={() => {
-                          if(selectedArchive === '') {
-                            selectedArchive = archives[0].uuid
-                            removeArchive()
-                          } else {
-                            removeArchive()
-                          }
-                        }} disabled={(archives.length > 0) ? false : true}>Remover</button>
-                      </div>
-                    </div>
-                  </div>
+                  <ViewEvents>
+                    {(archives) ? archives.map(archive => (
+                      <CardEvent key={archive.uuid}>
+                        <h2 className="event-name-tag">{archive.nome.substring(0, 25)}</h2>
+                        <BTNCircle color="#AF0000" hoverColor="#FF0000" onClick={() => {
+                          setSelectedArchive(archive)
+                          document.getElementById('confirm-delete-archive-area').style.display = 'block'
+                        }}>x</BTNCircle>
+                      </CardEvent>
+                    )) : ''}
+                  </ViewEvents>
+                </div>
               </div>
             </div>
 
@@ -804,21 +795,40 @@ export default function ControlProject () {
                   <div className="inside-area">
                     <input type="text" className="form-control archive-input" id="archive_name" name="archive_name" placeholder="Nome do arquivo *" required /><br />
                     <input type="file" className="form-control-file" id="input-file" name="input-file" required />
-                    <div className="row">
+                    <div className="row center">
                       <button className="btn-send-picture" onClick={() => {
                         setStateOfButtonPDF()
                         convertToBase64PDF()
                       }} disabled={isEnabled}>
                         {(isEnabled) ? 'Carregado' : 'Carregar'}
                       </button>
-                    </div>
-                    <div className="row buttons-area">
-                      <div>
-                        <button className="btn btn-primary" onClick={() => document.getElementById('add-archives-area').style.display='none' }>
+                      <button className="btn-send-picture" onClick={() => document.getElementById('add-archives-area').style.display='none' }>
                           Cancelar
-                        </button>
-                        <button className="btn btn-primary" onClick={() => addArchives()}>Adicionar</button>
-                      </div>
+                      </button>
+                      <button className="btn-send-picture" onClick={() => addArchives()}>Adicionar</button>
+                    </div>
+                  </div>
+                </div>
+              </ConfirmBoxModalScreen>
+            </ModalScreen>
+
+            <ModalScreen id="confirm-delete-archive-area" className="modal">
+              <ConfirmBoxModalScreen className="container box-modal-screen">
+                <div className="modal-content animate view">
+                  <div className="row">
+                    <h1 className="title">Confirmação</h1>
+                  </div>
+                  <div className="row text-area">
+                    Tem certeza que deseja remover esse arquivo?
+                  </div>
+                  <div className="row buttons-area">
+                    <div>
+                      <button className="btn btn-primary" onClick={() => document.getElementById('confirm-delete-archive-area').style.display = 'none'}>
+                        Cancelar
+                      </button>
+                      <button className="btn btn-primary" onClick={() => removeArchive()}>
+                        Salvar
+                      </button>
                     </div>
                   </div>
                 </div>

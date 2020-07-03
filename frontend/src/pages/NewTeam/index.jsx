@@ -92,7 +92,11 @@ export default function NewTeam() {
       matricula_assessor: (advisor) ? advisor.matricula : '',
       logo_equipe: base64,
     }, { headers: { Authorization: access_token } })
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Equipe criada com sucesso!</strong></div>'))
+    .then(() => {
+      setAlert('<div class="alert alert-success" role="alert"><strong>Equipe criada com sucesso!</strong></div>')
+      setAdvisor('')
+      setLeader('')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a equipe.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 

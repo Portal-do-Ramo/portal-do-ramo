@@ -68,16 +68,18 @@ export default function Message(){
     e.preventDefault();
     const subject = document.getElementById('subject').value;
     const message = document.getElementById('message').value;
-    var emails = [];
+    let member = {nome: '', email: ''}
+    let accounts = []
 
     for(var i = 0; i < destinatarios.length; i++) {
-      emails[i] = destinatarios[i].email;
+      member = {nome: destinatarios[i].nome_completo, email: destinatarios[i].email}
+      accounts.push(member)
     }
 
     api.post('/api/usuarios/mensagem', {
       assunto: subject,
       mensagem: message,
-      destinatarios: emails
+      destinatarios: accounts
     }, {headers: { Authorization: access_token }})
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>E-mail enviado com sucesso!</strong></div>'))
     .catch(error => {

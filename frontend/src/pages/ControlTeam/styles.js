@@ -464,6 +464,7 @@ export const BoxModalScreen = styled.div`
   }
 `
 
+
 export const ConfirmBoxModalScreen = styled.div`
   background-color: #E9EDF5;
   height: 200px;
@@ -510,24 +511,25 @@ export const ConfirmBoxModalScreen = styled.div`
     }
 
     .btn-send-picture {
-      background: #1D5EA8;
       width: 100px;
+      padding: 6px;
+      background-color: #1D5EA8;
       color: #FFF;
-      padding: 5px;
       border: none;
-      cursor: pointer;
+      margin-left: 3px;
+      margin-right: 3px;
+      margin-top: 20px;
+      border: 1px solid #FFF;
       border-radius: 5px;
-      margin-top: -30px;
-      float: right;
 
-      -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
       -ms-border-radius: 5px;
       -o-border-radius: 5px;
     }
 
     .btn-send-picture:hover {
-      box-shadow: 0px 0px 7px #888888;
+      box-shadow: 0px 0px 7px #888;
     }
 
     .btn-send-picture:disabled {
@@ -564,6 +566,16 @@ export const ConfirmBoxModalScreen = styled.div`
     button:hover {
       box-shadow: 0px 0px 7px #888;
     }
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .up button {
+    margin-top: -50px;
+    border: 1px solid #FFF;
   }
 
   @media (min-width: 319px) and (max-width: 359.98px) {
@@ -626,5 +638,53 @@ export const Card = styled.button`
 
   :hover {
     background-color: #E9EDF5;
+  }
+`
+
+export const CardEvent = styled.div`
+  width: 100%;
+  background-color: #E9EDF5;
+  height: auto;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+
+  .event-name-tag {
+    font-size: 14pt;
+    color: #1D5EA8;
+    font-weight: bold;
+  }
+
+  .event-description-tag {
+    font-size: 10pt;
+  }
+
+  .event-datetime {
+    font-size: 10pt;
+    font-weight: bold;
+  }
+`
+
+export const BTNCircle = styled.button`
+  border-radius: 25px;
+  color: #FFF;
+  background: ${props => props.color};
+  border: none;
+  width: 30px;
+  height: 30px;
+  font-size: 14pt;
+  float: right;
+  margin-left: 5px;
+  margin-top: -30px;
+
+  :hover {
+    transition: .8s;
+    background: ${props => props.hoverColor};
   }
 `

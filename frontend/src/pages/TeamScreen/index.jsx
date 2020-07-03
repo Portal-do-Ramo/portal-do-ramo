@@ -35,13 +35,13 @@ export default function TeamScreen() {
   }, [])
 
 
-  function downloadArchive(archive) {
-    api.get(`/api/equipes/${archive.nome}`, { headers: { Authorization: access_token },  responseType: 'blob' })
+  function downloadFile(archive) {
+    api.get(`/api/arquivos/download/${archive.uuid}`, { headers: { Authorization: access_token },  responseType: 'blob' })
     .then(response => {
       const downloadUrl = window.URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = downloadUrl;
-      link.setAttribute('download', `${response.headers['content-disposition'].substr(21)}`);
+      link.setAttribute('download', `${archive.nome}.${archive.extensao_arquivo}`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -71,11 +71,13 @@ export default function TeamScreen() {
                   <h3><strong>Capítulo:</strong> {teamData.capitulo}</h3>
                   <hr />
                   <h2>Membros</h2>
-                  {(teamData.membros) ?
-                    (teamData.membros).map(member => (
-                      <Link to={'/profile?' + member.matricula}><img key={member.matricula} src={member.foto_url} className='member-icon' title={member.nome_completo + ' - ' + member.funcao} alt={member.nome_completo}/></Link>
-                    ))
-                  : 'Não possui membros...'}
+                  <div className="view-members">
+                    {(teamData.membros) ?
+                      (teamData.membros).map(member => (
+                        <Link to={'/profile?' + member.matricula}><img key={member.matricula} src={member.foto_url} className='member-icon' title={member.nome_completo + ' - ' + member.funcao} alt={member.nome_completo}/></Link>
+                      ))
+                    : 'Não possui membros...'}
+                  </div>
                 </div>
               :
                 <div className="area-loader">
@@ -112,7 +114,7 @@ export default function TeamScreen() {
                 <div className="view-archives">
                   {(archives) ?
                     archives.map(archive => (
-                      <CardArchive key={archive.nome} className="archive-card" onClick={() => downloadArchive(archive)} title="Download">
+                      <CardArchive key={archive.uuid} className="archive-card" onClick={() => downloadFile(archive)} title="Download">
                         <h1>{archive.nome}</h1>
                         <h2><img src={download} alt="download" title="Download" /></h2>
                       </CardArchive>

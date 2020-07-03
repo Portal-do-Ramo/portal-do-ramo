@@ -21,10 +21,9 @@ export const Content = styled.div`
 `
 
 export const Box = styled.div`
-  background-color: #CECECE;
+  background-color: #E5E5E5;
   height: 320px;
   padding: 10px;
-  box-shadow: 0px 0px 7px #888888;
   border-radius: 10px;
 
   -moz-border-radius: 10px;
@@ -35,6 +34,7 @@ export const Box = styled.div`
   ul {
     list-style: none;
   }
+
 
   .medal-box {
     width: 100%;
@@ -59,8 +59,34 @@ export const Box = styled.div`
     padding: 5px;
   }
 
+  @media (min-width: 319px) and (max-width: 767.98px) {
+    margin-bottom: 50px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023.98px) {
+    height: 400px;
+  }
+`
+
+export const BoxScroll = styled.div`
+  background-color: #E5E5E5;
+  height: 320px;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 10px;
+
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+
+  ul {
+    list-style: none;
+  }
+
   .card {
-    background: #E5E5E5;
+    background: #CECECE;
     padding: 5px;
     margin-bottom: 5px;
     border: none;
@@ -110,7 +136,7 @@ export const Title = styled.h1`
   background: linear-gradient(130deg, #1D5EA8 0%, #2B8DFC 97.23%);
   padding: 5px 15px 5px 15px;
   margin-left: 30px;
-  margin-top: -20px;
+  margin-top: -5px;
   font-size: 20px;
   color: #FFF;
   box-shadow: 0px 0px 7px #888888;

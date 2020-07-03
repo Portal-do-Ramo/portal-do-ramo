@@ -27,7 +27,8 @@ export default function MyStrikes() {
       setListReceivedStrikes(response.data.strikes_recebeu);
       setListAppliedStrikes(response.data.strikes_enviou);
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
+    .catch(error => console.log(error.response))
   }, [])
 
   function getSituation(situation) {

@@ -61,6 +61,13 @@ export const Screen = styled.div`
     .member-icon:hover {
       box-shadow: 0px 0px 7px #888;
     }
+
+    .view-members {
+      width: 100%;
+      height: 150px;
+      background: transparent;
+      overflow-y: scroll;
+    }
   }
 
   .right-box-blue-gradient {
