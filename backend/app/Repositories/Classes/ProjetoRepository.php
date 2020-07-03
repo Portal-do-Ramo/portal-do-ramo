@@ -155,7 +155,7 @@ class ProjetoRepository implements ProjetoRepositoryInterface
 
     public function addArquivo(Projeto $projeto, array $dadosValidos)
     {
-        $projeto->arquivos()->create(['nome' => $dadosValidos['nome_arquivo'], 'path' => $dadosValidos['path']]);
+        $projeto->arquivos()->create(['nome' => $dadosValidos['nome_arquivo'], 'path' => $dadosValidos['path'], 'extensao_arquivo' => $dadosValidos['extensao_arquivo']]);
     }
 
     public function getArquivos(Projeto $projeto)

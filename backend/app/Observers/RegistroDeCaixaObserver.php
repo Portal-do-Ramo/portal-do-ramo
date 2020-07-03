@@ -22,7 +22,7 @@ class RegistroDeCaixaObserver
         if($registroDeCaixa->exclusivo) 
             $this->registroDeCaixaRepository->processarRegistroExclusivo($registroDeCaixa, $registroDeCaixa->caixa);
         else 
-            $this->registroDeCaixaRepository->processarRegistro($registroDeCaixa);
+           $this->registroDeCaixaRepository->processarRegistro($registroDeCaixa);
     }
 
     public function subsequentCreated(RegistroDeCaixa $registroDeCaixa)

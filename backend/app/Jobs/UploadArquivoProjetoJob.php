@@ -53,8 +53,13 @@ class UploadArquivoProjetoJob implements ShouldQueue
 
         $arquivo = $this->buscaService->handle($pasta, $this->dadosValidos['nome_arquivo']);
         $this->dadosValidos['path'] = $arquivo['path'];
-        $this->dadosValidos['extensao_arquivo'] = $arquivo['extension'];
+        $this->dadosValidos['extensao_arquivo'] = $this->getFileExtension($arquivo['mimetype']);
 
         $this->projetoRepository->addArquivo($this->projeto, $this->dadosValidos);
+    }
+
+    private function getFileExtension(string $mimetype)
+    {
+        return ['application/pdf' => 'pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xslx'][$mimetype];
     }
 }

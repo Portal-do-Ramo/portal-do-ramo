@@ -107,7 +107,7 @@ class EquipeRepository implements EquipeRepositoryInterface
 
     public function addArquivo(Equipe $equipe, array $dadosValidos)
     {
-        $equipe->arquivos()->create(['nome' => $dadosValidos['nome_arquivo'], 'path' => $dadosValidos['path']]);
+        $equipe->arquivos()->create(['nome' => $dadosValidos['nome_arquivo'], 'path' => $dadosValidos['path'], 'extensao_arquivo' => $dadosValidos['extensao_arquivo']]);
     }
 
     public function getArquivos(Equipe $equipe)

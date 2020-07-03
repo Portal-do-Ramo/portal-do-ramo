@@ -244,11 +244,12 @@ Route::prefix('registros-de-caixa')->group(function() {
  * Rotas referentes aos controladores relacionados a caixas
  * 
  */
-Route::apiResource('/caixas', 'Caixa\CaixaController')->only('index', 'update');
+Route::apiResource('/caixas', 'Caixa\CaixaController')->only('index');
 Route::prefix('caixas')->group(function() {
     Route::get('/index-porcentagem-equipes-especiais', 'Caixa\CaixaController@indexPorcentagemEquipesEspeciais');
     Route::get('/index-porcentagem-projetos-emergenciais/{equipe}', 'Caixa\CaixaController@indexPorcentagemProjetosEmergencial');
     Route::get('/info-gerais', 'Caixa\CaixaController@infosGerais');
+    Route::match(['PUT', 'PATCH'], '/atualizar-porcentagens', 'Caixa\CaixaController@update');
 });
 
 /**
