@@ -36,6 +36,7 @@ export default function LoginForm () {
       const access_token = response.data.token_de_acesso;
       var decoded = jwtDecode(access_token);
       sessionStorage.setItem("access_token", access_token);
+      sessionStorage.setItem("mt", response.data.user.matricula);
 
       const user = {
         matricula: response.data.user.matricula,

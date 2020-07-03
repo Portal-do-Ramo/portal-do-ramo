@@ -2,30 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../../services/api';
-import echo from '../../services/echo';
 
 import { Box, Title, Notifications, BoxNotification, Notification,  Screen } from './styles';
 
 export default function NotificationBox () {
-  const matricula = useSelector(state => state.data[0]);
   const [notifications, setNotifications] = useState(useSelector(state => state.data[22]));
   const [selectedNotification, setSelectedNotification] = useState();
 
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
-  echo.connector.options.auth.headers['Authorization'] = access_token;
-
-  echo.private(`usuario.${matricula}`)
-  .listen('.nova.notificacao', (e) => {
-    setNotifications(notifications => [...notifications, e]);
-  })
-
 
   function markAsRead(id){
     api.put(`/api/usuarios/notificacoes/ler/${id}`, {}, { headers: { Authorization: access_token } })
     .then(() => document.getElementById(id).style.backgroundColor = '#E0E0E0')
     .catch(error => console.log(error))
   }
-
 
   return (
     <React.Fragment>
