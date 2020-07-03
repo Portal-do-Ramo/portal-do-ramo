@@ -35,6 +35,7 @@ export const Screen = styled.div`
     padding: 10px;
     width: 100%;
     height: 150px;
+    margin-top: 10px;
     border-radius: 10px;
     border: none;
     box-shadow: 0px 0px 7px #888;

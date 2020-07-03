@@ -17,7 +17,6 @@ export default function ManageAbsences() {
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const hierarquia = (useSelector(state => state.data[4]));
 
-  const [isEnabledToView, setIsEnabledToView] = useState(false);
   const [members, setMembers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(true);
   const [selectedMember, setSelectedMember] = useState();
@@ -29,17 +28,12 @@ export default function ManageAbsences() {
 
   const allMembers = [{nome_equipe_slug:"allMembers", nome_equipe:"Todos"}];
 
-  function isViewed() {
-    if (
-      hierarquia === 'Diretor de Gestão de Pessoas' ||
-      hierarquia === 'Presidente' ||
-      hierarquia === 'Vice-Presidente'
-    ) {
-      setIsEnabledToView(true)
-      return true;
-    } else {
-      return false;
-    }
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
   }
 
   setTimeout(() => {
@@ -51,7 +45,7 @@ export default function ManageAbsences() {
   useEffect(() => {
     api.get('api/faltas', { headers: { Authorization: access_token } })
     .then(response => setMembers(response.data))
-    .catch(() => (isEnabledToView) ? window.location.href = '/error' : '')
+    .catch(() => window.location.href = '/error')
     .finally(() => setIsLoaded(false))
   }, [])
 
@@ -59,21 +53,21 @@ export default function ManageAbsences() {
   useEffect(() => {
     api.get('/api/tipo-faltas', {headers: { Authorization: access_token }})
     .then(response => setType(response.data))
-    .catch(() => (isEnabledToView) ? window.location.href = '/error' : '')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
   useEffect(() => {
     api.get('/api/projetos/select-projetos', { headers: { Authorization: access_token } })
     .then(response => setListProjects(response.data))
-    .catch(() => (isEnabledToView) ? window.location.href = '/error' : '')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })
     .then(response => setListTeams(allMembers.concat(response.data)))
-    .catch(() => (isEnabledToView) ? window.location.href = '/error' : '')
+    .catch(() => window.location.href = '/error')
   }, [])
 
 

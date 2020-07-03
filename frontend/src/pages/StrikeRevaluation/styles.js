@@ -73,6 +73,7 @@ export const Card = styled.div`
   padding: 10px;
   padding-bottom: 5px;
   height: auto;
+  cursor: pointer;
   border-radius: 5px;
 
   -webkit-border-radius: 5px;
@@ -100,5 +101,10 @@ export const Card = styled.div`
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+  }
+
+  :hover {
+    background: #E9EDF5;
+    transition: .8s;
   }
 `

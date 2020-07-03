@@ -570,26 +570,72 @@ export const BoxModalScreen = styled.div`
   @media (min-width: 319px) and (max-width: 359.98px) {
     width: 290px;
     margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
+
+    .event-buttons {
+      margin-top: -70px;
+    }
   }
 
   @media (min-width: 360px) and (max-width: 374.98px) {
     width: 330px;
+    margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
+
+    .event-buttons {
+      margin-top: -70px;
+    }
   }
 
   @media (min-width: 375px) and (max-width: 410.98px) {
     width: 306px;
+    margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
+
+    .event-buttons {
+      margin-top: -70px;
+    }
   }
 
   @media (min-width: 411px) and (max-width: 575.98px) {
     width: 345px;
+    margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
+
+    .event-buttons {
+      margin-top: -70px;
+    }
   }
 
   @media (min-width: 767px) and (max-width: 1023.98px) {
     width: 650px;
+    margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
+
   }
 
   @media (min-width: 1024px) and (max-width: 1155px) {
     width: 890px;
+    margin-top: 100px;
+
+    .up-margin {
+      margin-top: -30px;
+    }
   }
 `
 
@@ -692,6 +738,30 @@ export const ConfirmBoxModalScreen = styled.div`
 
   .btn-send-picture:hover {
     box-shadow: 0px 0px 7px #888;
+  }
+
+  @media (min-width: 319px) and (max-width: 359.98px) {
+    width: 290px;
+  }
+
+  @media (min-width: 360px) and (max-width: 374.98px) {
+    width: 330px;
+  }
+
+  @media (min-width: 375px) and (max-width: 410.98px) {
+    width: 306px;
+  }
+
+  @media (min-width: 411px) and (max-width: 575.98px) {
+    width: 345px;
+  }
+
+  @media (min-width: 767px) and (max-width: 1023.98px) {
+    width: 650px;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1155px) {
+    width: 890px;
   }
 `
 

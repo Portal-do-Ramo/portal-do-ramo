@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -14,6 +15,7 @@ export default function MemberData() {
   document.title = 'Gerenciar dados';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const matricula = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [hierarchies, setHierarchies] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -34,6 +36,14 @@ export default function MemberData() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   const [alert, setAlert] = useState('');
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   setTimeout(() => {
     if (alert !== '') {

@@ -13,6 +13,7 @@ export default function HistoricProjects () {
   document.title = 'Histórico de projetos';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   var urlData = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [projects, setProjects] = useState([]);
   const matricula = useSelector(state => state.data[0]);

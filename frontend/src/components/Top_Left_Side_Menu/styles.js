@@ -150,9 +150,23 @@ export const Menu = styled.div`
     transition: .5s;
   }
 
-  .menu-dropdown-option:disabled {
-    background: rgba(255,255,255,0.2);
+  .menu-dropdown-option-disabled {
+    background: rgba(255, 255, 255, .1);
+    margin-left: 7px;
     cursor: default;
+    width: 100%;
+    border: none;
+    padding: 7px;
+    color: #FFF;
+    margin-bottom: 4px;
+    margin-left: 0px;
+    font-size: 11pt;
+    border-radius: 5px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
   }
 
   @media (min-width: 319px) and (max-width: 767.98px) {

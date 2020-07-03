@@ -30,6 +30,14 @@ export default function RegisterMembers () {
     }
   }, 4000);
 
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
+
   useEffect(() => {
     api.get('/api/cursos', {headers: { Authorization: access_token }})
     .then(response => setCourses(response.data))

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -12,6 +13,7 @@ import { Screen, Card } from './styles';
 export default function ManageRequests() {
   document.title = 'Gerenciar pedidos';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [outputProjectRequest, setOutputProjectRequest] = useState([]);
   const [inactivityRequest, setInactivityRequest] = useState([]);
@@ -20,6 +22,14 @@ export default function ManageRequests() {
   const [selectedRequest, setSelectedRequest] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const [alert, setAlert] = useState('');
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   useEffect(() => {
     api.get('/api/pedidos/index-pessoas', { headers: { Authorization: access_token } })

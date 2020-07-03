@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -17,10 +18,15 @@ import { Screen, Content, ModalScreen, BoxModalScreen, ConfirmBoxModalScreen, Ca
 export default function ManageFinances () {
   document.title = 'Gerenciar o financeiro';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
-  // if (true) {
-  //   window.location.href = '/noaccess';
-  // }
+  if (
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor Financeiro'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   // GENERAL
   const [infoGerais, setInfoGerais] = useState();
@@ -36,6 +42,7 @@ export default function ManageFinances () {
   const [purchaseOrderSelected, setPurchaseOrderSelected] = useState();
   const [refundRequestSelected, setRefundRequestSelected] = useState();
   const [monthsToRegister, setMonthsToRegister] = useState(1);
+  const [selectedTeam, setSelectedTeam] = useState('');
 
   // IN/OUT CASH
   const [isInputExclusive, setIsInputExclusive] = useState(false);
@@ -65,6 +72,7 @@ export default function ManageFinances () {
   const [dataCash, setDataCash] = useState([]);
   const [caixa, setCaixa] = useState([]);
   const [percents, setPercents] = useState([]);
+  const [percentProjects, setPercentProjects] = useState('');
 
   var count_id = 0;
 
@@ -109,6 +117,13 @@ export default function ManageFinances () {
   useEffect(() => {
     api.get('/api/pedidos/index-financeiro-pendentes', { headers: { Authorization: access_token } })
     .then(response => setRequestList(response.data))
+    .catch(() => window.location.href = '/error')
+  }, [])
+
+
+  useEffect(() => {
+    api.get('/api/caixas/index-porcentagem-equipes-especiais', { headers: { Authorization: access_token } })
+    .then(response => setPercents(response.data))
     .catch(() => window.location.href = '/error')
   }, [])
 
@@ -179,7 +194,7 @@ export default function ManageFinances () {
       value = document.getElementById("output-value").value;
       value = value.replace(',', '.');
       value = value * -1;
-      exclusive = (isInputExclusive) ? true : false;
+      exclusive = (isOutputExclusive) ? true : false;
       selectedCash = (exclusive) ? selectedOutputCash : '';
     } else {
       value = document.getElementById("input-value").value;
@@ -193,7 +208,7 @@ export default function ManageFinances () {
     } else {
       selectedCash = '';
     }
-    console.log(selectedCash)
+
     api.post('/api/registros-de-caixa', {
       descricao: document.getElementById(type + '-description').value,
       valor: value,
@@ -202,8 +217,7 @@ export default function ManageFinances () {
       caixa_relacionado: selectedCash
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Novo registro de caixa realizado com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir fazer o registro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível excluir fazer o registro.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -229,22 +243,62 @@ export default function ManageFinances () {
 
   function setPercent() {
     let teamsPercents = [];
-    let projectsPercents = [];
-    let values = [];
+    let soma = 0;
+    let obj_aux = {nome_caixa: '', porcentagem_orcamento: 0}
 
-    for (let i=0; i < dataCash.map; i++) {
-      values.push(document.getElementById(`percent-cash-${i}`).value)
+    for (let i=0; i < percents.length; i++) {
+      obj_aux = {nome_caixa: percents[i].nome_caixa_slug, porcentagem_orcamento: document.getElementById('cash-'+percents[i].nome_caixa_slug).value}
+      soma = soma + parseInt(document.getElementById('cash-'+percents[i].nome_caixa_slug).value)
+      teamsPercents.push(obj_aux)
     }
 
-    api.put('/api/caixas', {
-      equipes: teamsPercents,
-      projetos: projectsPercents
+    if (soma > 100) {
+      setAlert('<div class="alert alert-danger" role="alert">Proibido a soma das porcentagens ultrapassar 100%.</div>')
+      return
+    }
+
+    api.put('/api/caixas/atualizar-porcentagens', {
+      caixas: teamsPercents,
     }, { headers: { Authorization: access_token } })
     .then(() => {
       document.getElementById('set-percent').style.display='none'
-      setAlert('<div class="alert alert-success" role="alert"><strong>Vaquinha criada com sucesso!</strong></div>')
+      setAlert('<div class="alert alert-success" role="alert"><strong>Percentual atualizado com sucesso!</strong></div>')
     })
-    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível criar a vaquinha.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível atualizar o percentual.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
+  }
+
+
+  function getPercentsOfTeam(slug) {
+    api.get(`/api/caixas/index-porcentagem-projetos-emergenciais/${slug}`, { headers: { Authorization: access_token } })
+    .then(response => setPercentProjects(response.data))
+    .catch(() => window.location.href = '/error')
+  }
+
+
+  function setPercentProject() {
+    let projectsPercents = [];
+    let soma = 0;
+    let obj_aux = {nome_caixa: '', porcentagem_orcamento: 0}
+
+    for (let i=0; i < percentProjects.length; i++) {
+      obj_aux = {nome_caixa: percentProjects[i].nome_caixa_slug, porcentagem_orcamento: document.getElementById('cash-project-'+percentProjects[i].nome_caixa_slug).value}
+      soma = soma + parseInt(document.getElementById('cash-project-'+percentProjects[i].nome_caixa_slug).value)
+      projectsPercents.push(obj_aux)
+    }
+
+    if (soma > 100) {
+      setAlert('<div class="alert alert-danger" role="alert">Proibido a soma das porcentagens ultrapassar 100%.</div>')
+      return
+    }
+
+    api.put('/api/caixas/atualizar-porcentagens', {
+      caixas: projectsPercents,
+    }, { headers: { Authorization: access_token } })
+    .then(() => {
+      document.getElementById('set-percent').style.display='none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Percentual atualizado com sucesso!</strong></div>')
+    })
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível atualizar o percentual.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 
@@ -707,7 +761,7 @@ export default function ManageFinances () {
                           type="checkbox"
                           name="is-input-exclusive"
                           id="is-input-exclusive"
-                          value={true}
+                          checked={isInputExclusive}
                           onClick={() => setIsInputExclusive(!isInputExclusive)}
                         />Exclusivo
                       </label><br />
@@ -773,7 +827,7 @@ export default function ManageFinances () {
                           type="checkbox"
                           name="is-output-exclusive"
                           id="is-output-exclusive"
-                          value={true}
+                          checked={isOutputExclusive}
                           onClick={() => setIsOutputExclusive(!isOutputExclusive)}
                         />Exclusivo
                       </label><br />
@@ -1023,17 +1077,104 @@ export default function ManageFinances () {
                         percents.map(percent => (
                           <div className="col-md-4" key={percent.nome_caixa_slug}>
                             <label htmlFor="percent">{percent.nome_caixa.replace('Caixa ', '')}</label>
-                            <input type="text" id={"percent-cash-".concat(count_id++)} className="form-control" defaultValue={percent.porcentagem_orcamento} />
+                            <input type="text" id={"cash-".concat(percent.nome_caixa_slug)} className="form-control" defaultValue={percent.porcentagem_orcamento} />
+                          </div>
+                        ))
+                      : ''}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-9"></div>
+                      <div className="col-md-3">
+                        <button className="btn btn-primary" onClick={() => {
+                          document.getElementById('set-percent').style.display='none'
+                          document.getElementById('set-percent-project').style.display='block'
+                        }}>
+                          Projetos
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div className="row buttons-area up-buttons-percent">
+                    <button className="btn btn-primary" onClick={() => document.getElementById('set-percent').style.display='none'}>
+                      Cancelar
+                    </button>
+                    <button className="btn btn-primary" onClick={() => setPercent()}>
+                      Salvar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </BoxModalScreen>
+          </ModalScreen>
+
+          <ModalScreen id="set-percent-project" className="modal">
+            <BoxModalScreen className="container box-modal-screen">
+              <div className="modal-content animate view">
+                <div className='row'>
+                  <h1 className="title">Porcentagem</h1>
+                </div>
+                <div className="inside-area">
+                  <div className="view-products">
+                    <div className="row">
+                      {(listTeams) ?
+                        listTeams.map(team => (
+                          <div className="col-md-4">
+                            <button className="btn-send up-btn" key={team.nome_equipe_slug} onClick={() => {
+                              getPercentsOfTeam(team.nome_equipe_slug)
+                              document.getElementById('set-percent-project').style.display='none'
+                              document.getElementById('set-percent-project-part2').style.display='block'
+                            }}>{ team.nome_equipe }</button>
+                          </div>
+                        ))
+                      : ''}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-9"></div>
+                      <div className="col-md-3">
+                        <button className="btn btn-primary" onClick={() => {
+                          document.getElementById('set-percent-project').style.display='none'
+                          document.getElementById('set-percent').style.display='block'
+                        }}>
+                          Equipes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row buttons-area up-buttons-percent">
+                    <button className="btn btn-primary" onClick={() => document.getElementById('set-percent-project').style.display='none'}>
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </BoxModalScreen>
+          </ModalScreen>
+
+          <ModalScreen id="set-percent-project-part2" className="modal">
+            <BoxModalScreen className="container box-modal-screen">
+              <div className="modal-content animate view">
+                <div className='row'>
+                  <h1 className="title">Porcentagem</h1>
+                </div>
+                <div className="inside-area">
+                  <div className="view-products">
+                    <div className="row">
+                      {(percentProjects) ?
+                        percentProjects.map(percent => (
+                          <div className="col-md-6" key={percent.nome_caixa_slug}>
+                            <label htmlFor="percent">{percent.nome_caixa.replace('Caixa ', '')}</label>
+                            <input type="text" id={"cash-project-".concat(percent.nome_caixa_slug)} className="form-control" defaultValue={percent.porcentagem_orcamento} />
                           </div>
                         ))
                       : ''}
                     </div>
                   </div>
-                  <div className="row buttons-area">
-                    <button className="btn btn-primary" onClick={() => document.getElementById('set-percent').style.display='none'}>
-                      Voltar
+                  <div className="row buttons-area up-buttons-percent">
+                    <button className="btn btn-primary" onClick={() => document.getElementById('set-percent-project-part2').style.display='none'}>
+                      Cancelar
                     </button>
-                    <button className="btn btn-primary" onClick={() => setPercent()}>
+                    <button className="btn btn-primary" onClick={() => setPercentProject()}>
                       Salvar
                     </button>
                   </div>
@@ -1137,7 +1278,7 @@ export default function ManageFinances () {
 
         <Content>
           {(isLoadedCharts) ?
-            <div>
+            <div className="graphs">
               <h1 className="title-box-blue">Gráficos</h1>
               <div className="row">
                 <div className="col-md-2">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -11,9 +12,18 @@ import { Screen, Card } from './styles';
 export default function ViewPartners() {
   document.title = "Parcerias";
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [partners, setPartners] = useState([]);
   const [check, setCheck] = useState(false);
+
+  if (
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor de Marketing'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   useEffect(() => {
     api.get('/api/parcerias', { headers: { Authorization: access_token} })

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -13,6 +14,7 @@ import { Screen, TitleBox, ViewResults, CardTeam, Card } from './styles';
 export default function ManageProjects () {
   document.title = 'Gerenciar projeto';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState();

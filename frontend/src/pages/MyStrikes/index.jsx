@@ -84,7 +84,7 @@ export default function MyStrikes() {
       document.getElementById(uuid).disabled = true;
       document.getElementById(uuid).innerHTML = "<strong>Solicitada</strong>";
     })
-    .catch(() => alert('Não foi possível solicitar a audiência!'))
+    .catch(() => console.log('erro'))
   }
 
   return (

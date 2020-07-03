@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -15,6 +16,8 @@ export default function TeamScreen() {
   document.title = 'Ver equipe';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
   const urlData = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
+  const teams = (useSelector(state => state.data[23]));
 
   const [teamData, setTeamData] = useState();
   const [events, setEvents] = useState([]);
@@ -47,6 +50,26 @@ export default function TeamScreen() {
       link.remove();
     })
     .catch(error => console.log(error))
+  }
+
+
+  function statusManageButton() {
+    if (
+      hierarquia === 'Presidente' ||
+      hierarquia === 'Vice-Presidente' ||
+      hierarquia === 'Diretor de Projetos'
+    ) {
+      return false;
+    } else {
+      for(let index in teams) {
+        if(teams[index].nome_equipe_slug === urlData) {
+          if(teams[index].funcao === 'Coordenador') {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
   }
 
 
@@ -125,6 +148,8 @@ export default function TeamScreen() {
             </div>
           </div>
         </div>
+        <br />
+        <button className="btn-send" onClick={() => window.location.href=`/team/manageteams/manage?${urlData}`} disabled={ statusManageButton() }>Gerenciar</button>
       </div>
 
       <ModalScreen id="view-event-area" className="modal" onClick={() => document.getElementById('view-event-area').style.display='none'}>

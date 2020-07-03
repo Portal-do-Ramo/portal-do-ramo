@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -16,6 +17,7 @@ export default function ControlProject () {
   document.title = 'Gerenciar projeto';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const urlData = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [members, setMembers] = useState([]);
   const [allMembers, setAllMembers] = useState([]);
@@ -61,7 +63,7 @@ export default function ControlProject () {
       setArchives(response.data.arquivos)
       setMembersOfProject(response.data.membros)
     })
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
     .finally(() => setLoaded(true))
   }, [])
 
@@ -69,7 +71,7 @@ export default function ControlProject () {
   useEffect(() => {
     api.get('api/usuarios', { headers: { Authorization: access_token } })
     .then(response => setAllMembers((response.data.Ativo).concat(response.data.Inativo)))
-    .catch(() => window.location.href = '/error')
+    // .catch(() => window.location.href = '/error')
   }, [])
 
 
@@ -885,7 +887,7 @@ export default function ControlProject () {
                   </div>
                   <div className="row inside-area">
                     <div className="row input-area">
-                      <div className="col-md-6">
+                      <div className="col-md-6 up-margin">
                         <label htmlFor="event-name">Nome do evento *</label>
                         <input type="text" className="form-control" id="event-name" name="event-name" placeholder="Nome" maxLength="190" required />
                       </div>
@@ -895,7 +897,7 @@ export default function ControlProject () {
                       </div>
                     </div>
                     <div className="row input-area">
-                      <div className="col-md-6">
+                      <div className="col-md-6 up-margin">
                         <label htmlFor="event-date">Data do evento *</label>
                         <input type="date" className="form-control" id="event-date" name="event-date" required />
                       </div>
@@ -906,7 +908,7 @@ export default function ControlProject () {
                     </div>
 
                     <div className="right">
-                      <div className="row buttons-area">
+                      <div className="row buttons-area event-buttons">
                         <div>
                           <button className="btn btn-primary" onClick={() => {
                             document.getElementById('add-events-area').style.display='none'

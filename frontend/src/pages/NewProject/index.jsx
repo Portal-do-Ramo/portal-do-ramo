@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -13,6 +14,7 @@ import avatar from './images/avatar.png';
 export default function ManageProject () {
   document.title = 'Novo projeto';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [alert, setAlert] = useState('');
   const [members, setMembers] = useState([]);

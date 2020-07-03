@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -13,10 +14,19 @@ export default function HistoricStrikes() {
   document.title = 'Histórico de Strikes';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
   const url = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [listReceivedStrikes, setListReceivedStrikes] = useState([]);
   const [listAppliedStrikes, setListAppliedStrikes] = useState([]);
   const [username, setUsername] = useState('');
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   if (url === '') {
     window.location.href = '/error';

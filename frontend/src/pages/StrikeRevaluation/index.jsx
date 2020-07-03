@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from "../../components/Top_Left_Side_Menu";
@@ -12,6 +13,7 @@ import { Screen, Card } from './styles';
 export default function StrikeRevaluation () {
   document.title = 'Reavaliação de strikes'
   const access_token = "Bearer".concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [strikes, setStrikes] = useState([]);
   const [selectedStrike, setSelectedStrike] = useState();
@@ -23,6 +25,13 @@ export default function StrikeRevaluation () {
     .catch(error => console.log(error.response))
   }, [])
 
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   setTimeout(() => {
     if (alert !== '') {

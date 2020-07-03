@@ -30,11 +30,15 @@ export default function SendFeedback () {
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar o feedback!</strong> Se o problema persistir, contate a diretoria!</div>'))
   }
 
-
   function statusButton() {
     if (
+      hierarquia === 'Diretor de Gestão de Pessoas' ||
       hierarquia === 'Presidente' ||
-      hierarquia === 'Vice-Presidente'
+      hierarquia === 'Vice-Presidente' ||
+      hierarquia === 'Diretor de Projetos' ||
+      hierarquia === 'Diretor de Marketing' ||
+      hierarquia === 'Coordenador' ||
+      hierarquia === 'Diretor Financeiro'
     ) {
       return false;
     } else {

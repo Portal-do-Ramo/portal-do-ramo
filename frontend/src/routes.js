@@ -140,9 +140,9 @@ export default function Routes () {
           <PrivateRoute path='/message' component={ () => <Message /> } />
           <PrivateRoute path='/managemembers' exact component={ () => <ManageMembers /> } />
           <PrivateRoute path='/managemembers/member' component={ () => <MemberData /> } />
-          <PrivateRoute path='/managepsi' exact component={ () => <ManagePSI /> } />
+          {/* <PrivateRoute path='/managepsi' exact component={ () => <ManagePSI /> } /> */}
           {/* <PrivateRoute path='/managepsi/control' component={ () => <ControlPSI /> } /> */}
-          <PrivateRoute path='/managepsi/new' component={ () => <NewPSI /> } />
+          {/* <PrivateRoute path='/managepsi/new' component={ () => <NewPSI /> } /> */}
           <PrivateRoute path='/manageabsences' exact component={ () => <ManageAbsences /> } />
           <PrivateRoute path='/manageabsences/historic' component={ () => <HistoricAbsences /> } />
           <PrivateRoute path='/managerequests' component={ () => <ManageRequests /> } />
@@ -190,7 +190,7 @@ export default function Routes () {
           <PrivateRoute path='/requests/historic' component={ () => <HistoricRequests /> } />
 
           {/* Routers - Marketing */}
-          <PrivateRoute path='/partners' component={ () => <ViewPartners />} />
+          {/* <PrivateRoute path='/partners' component={ () => <ViewPartners />} /> */}
 
           {/* Outros */}
           <PrivateRoute path='/editprofile' component={ () => <EditProfile /> } />

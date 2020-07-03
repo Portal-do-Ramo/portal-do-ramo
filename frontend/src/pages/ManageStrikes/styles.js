@@ -552,9 +552,7 @@ export const FullscreenStrike = styled.div`
     }
 
     @media (max-width: 767.98px) {
-      .buttons-area {
-        border: 1px solid red;
-      }
+      margin-top: 100px;
     }
   }
 

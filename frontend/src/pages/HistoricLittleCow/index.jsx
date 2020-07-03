@@ -13,6 +13,7 @@ import { Screen, Card } from './styles';
 export default function HistoricProjects () {
   document.title = 'Histórico de vaquinhas';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [list, setList] = useState([]);
   const [selectedCard, setSelectedCard] = useState();

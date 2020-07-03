@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from "../../components/Top_Left_Side_Menu";
 import Bottom_Right_Side_Menu from "../../components/Bottom_Right_Side_Menu";
@@ -16,6 +17,8 @@ export default function ControlTeam() {
   document.title = "Gerenciar equipe";
   const access_token = "Bearer".concat(sessionStorage.getItem("access_token"));
   const urlData = window.location.search.slice(1);
+  const hierarquia = (useSelector(state => state.data[4]));
+  const teams = (useSelector(state => state.data[23]));
 
   const [members, setMembers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,6 +44,38 @@ export default function ControlTeam() {
   if (urlData === '') {
     window.location.href = '/error';
   }
+
+  if (
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Assessor de Coordenador'
+  ) {
+    window.location.href = '/noaccess'
+  } else {
+    if (hierarquia === 'Coordenador') {
+      for(let index in teams) {
+        if(teams[index].nome_equipe_slug === urlData) {
+          if(teams[index].funcao !== 'Coordenador') {
+            window.location.href = '/noaccess'
+          }
+        }
+      }
+    } else {
+      if (
+        hierarquia === 'Presidente' ||
+        hierarquia === 'Vice-Presidente' ||
+        hierarquia === 'Diretor de Gestão de Pessoas' ||
+        hierarquia === 'Assessor de Coordenador'
+      ) {
+        console.log('ok')
+      } else {
+        window.location.href = '/noaccess'
+      }
+    }
+  }
+
+
 
   useEffect(() => {
     api.get(`/api/equipes/equipe-completa/${urlData}`, { headers: { Authorization: access_token } })
@@ -69,7 +104,6 @@ export default function ControlTeam() {
     api.get('api/usuarios', { headers: { Authorization: access_token } })
     .then(response => setMembers((response.data.Ativo).concat(response.data.Inativo)))
     .catch(() => window.location.href = '/error')
-    .catch(error => console.log(error.response))
   }, []);
 
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -15,6 +16,7 @@ import { Screen, HeaderBox, LeftBox, RightBox, TitleBox, ViewResults, CardButton
 export default function ManageStrikes() {
   document.title = 'Gerenciar Strikes';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [members, setMembers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(true);
@@ -30,6 +32,14 @@ export default function ManageStrikes() {
   const [alert, setAlert] = useState('');
 
   const allMembers = [{nome_equipe_slug:"allMembers", nome_equipe:"Todos"}];
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   setTimeout(() => {
     if (alert !== '') {
@@ -119,7 +129,10 @@ export default function ManageStrikes() {
       data_audiencia: audienceDate,
       hora_audiencia: audienceTime
     }, {headers: { Authorization: access_token }})
-    .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Audiência remarcada com sucesso!</strong></div>'))
+    .then(() => {
+      document.getElementById('audience-fullscreen').style.display = 'none'
+      setAlert('<div class="alert alert-success" role="alert"><strong>Audiência remarcada com sucesso!</strong></div>')
+    })
     .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível remarcar a audiência.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
@@ -455,7 +468,7 @@ export default function ManageStrikes() {
               {(selectedMember) ? <img src={selectedMember.foto_url} className="img-thumbnail"/> : '' }
                 <h1 id="noSelected">{(!selectedMember) ? 'Selecione um membro' : ''}</h1>
 
-                <h1>{(selectedMember) ? selectedMember.nome_completo : ''}</h1>
+                <h1>{(selectedMember) ? selectedMember.nome_completo.split(' ')[0].concat(' ' + selectedMember.nome_completo.split(' ')[1]) : ''}</h1>
                 <h3>{(selectedMember) ? selectedMember.hierarquia : ''}</h3>
 
                 {(selectedMember) ?

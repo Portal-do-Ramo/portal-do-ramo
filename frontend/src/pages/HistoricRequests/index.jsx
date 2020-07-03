@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -12,6 +13,7 @@ import { Screen, BoxModalScreen, ModalScreen } from './styles';
 export default function HistoricRequests () {
   document.title = "Histórico de Pedidos";
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [purchaseOrderSelected, setPurchaseOrderSelected] = useState();
@@ -19,6 +21,14 @@ export default function HistoricRequests () {
   const [refundRequestSelected, setRefundRequestSelected] = useState();
   const [loaded, setLoaded] = useState(false);
   const [tab, setTab] = useState('compra');
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   useEffect(() => {
     api.get('/api/pedidos/index-financeiro', { headers: { Authorization: access_token } })

@@ -151,11 +151,11 @@ export default function Top_Left_Side_Menu() {
                 <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu">
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/message" id="btn-message">Mensagem</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/requests" id="btn-requests">Pedidos</Dropdown.Item>
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item>
+                  {/* <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/selectiveprocess" id="btn-selective-process" disabled>Processos seletivos</Dropdown.Item> */}
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managemembers" id="btn-manage-members" disabled={ statusGPButtons() }>Gerenciar membros</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/manageabsences" id="btn-manage-absences" disabled={ statusGPButtons() }>Gerenciar faltas</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managerequests" id="btn-manage-requests" disabled={ statusGPButtons() }>Gerenciar pedidos</Dropdown.Item>
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item>
+                  {/* <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/managepsi" id="btn-manage-psi" disabled>Gerenciar PSI</Dropdown.Item> */}
                 </Dropdown.Menu>
               </Dropdown>
 
@@ -197,6 +197,7 @@ export default function Top_Left_Side_Menu() {
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strikes/mystrikes" id="btn-my-strikes-2">Meus strikes</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strike" id="btn-apply-strike">Aplicar strikes</Dropdown.Item>
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strike/manage" id="btn-manage-strikes" disabled={statusGPButtons()}>Gerenciar strikes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/strike/manage/reavaliacao" id="btn-manage-strikes" disabled={statusGPButtons()}>Reavaliações</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
@@ -223,8 +224,8 @@ export default function Top_Left_Side_Menu() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu" >
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/partners" id="btn-finances">Parcerias</Dropdown.Item>
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/partners/manage" id="btn-manage-finances" disabled={statusMarketingButtons()}>Gerenciar parcerias</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className={(true) ? "menu-dropdown-option-disabled" : "menu-dropdown-option"} href="/partners" id="btn-finances" disabled={true}>Parcerias</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className={(true) ? "menu-dropdown-option-disabled" : "menu-dropdown-option"} disabled={true}>Gerenciar parcerias</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </ul>

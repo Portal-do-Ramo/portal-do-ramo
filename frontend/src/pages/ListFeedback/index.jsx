@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
 import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
@@ -12,8 +13,21 @@ import { Screen, Content, ViewFeedbacks, Card } from './styles';
 export default function HistoricAbsences() {
   document.title = 'Feedbacks';
   const access_token = 'Bearer'.concat(sessionStorage.getItem('access_token'));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [listFeedbacks, setListFeedbacks] = useState([])
+
+  if (
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor de Projetos' &&
+    hierarquia !== 'Diretor de Marketing' &&
+    hierarquia !== 'Coordenador' &&
+    hierarquia !== 'Diretor Financeiro'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   useEffect(() => {
     api.get(`/api/feedbacks`, {headers: { Authorization: access_token }})

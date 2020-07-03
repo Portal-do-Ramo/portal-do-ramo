@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import api from '../../services/api';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -17,6 +18,16 @@ import { Screen, Content, ModalScreen, BoxModalScreen, ConfirmBoxModalScreen, Ca
 export default function ManageFinancesAdvisor () {
   document.title = 'Gerenciar o financeiro';
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
+
+  if (
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor Financeiro' &&
+    hierarquia !== 'Assessor de Gestão'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   // GENERAL
   const [infoGerais, setInfoGerais] = useState();
@@ -612,7 +623,7 @@ export default function ManageFinancesAdvisor () {
 
         <Content>
           {(isLoadedCharts) ?
-            <div>
+            <div className="graphs">
               <h1 className="title-box-blue">Gráficos</h1>
               <div className="row">
                 <div className="col-md-2">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import api from "../../services/api";
 
 import Top_Left_Side_Menu from "../../components/Top_Left_Side_Menu";
@@ -14,10 +15,20 @@ import team_undefined from './images/team_undefined.png';
 export default function ManageTeams() {
   document.title = "Gerenciar equipe";
   const access_token = "Bearer".concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+
+  if (
+    hierarquia !== 'Presidente' &&
+    hierarquia !== 'Vice-Presidente' &&
+    hierarquia !== 'Diretor de Gestão de Pessoas' &&
+    hierarquia !== 'Diretor de Projetos'
+  ) {
+    window.location.href = '/noaccess'
+  }
 
   useEffect(() => {
     api.get('/api/equipes', { headers: { Authorization: access_token } })

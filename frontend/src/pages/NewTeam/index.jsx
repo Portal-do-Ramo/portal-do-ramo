@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import api from "../../services/api";
 
 import Top_Left_Side_Menu from "../../components/Top_Left_Side_Menu";
@@ -14,6 +15,7 @@ import avatar from "./images/avatar.png";
 export default function NewTeam() {
   document.title = "Nova equipe";
   const access_token = "Bearer".concat(sessionStorage.getItem("access_token"));
+  const hierarquia = (useSelector(state => state.data[4]));
 
   const [members, setMembers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);

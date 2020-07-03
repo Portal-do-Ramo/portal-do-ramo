@@ -125,6 +125,24 @@ export const Screen = styled.div`
     position: fixed;
     z-index: 10;
   }
+
+  @media (max-width: 1155.98px) {
+    .left-box-gray {
+      height: auto;
+    }
+
+    .btn-option-box {
+      margin-top: 10px;
+    }
+
+    .right-box-blue-gradient {
+      height: auto;
+    }
+
+    .btn-option-box-white {
+      margin-top: 10px;
+    }
+  }
 `
 
 export const Content = styled.section`
@@ -223,6 +241,12 @@ export const Content = styled.section`
 
     .btn-tab:hover {
       background: #E5E5E5;
+    }
+  }
+
+  @media (max-width: 1023.98px) {
+    .graphs {
+      display: none;
     }
   }
 `
@@ -420,7 +444,16 @@ export const BoxModalScreen = styled.div`
     height: 100%;
     background: transparent;
     overflow-y: scroll;
+    overflow-x: hidden;
     padding: 5px;
+  }
+
+  .up-buttons-percent {
+    margin-top: -50px;
+  }
+
+  .up-btn {
+    margin-top: 15px;
   }
 
   .view-extract-complete {
@@ -448,27 +481,62 @@ export const BoxModalScreen = styled.div`
 
   @media (min-width: 319px) and (max-width: 359.98px) {
     width: 290px;
-    margin-top: 100px;
+    margin-top: 40px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 
   @media (min-width: 360px) and (max-width: 374.98px) {
     width: 330px;
+    margin-top: 100px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 
   @media (min-width: 375px) and (max-width: 410.98px) {
     width: 306px;
+    margin-top: 100px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 
   @media (min-width: 411px) and (max-width: 575.98px) {
     width: 345px;
+    margin-top: 100px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 
   @media (min-width: 767px) and (max-width: 1023.98px) {
     width: 650px;
+    margin-top: 100px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 
   @media (min-width: 1024px) and (max-width: 1155px) {
     width: 890px;
+    margin-top: 100px;
+    height: 450px;
+
+    .inside-area {
+      height: 390px;
+    }
   }
 `
 
