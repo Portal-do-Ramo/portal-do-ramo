@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Equipe;
 
+use App\Models\UsuarioAtivo;
 use App\Rules\Matricula;
 use App\Traits\ApiRequest;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +20,7 @@ class CriarEquipeRequest extends FormRequest
     {
         return [
             'nome_equipe' => 'bail|required|unique:equipes',
-            'matricula_coordenador' => ['bail', 'required', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
+            'matricula_coordenador' => ['bail', 'required', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3)), Rule::notIn(UsuarioAtivo::diretoria()->get()->pluck('matricula')->values())],
             'matricula_assessor' => ['bail','present', 'nullable', 'different:matricula_coordenador', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
             'capitulo' => 'present|nullable',
             'porcentagem_orcamento' => 'required|numeric',

@@ -25,7 +25,6 @@ class Strike extends BaseModel
         'audienceRescheduled' => AudienceRescheduled::class,
         'audienceRemoved' => AudienceRemoved::class,
         'audienceScheduled' => AudienceScheduled::class,
-        'created' => StrikeRequested::class,
         'disapproved' => StrikeDisapproved::class,
         'removed' => StrikeRemoved::class,
         'sustained' => StrikeSustained::class
@@ -39,7 +38,7 @@ class Strike extends BaseModel
 
     protected $dates = ['data_aprovado', 'data_audiencia'];
 
-    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'createApproved', 'disapproved', 'sustained', 'removed'];
+    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'createApproved', 'createdNormal', 'disapproved', 'sustained', 'removed'];
 
     /**
      * Definição do escopo para recuperar somente os strikes que foram aprovados
@@ -90,6 +89,12 @@ class Strike extends BaseModel
     public function setDataAudienciaAttribute($value)
     {
         $this->attributes['data_audiencia'] = $value ? Carbon::createFromFormat('d/m/Y', $value) : NULL;
+    }
+
+    public static function createNormal($dadosValidos)
+    {
+        $strike = self::create($dadosValidos);
+        $strike->fireModelEvent('createdNormal', false);
     }
 
     public static function createApproved($dadosValidos)

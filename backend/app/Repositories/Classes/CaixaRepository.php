@@ -34,9 +34,9 @@ class CaixaRepository implements CaixaRepositoryInterface
     public function infoGeralCaixa()
     {
         return Caixa::equipesEspeciais()
-            ->selectRaw('SUM(orcamento_atual) as orcamento_total')
-            ->addSelect(['total_entradas' => RegistroDeCaixa::selectRaw('IFNULL(SUM(valor), 0)')->join('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($query) => $query->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false)->orWhereNull('caixas.tipo_relacionado'))->whereRaw("DATE_FORMAT(registros_de_caixa.data, '%m/%Y') = DATE_FORMAT(CURRENT_DATE(), '%m/%Y')")->where('registros_de_caixa.tipo', 'Entrada'))])
-            ->addSelect(['total_saidas' => RegistroDeCaixa::selectRaw('IFNULL(SUM(valor), 0)')->join('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($query) => $query->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false)->orWhereNull('caixas.tipo_relacionado'))->whereRaw("DATE_FORMAT(registros_de_caixa.data, '%m/%Y') = DATE_FORMAT(CURRENT_DATE(), '%m/%Y')")->where('registros_de_caixa.tipo', 'Saída'))])
+            ->selectRaw('ROUND(SUM(orcamento_atual), 2) as orcamento_total')
+            ->addSelect(['total_entradas' => RegistroDeCaixa::selectRaw('ROUND(IFNULL(SUM(valor), 0), 2)')->join('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($query) => $query->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false)->orWhereNull('caixas.tipo_relacionado'))->whereRaw("DATE_FORMAT(registros_de_caixa.data, '%m/%Y') = DATE_FORMAT(CURRENT_DATE(), '%m/%Y')")->where('registros_de_caixa.tipo', 'Entrada'))])
+            ->addSelect(['total_saidas' => RegistroDeCaixa::selectRaw('ROUND(IFNULL(SUM(valor), 0), 2)')->join('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($query) => $query->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false)->orWhereNull('caixas.tipo_relacionado'))->whereRaw("DATE_FORMAT(registros_de_caixa.data, '%m/%Y') = DATE_FORMAT(CURRENT_DATE(), '%m/%Y')")->where('registros_de_caixa.tipo', 'Saída'))])
             ->get();
     }
 

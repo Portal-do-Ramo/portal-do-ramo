@@ -25,11 +25,6 @@ use Illuminate\Support\Facades\Notification;
 
 class StrikeObserver
 {
-    public function created(Strike $strike)
-    {
-        Notification::send(UsuarioAtivo::presidenciaComDiretor('de Gestão de Pessoas'), new StrikeSolicitadoNotification($strike));
-    }
-
     public function approved(Strike $strike)
     {
         $membros = $this->getMembros($strike);
@@ -76,6 +71,11 @@ class StrikeObserver
         $strike->membroRecebeu->notify(new StrikeRecebidoAprovadoNotification($strike));
         
         Mail::to($membros->map(fn($item) => ['name' => $item->nome_completo, 'email' => $item->email]))->queue((new StrikeRecebidoMail($strike))->onQueue('strike-recebido'));
+    }
+
+    public function createdNormal(Strike $strike)
+    {
+        Notification::send(UsuarioAtivo::presidenciaComDiretor('de Gestão de Pessoas'), new StrikeSolicitadoNotification($strike));
     }
 
     public function disapproved(Strike $strike)

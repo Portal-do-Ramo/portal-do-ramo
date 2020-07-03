@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Classes;
 
+use App\Models\Pedidos\BasePedido;
 use App\Models\Usuario;
 use App\Models\UsuarioSistema;
 use App\Models\WeakModels\Curso;
@@ -54,52 +55,55 @@ class UsuarioRepository implements UsuarioRepositoryInterface
 
     public function getInativos()
     {
-        return Usuario::select('matricula', 'nome_completo', 'email', 'data_fim_inatividade')
+        $pedidosInatividade = BasePedido::where('tipo_pedido', 'pedido-de-inatividade')
+            ->where('situacao', 'Aprovado')
+            ->orderBy('data_aprovado', 'DESC')
+            ->groupBy('matricula_membro_solicitou');
+
+        return Usuario::select('matricula', 'nome_completo', 'email', 'data_fim_inatividade', 'pedidos.dados_pedido')
             ->whereHas('situacao', fn($query) => $query->whereNome('Inativo'))
-            ->with(['pedidos' => fn($query) => $query->addSelect('matricula_membro_solicitou', 'dados_pedido')->where('tipo_pedido', 'pedido-de-inatividade')->aprovados()->latest()]) 
+            ->joinSub($pedidosInatividade, 'pedidos', fn($join) => $join->on('pedidos.matricula_membro_solicitou', '=','usuarios.matricula'))
+            ->withCasts(['dados_pedido' => 'array'])
             ->get()
             ->map(fn($usuario) => [
                 $usuario->nome_completo,
                 $usuario->email,
-                $usuario->pedidos->first()->dados_pedido['justificativa'],
+                $usuario->dados_pedido['justificativa'],
                 $usuario->data_fim_inatividade
             ]);
     }
 
     public function getDesligados()
     {
+        $pedidosDesligamento = BasePedido::where('tipo_pedido', 'pedido-de-desligamento')
+            ->where('situacao', 'Aprovado')
+            ->orderBy('data_aprovado', 'DESC')
+            ->groupBy('matricula_membro_solicitou');
+
         return Usuario::whereHas('situacao', fn($query) => $query->whereNome('Desligado'))
-            ->select('matricula', 'nome_completo', 'email', 'data_desligado')
-            ->with([
-                'pedidos' => fn($query) => $query->select('pedidos.matricula_membro_solicitou', 'pedidos.dados_pedido')->whereTipoPedido('pedido-de-desligamento')->aprovados(),
-                'membro:matricula_usuario,telefones'
-            ])
+            ->select('matricula', 'nome_completo', 'email', 'data_desligado', 'membros.telefones', 'pedidos.dados_pedido')
+            ->join('membros', 'usuarios.matricula', '=', 'membros.matricula_usuario')
+            ->joinSub($pedidosDesligamento, 'pedidos', fn($join) => $join->on('usuarios.matricula', '=', 'pedidos.matricula_membro_solicitou'))
             ->orderBy('data_desligado')
+            ->withCasts(['telefones' => 'array', 'dados_pedidos' => 'array'])
             ->get()
             ->map(fn($usuario) => [
                 $usuario->nome_completo,
                 $usuario->email,
-                $usuario->membro->telefones['telefone_principal'],
-                $usuario->pedidos->first()->dados_pedido['justificativa'],
+                $usuario->telefones['telefone_principal'],
+                $usuario->dados_pedido['justificativa'],
                 $usuario->data_desligado
             ]);
     }
 
     public function getPagantes()
     {
-        return Usuario::whereHas('membro', fn($query) => $query->wherePagante(true))
-            ->select('matricula', 'nome_completo', 'email')
+        return Usuario::select('matricula', 'nome_completo', 'email', 'situacoes.nome as situacao', 'membros.numero_ieee', 'membros.data_fim_membresia')
             ->join('situacoes', 'usuarios.situacao_id', '=', 'situacoes.id')
-            ->addSelect('situacoes.nome as situacao')
-            ->with('membro:matricula_usuario,data_fim_membresia,numero_ieee')
-            ->get()
-            ->map(fn($usuario) => [
-                $usuario->nome_completo,
-                $usuario->email,
-                $usuario->situacao,
-                $usuario->membro->numero_ieee,
-                $usuario->membro->data_fim_membresia
-            ]);
+            ->join('membros', 'usuarios.matricula', '=', 'membros.matricula_usuario')
+            ->where('membros.pagante', true)
+            ->withCasts(['data_fim_membresia' => 'date:d/m/Y'])
+            ->get();
     }
         
     public function minhasNotificacoes()

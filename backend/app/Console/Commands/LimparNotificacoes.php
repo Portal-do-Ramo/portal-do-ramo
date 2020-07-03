@@ -38,6 +38,6 @@ class LimparNotificacoes extends Command
      */
     public function handle()
     {
-        DB::table('notifications')->whereDate('created_at', '<=', now()->subMonth())->delete();
+        DB::table('notifications')->whereDate('created_at', '<=', today()->subMonth())->delete();
     }
 }

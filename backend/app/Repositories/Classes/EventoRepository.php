@@ -48,12 +48,18 @@ class EventoRepository implements EventoRepositoryInterface
 
     public function createEventoEquipe(Equipe $equipe, array $dadosValidos)
     {
-        $equipe->eventos()->save(new EventoEquipe($dadosValidos));
+        $evento = new EventoEquipe($dadosValidos);
+        $equipe->eventos()->save($evento);
+
+        return $evento;
     }
 
     public function createEventoProjeto(Projeto $projeto, array $dadosValidos)
     {
-        $projeto->eventos()->save(new EventoProjeto($dadosValidos));
+        $evento = new EventoProjeto($dadosValidos);
+        $projeto->eventos()->save($evento);
+
+        return $evento;
     }
 
     public function update(Evento $evento, array $dadosValidos)

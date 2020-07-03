@@ -17,6 +17,6 @@ class DownloadArquivoController extends ApiController
     public function __invoke(Arquivo $arquivo)
     {
         $conteudo = $arquivo->getArquivoParaDownload();
-        return $conteudo ? Storage::cloud()->download($conteudo['path']) : response()->json('Arquivo não encontrado no Drive', 404);
+        return $conteudo ? Storage::cloud()->download($arquivo->path) : response()->json('Arquivo não encontrado no Drive', 404);
     }
 }

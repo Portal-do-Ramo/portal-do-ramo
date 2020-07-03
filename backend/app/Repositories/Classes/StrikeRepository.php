@@ -90,7 +90,7 @@ class StrikeRepository implements StrikeRepositoryInterface
             ->join('usuarios as membro_recebeu', 'membro_recebeu.matricula', '=', 'strikes.membro_recebeu')
             ->addSelect('membro_recebeu.matricula as matricula_membro_recebeu', 'membro_recebeu.nome_completo as nome_membro_recebeu')
             ->whereAudienciaSolicitada(true)
-            ->where('strikes.situacao', 'Aprovado')
+            ->whereIn('strikes.situacao', ['Aprovado', 'Em Processamento'])
             ->get();
 
         $strikesAudienciaSolicitada = $strikes->whereNull('data_audiencia')->map(fn($strike) => Arr::except($strike, ['data_audiencia', 'hora_audiencia']))->values();
@@ -104,7 +104,7 @@ class StrikeRepository implements StrikeRepositoryInterface
         return Strike::join('usuarios as usuario_aplicou', 'strikes.membro_aplicou', '=', 'usuario_aplicou.matricula')
             ->join('usuarios as usuario_recebeu', 'strikes.membro_recebeu', '=', 'usuario_recebeu.matricula')
             ->select('usuario_aplicou.nome_completo as nome_aplicou', 'usuario_recebeu.nome_completo as nome_recebeu','motivo', 'strikes.data_criado', 'data_aprovado')
-            ->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])
+            ->whereAprovado(true)
             ->orderBy('data_criado')
             ->get();
     }

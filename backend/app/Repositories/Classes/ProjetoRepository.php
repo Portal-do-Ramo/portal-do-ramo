@@ -112,7 +112,7 @@ class ProjetoRepository implements ProjetoRepositoryInterface
     public function fecharProjeto(Projeto $projeto)
     {
         DB::transaction(function() use ($projeto) {
-            $projeto->caixa->update(['porcentagem_caixa' => 0, 'ativo' => 0, 'orcamento_atual' => 0]);
+            $projeto->caixa->update(['porcentagem_orcamento' => 0, 'ativo' => 0, 'orcamento_atual' => 0]);
             $projeto->inscricoes()->update(['ativo' => 0]);
 
             $projeto->update(['ativo' => 0]);
@@ -128,8 +128,9 @@ class ProjetoRepository implements ProjetoRepositoryInterface
     public function addAssessor(Projeto $projeto, array $dadosValidos)
     {
         DB::transaction(function () use ($projeto, $dadosValidos) {
-            if($assessor = $projeto->assessor->first())
-                $assessor->update(['inscricoes_projetos.ativo' => false]);
+            $inscricaoAssessor = $projeto->inscricoes()->whereAtivo(true)->whereFuncao('Assessor')->first();
+            if($inscricaoAssessor)
+                $inscricaoAssessor->update(['inscricoes_projetos.ativo' => false]);
 
             if($dadosValidos['matricula_assessor'])
                 $projeto->inscricoes()->save(new InscricaoProjeto(['matricula_membro' => $dadosValidos['matricula_assessor'], 'funcao' => 'Assessor']));
@@ -159,6 +160,6 @@ class ProjetoRepository implements ProjetoRepositoryInterface
 
     public function getArquivos(Projeto $projeto)
     {
-        return $projeto->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.path', 'arquivos.data_criado')->get();
+        return $projeto->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.path', 'arquivos.extensao_arquivo', 'arquivos.data_criado')->get();
     }
 }

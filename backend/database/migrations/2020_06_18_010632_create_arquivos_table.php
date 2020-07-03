@@ -17,9 +17,10 @@ class CreateArquivosTable extends Migration
             $table->uuid('uuid')->primary();
             $table->string('nome', 60);
             $table->string('path');
+            $table->string('extensao_arquivo');
 
-            $table->string('id_relacionado', 35)->nullable();
-            $table->string('tipo_relacionado')->nullable();
+            $table->string('id_relacionado', 35);
+            $table->string('tipo_relacionado');
 
             $table->timestamp('data_criado')->nullable();
             $table->timestamp('data_alterado')->nullable();

@@ -45,7 +45,7 @@ class PedidoDeCompraRecusadoNotification extends Notification
             'titulo' => 'Pedido de compra recusado',
             'mensagem' => $this->pedidoDeCompra->projetoSolicitado ? 
                 "Caro, {$notifiable->nome_completo}, gostariamos de informar que, infelizmente, foi recusado seu pedido de compra feito em: {$this->pedidoDeCompra->data_criado->format('d/m/Y')}, destinado ao projeto {$this->pedidoDeCompra->projetoSolicitado->nome_projeto}, com valor total de R\$" . number_format($this->pedidoDeCompra->valor_total, 2, ',', '.') :
-                "Caro, {$notifiable->nome_completo}, gostariamos de informar que, infelizmente, foi recusado seu pedido de compra feito em: {$this->pedidoDeCompra->data_criado->format('d/m/Y')}, com valor total de R\$" . number_format($this->pedidoDeCompra, 2, ',', '.'),
+                "Caro, {$notifiable->nome_completo}, gostariamos de informar que, infelizmente, foi recusado seu pedido de compra feito em: {$this->pedidoDeCompra->data_criado->format('d/m/Y')}, com valor total de R\$" . number_format($this->pedidoDeCompra->valor_total, 2, ',', '.'),
             'link' => 'meus-pedidos'
         ];
     }

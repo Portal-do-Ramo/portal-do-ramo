@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Equipe;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
+use App\Services\BuscarNovoArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,17 +21,19 @@ class UploadArquivoEquipeJob implements ShouldQueue
     protected $dadosValidos;
     protected $equipeRepository;
     protected $service;
+    protected $buscaService;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Equipe $equipe, array $dadosValidos, EquipeRepositoryInterface $equipeRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Equipe $equipe, array $dadosValidos, EquipeRepositoryInterface $equipeRepository, VerificarExistenciaDiretorioService $service, BuscarNovoArquivoService $buscaService)
     {
         $this->equipe = $equipe;
         $this->dadosValidos = $dadosValidos;
-        $this->projetoRepository = $equipeRepository;
+        $this->equipeRepository = $equipeRepository;
+        $this->buscaService = $buscaService;
         $this->service = $service;
     }
 
@@ -45,9 +48,12 @@ class UploadArquivoEquipeJob implements ShouldQueue
         $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
         $pasta = $this->service->handle('Arquivos', $pastaEquipe);
 
-        $this->dadosValidos['path'] = $pasta;
+        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
 
-        Storage::cloud()->put("{$this->dadosValidos['path']}/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
+        $arquivo = $this->buscaService->handle($pasta, $this->dadosValidos['nome_arquivo']);
+        $this->dadosValidos['path'] = $arquivo['path'];
+        $this->dadosValidos['extensao_arquivo'] = $arquivo['extension'];
+
         $this->projetoRepository->addArquivo($this->equipe, $this->dadosValidos);
     }
 }

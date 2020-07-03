@@ -10,6 +10,7 @@ use App\Jobs\UploadArquivoEquipeJob;
 use App\Models\Arquivo;
 use App\Models\Equipe;
 use App\Repositories\Interfaces\EquipeRepositoryInterface;
+use App\Services\BuscarNovoArquivoService;
 use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 
@@ -21,16 +22,10 @@ class EquipeArquivosController extends AbstractEquipeController
         $this->authorizeResource(Equipe::class, 'equipe');
     }
 
-    public function store(CriarArquivoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service)
+    public function store(CriarArquivoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service, BuscarNovoArquivoService $buscaService)
     {
-        UploadArquivoEquipeJob::dispatch($equipe, $request->validated(), $this->equipeRepository, $service);
+        UploadArquivoEquipeJob::dispatch($equipe, $request->validated(), $this->equipeRepository, $service, $buscaService);
         return response()->json('Upload do arquivo feito com sucesso', 200);
-    }
-
-    public function update(AtualizarArquivoRequest $request, Equipe $equipe, Arquivo $arquivo, VerificarExistenciaDiretorioService $service)
-    {
-        EditarArquivoEquipeJob::dispatch($equipe, $arquivo, $request->validated(), $service);
-        return response()->json("$arquivo->nome alterado com sucesso", 200);
     }
 
     public function destroy(Equipe $equipe, Arquivo $arquivo, DeletarArquivoService $deleteService)

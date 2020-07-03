@@ -42,9 +42,11 @@ class ReavaliacaoCriadaNotification extends Notification implements ShouldQueue
      */
     public function toDatabase($notifiable)
     {
+        $condicao = $notifiable->is($this->reavaliacao->strike->membroAplicou) ? 'aplicou' : 'recebeu';
+        
         return [
             'titulo' => 'Reavaliação do Strike',
-            'mensagem' => 'O strike que você ' . $notifiable->is($this->reavaliacao->strike->membroAplicou) ? 'aplicou' : 'recebeu' . ", (aprovado no dia: {$this->reavaliacao->strike->data_aprovado}) foi reavaliado!",
+            'mensagem' => "O strike que você $condicao, (aprovado no dia: {$this->reavaliacao->strike->data_aprovado}) foi reavaliado!",
             'link' => 'meus-strikes'
         ];
     }

@@ -59,7 +59,7 @@ class Membro extends BaseModel
 
     public function setDataFimMembresiaAttribute($value)
     {
-        $this->attributes['data_fim_membresia'] = Carbon::createFromFormat('d/m/Y', $value);
+        $this->attributes['data_fim_membresia'] = $value ? Carbon::createFromFormat('d/m/Y', $value) : NULL;
     }
 
     /**

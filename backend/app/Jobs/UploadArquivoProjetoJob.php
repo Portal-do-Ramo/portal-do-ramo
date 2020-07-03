@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Projeto;
 use App\Repositories\Interfaces\ProjetoRepositoryInterface;
+use App\Services\BuscarNovoArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,18 +21,20 @@ class UploadArquivoProjetoJob implements ShouldQueue
     protected $dadosValidos;
     protected $projetoRepository;
     protected $service;
+    protected $buscaService;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Projeto $projeto, array $dadosValidos, ProjetoRepositoryInterface $projetoRepository, VerificarExistenciaDiretorioService $service)
+    public function __construct(Projeto $projeto, array $dadosValidos, ProjetoRepositoryInterface $projetoRepository, VerificarExistenciaDiretorioService $service, BuscarNovoArquivoService $buscaService)
     {
         $this->projeto = $projeto;
         $this->dadosValidos = $dadosValidos;
         $this->projetoRepository = $projetoRepository;
         $this->service = $service;
+        $this->buscaService = $buscaService;
     }
 
     /**
@@ -46,9 +49,12 @@ class UploadArquivoProjetoJob implements ShouldQueue
         $pastaProjetos = $this->service->handle('Projetos', $pastaEquipe);
         $pasta = $this->service->handle($this->projeto->nome_projeto, $pastaProjetos);
 
-        $this->dadosValidos['path'] = $pasta;
+        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
 
-        Storage::cloud()->put("{$this->dadosValidos['path']}/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
+        $arquivo = $this->buscaService->handle($pasta, $this->dadosValidos['nome_arquivo']);
+        $this->dadosValidos['path'] = $arquivo['path'];
+        $this->dadosValidos['extensao_arquivo'] = $arquivo['extension'];
+
         $this->projetoRepository->addArquivo($this->projeto, $this->dadosValidos);
     }
 }

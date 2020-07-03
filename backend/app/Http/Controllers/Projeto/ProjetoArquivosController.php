@@ -10,6 +10,7 @@ use App\Jobs\UploadArquivoProjetoJob;
 use App\Models\Arquivo;
 use App\Models\Projeto;
 use App\Repositories\Interfaces\ProjetoRepositoryInterface;
+use App\Services\BuscarNovoArquivoService;
 use App\Services\DeletarArquivoService;
 use App\Services\VerificarExistenciaDiretorioService;
 
@@ -21,16 +22,10 @@ class ProjetoArquivosController extends AbstractProjetoController
         $this->authorizeResource(Projeto::class, 'projeto');
     }
 
-    public function store(CriarArquivoProjetoRequest $request, Projeto $projeto, VerificarExistenciaDiretorioService $service)
+    public function store(CriarArquivoProjetoRequest $request, Projeto $projeto, VerificarExistenciaDiretorioService $service, BuscarNovoArquivoService $buscaService)
     {
-        UploadArquivoProjetoJob::dispatch($projeto, $request->validated(), $this->projetoRepository, $service);
+        UploadArquivoProjetoJob::dispatch($projeto, $request->validated(), $this->projetoRepository, $service, $buscaService);
         return response()->json('Upload do arquivo feito com sucesso', 200);
-    }
-
-    public function update(AtualizarArquivoRequest $request, Projeto $projeto, Arquivo $arquivo, VerificarExistenciaDiretorioService $service)
-    {
-        EditarArquivoProjetoJob::dispatch($projeto, $arquivo, $request->validated(), $service);
-        return response()->json("$arquivo->nome alterado com sucesso", 200);
     }
 
     public function destroy(Projeto $projeto, Arquivo $arquivo, DeletarArquivoService $deleteService)

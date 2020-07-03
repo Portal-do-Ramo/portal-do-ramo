@@ -21,17 +21,12 @@ class Arquivo extends BaseModel
 
     public function getUltimaModificacaoAttribute()
     {
-        $arquivo = $this->getIdArquivo();
-        return $arquivo ? Carbon::parse(date('Y-m-d H:i:s', Storage::cloud()->lastModified($arquivo['path'])))->diffForHumans() : NULL;
+        $arquivo = Storage::cloud()->get($this->path);
+        return $arquivo ? Carbon::parse(date('Y-m-d H:i:s', Storage::cloud()->lastModified($this->path)))->diffForHumans() : NULL;
     }
 
     public function getArquivoParaDownload()
     {
-        return $this->getIdArquivo();
-    }
-
-    private function getIdArquivo()
-    {
-        return collect(Storage::cloud()->listContents($this->path))->where('type', 'file')->where('filename', $this->nome)->first();
+        return Storage::cloud()->get($this->path);
     }
 }

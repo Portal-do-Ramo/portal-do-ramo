@@ -90,7 +90,7 @@ class EquipeRepository implements EquipeRepositoryInterface
     {
         DB::transaction(function () use ($equipe, $dadosValidos) {
             if($equipe->nome_equipe !== $dadosValidos['nome_equipe']) {
-                $equipe->caixa->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe']), 'nome_caixa' => "Caixa {$dadosValidos['nome_equipe']}"]);
+                $equipe->caixas()->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe']), 'nome_caixa' => "Caixa {$dadosValidos['nome_equipe']}"]);
                 $equipe->eventos()->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe'])]);
                 $equipe->arquivos()->update(['id_relacionado' => Str::slug($dadosValidos['nome_equipe'])]);
                 $equipe->projetos()->update(['nome_equipe' => Str::slug($dadosValidos['nome_equipe'])]);
@@ -112,6 +112,6 @@ class EquipeRepository implements EquipeRepositoryInterface
 
     public function getArquivos(Equipe $equipe)
     {
-        return $equipe->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.data_criado')->get();
+        return $equipe->arquivos()->select('arquivos.uuid', 'arquivos.nome', 'arquivos.path', 'arquivos.extensao_arquivo', 'arquivos.data_criado')->get();
     }
 }
