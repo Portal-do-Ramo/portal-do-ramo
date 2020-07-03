@@ -111,7 +111,7 @@ class StrikeRepository implements StrikeRepositoryInterface
 
     public function create(array $dadosValidos)
     {
-        Strike::create($dadosValidos);
+        Strike::createNormal($dadosValidos);
     }
 
     public function createApproved(array $dadosValidos)
