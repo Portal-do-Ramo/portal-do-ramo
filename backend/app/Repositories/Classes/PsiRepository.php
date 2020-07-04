@@ -40,6 +40,8 @@ class PsiRepository implements PsiRepositoryInterface
                         });
 
                         $psi['membro_inscrito'] = $psi->membroInscritoFormatado(Auth::id());
+
+                        return $psi;
                     });
     }
 

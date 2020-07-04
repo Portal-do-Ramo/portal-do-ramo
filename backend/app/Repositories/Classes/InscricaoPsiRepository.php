@@ -5,6 +5,7 @@ namespace App\Repositories\Classes;
 use App\Models\InscricaoProjeto;
 use App\Models\InscricaoPsi;
 use App\Repositories\Interfaces\InscricaoPsiRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
 {
@@ -14,7 +15,7 @@ class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
      */
     public function inscrever(array $dadosValidos)
     {
-        $inscricao = [
+        $inscricaoPsi = [
             'nome_psi' => $dadosValidos['nome_psi'],
             'membro_inscrito' => $dadosValidos['usuario'],
             'area_solicitada' => $dadosValidos['area'],
@@ -22,30 +23,33 @@ class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
         ];
 
         if($dadosValidos['tipo'] == 'projeto')
-            $inscricao += ['nome_projeto' => $dadosValidos['nome']];
+            $inscricaoPsi += ['nome_projeto' => $dadosValidos['nome']];
 
         else if($dadosValidos['tipo'] == 'equipe')
-            $inscricao += ['nome_equipe' => $dadosValidos['nome']];
+            $inscricaoPsi += ['nome_equipe' => $dadosValidos['nome']];
 
-        InscricaoPsi::firstOrCreate($inscricao);
+        InscricaoPsi::firstOrCreate($inscricaoPsi);
     }
 
 
-    public function desinscrever(InscricaoPsi $inscricao)
+    public function desinscrever(InscricaoPsi $inscricaoPsi)
     {
-        return $inscricao->delete();
+        return $inscricaoPsi->delete();
     }
 
     /**
      * Atualiza a condição da inscrição do membro autenticado
      * Caso reprovado notifica o membro com o resultado do processo
      */
-    public function atualizarCondicao(InscricaoPsi $inscricao, $condicao)
+    public function atualizarCondicao(InscricaoPsi $inscricaoPsi, $condicao)
     {
-        $inscricao->update(['condicao'=>$condicao]);
+        DB::transaction(function () use($inscricaoPsi, $condicao)
+        {
+            $inscricaoPsi->update(['condicao'=>$condicao]);
 
-        if($condicao == 'Aprovado')
-            $this->aprovarInscricao($inscricao);
+            if($condicao == 'Aprovado')
+                $this->aprovarInscricao($inscricaoPsi);
+        });
     }
 
     /**
@@ -53,20 +57,36 @@ class InscricaoPsiRepository implements InscricaoPsiRepositoryInterface
      * Com base no tipo da inscrição (Projeto-Equipe-Gestão)
      * Caso o tipo seja projeto, verifica o cargo que o membro irá ocupar e o adiciona ao projeto
      */
-    private function aprovarInscricao(InscricaoPsi $inscricao)
+    private function aprovarInscricao(InscricaoPsi $inscricaoPsi)
     {
-        if($inscricao->tipo == 'projeto')
+        if($inscricaoPsi->tipo == 'projeto')
         {
-        }
-        else if($inscricao->tipo == 'equipe')
-        {
+            $projeto = $inscricaoPsi->projeto;
+            $inscricaoProjeto = $projeto->inscricoes()->whereMatriculaMembro($inscricaoPsi->membro_inscrito)->first();
 
+            if($inscricaoProjeto) //Se já faz parte do projeto
+            {
+                $inscricaoProjeto->update(['funcao' => 'Membro', 'area' => $inscricaoPsi->area_solicitada]);
+            }
+            else
+            {
+                $projeto->inscricoes()->save(new InscricaoProjeto(['matricula_membro' => $inscricaoPsi->membro_inscrito, 'area' => $inscricaoPsi->area_solicitada]));
+            }
         }
-        else if($inscricao->tipo == 'gestao')
+        else if($inscricaoPsi->tipo == 'equipe')
         {
-            $hierarquiaAtual = $inscricao->membro->hierarquia;
-            if(!$hierarquiaAtual->diretoria) //Se a hierarquia do inscrito não for de diretoria a alteração é feita no BD.
-                $inscricao->membro->update(['hierarquia_id' => ($hierarquiaAtual->firstWhere('nome', $inscricao->area_solicitada)->id)]);
+            $equipe = $inscricaoPsi->equipe;
+
+            if($equipe->matricula_assessor != $inscricaoPsi->membro_inscrito)
+            {
+                $equipe->mudarAssessor($inscricaoPsi->membro_inscrito);
+            }
+        }
+        else if($inscricaoPsi->tipo == 'gestao')
+        {
+            $hierarquiaAtual = $inscricaoPsi->membro->hierarquia;
+            if(!$hierarquiaAtual->diretoria) //Se a hierarquia do inscrito não for de diretoria, então a alteração é feita no BD.
+                $inscricaoPsi->membro->update(['hierarquia_id' => ($hierarquiaAtual->firstWhere('nome', $inscricaoPsi->area_solicitada)->id)]);
         }
     }
 }
