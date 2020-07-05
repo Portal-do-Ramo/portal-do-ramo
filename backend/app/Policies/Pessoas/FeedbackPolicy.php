@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class FeedbackPolicy
 {
-    use HandlesAuthorization, PessoasPolicies;
+    use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any feedback.
@@ -18,6 +18,6 @@ class FeedbackPolicy
      */
     public function viewAny(UsuarioSistema $user)
     {
-        //
+        return $user->hierarquia->diretoria;
     }
 }

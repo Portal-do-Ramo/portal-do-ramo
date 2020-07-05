@@ -9,8 +9,8 @@ class PedidoDeReembolso extends PedidoFinanceiro
 {
     use UsesTipo, HasValorTotal;
 
-    public function getDataPedidoAttribute()
+    public function getDataPedidoCompraAttribute()
     {
-        return $this->dados_pedido['data_pedido'];
+        return $this->dados_pedido['data_pedido_compra'];
     }
 }

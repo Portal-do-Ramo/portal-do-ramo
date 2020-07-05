@@ -52,8 +52,7 @@ export default function RefundRequest() {
       foto_comprovante: base64
     }, { headers: { Authorization: access_token } })
     .then(() => setAlert('<div class="alert alert-success" role="alert"><strong>Pedido de reembolso enviado com sucesso!</strong></div>'))
-    // .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar a solicitação.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
-    .catch(error => console.log(error.response))
+    .catch(() => setAlert('<div class="alert alert-danger" role="alert"><strong>Não foi possível enviar a solicitação.</strong> Se o problema persistir, favor contate a diretoria.</div>'))
   }
 
 

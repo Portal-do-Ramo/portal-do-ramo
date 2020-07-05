@@ -44,8 +44,8 @@ class PedidoDeReembolsoSolicitadoNotification extends Notification
         return [
             'titulo' => 'Pedido de reembolso solicitado',
             'mensagem' => $this->pedidoDeReembolso->projetoSolicitado ?
-                "Caros, foi solicitado pelo membro {$this->pedidoDeReembolso->membroSolicitante->nome_completo}, um novo pedido de reembolso referente a um pedido feito dia {$this->pedidoDeReembolso->data_pedido}, direcionado ao projeto {$this->pedidoDeReembolso->projetoSolicitado->nome_projeto} com um valor de R\$" . number_format($this->pedidoDeReembolso->valorTotal, 2, ',', '.') :
-                "Caros, foi solicitado pelo membro {$this->pedidoDeReembolso->membroSolicitante->nome_completo}, um novo pedido de reembolso referente a um pedido feito dia {$this->pedidoDeReembolso->data_pedido}, com um valor de R\$" . number_format($this->pedidoDeReembolso->valorTotal, 2, ',', '.'),
+                "Caros, foi solicitado pelo membro {$this->pedidoDeReembolso->membroSolicitante->nome_completo}, um novo pedido de reembolso referente a um pedido feito dia {$this->pedidoDeReembolso->data_pedido_compra}, direcionado ao projeto {$this->pedidoDeReembolso->projetoSolicitado->nome_projeto} com um valor de R\$" . number_format($this->pedidoDeReembolso->valorTotal, 2, ',', '.') :
+                "Caros, foi solicitado pelo membro {$this->pedidoDeReembolso->membroSolicitante->nome_completo}, um novo pedido de reembolso referente a um pedido feito dia {$this->pedidoDeReembolso->data_pedido_compra}, com um valor de R\$" . number_format($this->pedidoDeReembolso->valorTotal, 2, ',', '.'),
             'link' => 'gerenciar-pedidos-financeiro'
         ];
     }

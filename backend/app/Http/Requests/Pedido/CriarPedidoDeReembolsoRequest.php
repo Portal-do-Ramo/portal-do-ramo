@@ -23,6 +23,6 @@ class CriarPedidoDeReembolsoRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(['foto_comprovante' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto)]);
+        $this->merge(['foto_comprovante' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto_comprovante)]);
     }
 }

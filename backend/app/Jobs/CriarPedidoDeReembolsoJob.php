@@ -45,7 +45,7 @@ class CriarPedidoDeReembolsoJob implements ShouldQueue
     public function handle()
     {
         $pasta = $this->service->handle('Comprovantes Reembolso');
-        $path = "$pasta/comprovante-{$this->uuid}";
+        $path = "$pasta/comprovante-{$this->pedidoDeCompra->uuid}";
 
         Storage::cloud()->put($path, base64_decode($this->fotoCodificada));
 

@@ -21,8 +21,8 @@ class RegistroDeCaixaRepository implements RegistroDeCaixaRepositoryInterface
     
     public function todosRegistrosAnuais()
     {
-        $registrosEntrada = RegistroDeCaixa::selectRaw('ROUND(IFNULL(SUM(registros_de_caixa.valor), 0), 2) AS valor_total, meses.nome AS mes')->rightJoin('meses', fn($join) => $join->on(DB::raw('MONTH(registros_de_caixa.data)'), '=', 'meses.id')->where(DB::raw('YEAR(registros_de_caixa.data)'), request('ano'))->where('registros_de_caixa.tipo', 'Entrada'))->groupByRaw('meses.id')->get();
-        $registrosSaida = RegistroDeCaixa::selectRaw('ROUND(ABS(IFNULL(SUM(registros_de_caixa.valor), 0)), 2) AS valor_total, meses.nome AS mes')->rightJoin('meses', fn($join) => $join->on(DB::raw('MONTH(registros_de_caixa.data)'), '=', 'meses.id')->where(DB::raw('YEAR(registros_de_caixa.data)'), request('ano'))->where('registros_de_caixa.tipo', 'Saída'))->groupByRaw('meses.id')->get();
+        $registrosEntrada = RegistroDeCaixa::selectRaw('ROUND(IFNULL(SUM(registros_de_caixa.valor), 0), 2) AS valor_total, meses.nome AS mes')->rightJoin('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($subQuery) => $subQuery->where(fn($subQuery) => $subQuery->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false))->orWhereNull('caixas.tipo_relacionado')))->rightJoin('meses', fn($join) => $join->on(DB::raw('MONTH(registros_de_caixa.data)'), '=', 'meses.id')->where(DB::raw('YEAR(registros_de_caixa.data)'), request('ano'))->where('registros_de_caixa.tipo', 'Entrada'))->groupByRaw('meses.id')->get();
+        $registrosSaida = RegistroDeCaixa::selectRaw('ROUND(ABS(IFNULL(SUM(registros_de_caixa.valor), 0)), 2) AS valor_total, meses.nome AS mes')->rightJoin('caixas', fn($join) => $join->on('registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')->where(fn($subQuery) => $subQuery->where(fn($subQuery) => $subQuery->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false))->orWhereNull('caixas.tipo_relacionado')))->rightJoin('meses', fn($join) => $join->on(DB::raw('MONTH(registros_de_caixa.data)'), '=', 'meses.id')->where(DB::raw('YEAR(registros_de_caixa.data)'), request('ano'))->where('registros_de_caixa.tipo', 'Saída'))->groupByRaw('meses.id')->get();
         return ['entrada' => $registrosEntrada, 'saida' => $registrosSaida];
     }
 
@@ -32,7 +32,7 @@ class RegistroDeCaixaRepository implements RegistroDeCaixaRepositoryInterface
         
         Caixa::equipesEspeciais()
             ->select('nome_caixa_slug', 'nome_caixa')
-            ->leftJoin('equipes', fn($join) => $join->on('caixas.id_relacionado', '=', 'equipes.nome_equipe_slug')->where('caixas.tipo_relacionado', 'Equipe'))
+            ->leftJoin('equipes', 'caixas.id_relacionado', '=', 'equipes.nome_equipe_slug')
             ->addSelect('nome_equipe_slug', 'nome_equipe')
             ->get()
             ->each(function($item) use ($registros) {
@@ -49,7 +49,7 @@ class RegistroDeCaixaRepository implements RegistroDeCaixaRepositoryInterface
         
         Caixa::equipesEspeciais()
             ->select('nome_caixa_slug', 'nome_caixa')
-            ->leftJoin('equipes', fn($join) => $join->on('caixas.id_relacionado', '=', 'equipes.nome_equipe_slug')->where('caixas.tipo_relacionado', 'Equipe'))
+            ->leftJoin('equipes', 'caixas.id_relacionado', '=', 'equipes.nome_equipe_slug')
             ->addSelect('nome_equipe_slug', 'nome_equipe')
             ->get()
             ->each(function($item) use ($registros) {
