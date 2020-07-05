@@ -46,6 +46,12 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: server
+            MAIL_MAILER: smtp
+            MAIL_HOST: smtp.mailtrap.io
+            MAIL_PORT: 2525
+            MAIL_USERNAME: 6e9564fe670657
+            MAIL_PASSWORD: f19bd0dd74e55b
+            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 
@@ -109,6 +115,12 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: queue
+            MAIL_MAILER: smtp
+            MAIL_HOST: smtp.mailtrap.io
+            MAIL_PORT: 2525
+            MAIL_USERNAME: 6e9564fe670657
+            MAIL_PASSWORD: f19bd0dd74e55b
+            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 
@@ -123,6 +135,12 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: scheduler
+            MAIL_MAILER: smtp
+            MAIL_HOST: smtp.mailtrap.io
+            MAIL_PORT: 2525
+            MAIL_USERNAME: 6e9564fe670657
+            MAIL_PASSWORD: f19bd0dd74e55b
+            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 

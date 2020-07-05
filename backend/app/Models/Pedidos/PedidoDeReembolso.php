@@ -13,4 +13,9 @@ class PedidoDeReembolso extends PedidoFinanceiro
     {
         return $this->dados_pedido['data_pedido_compra'];
     }
+
+    public function pedidoDeCompra()
+    {
+        return $this->belongsTo('App\Models\Pedidos\PedidoDeCompra', 'pedido_de_compra_relacionado', 'uuid');
+    }
 }

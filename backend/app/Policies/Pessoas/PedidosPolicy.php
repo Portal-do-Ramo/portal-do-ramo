@@ -29,7 +29,7 @@ class PedidosPolicy
 
     public function solicitarReembolso(UsuarioSistema $user, PedidoDeCompra $pedido)
     {
-        return $pedido->situacao = 'Aprovado' and $pedido->valorTotal <= 80;
+        return $pedido->situacao = 'Aprovado' and $pedido->valorTotal <= 80 and $pedido->pedidosDeReembolso()->whereIn('situacao', ['Aprovado', 'Pendente'])->count() == 0;
     }
 
     /**
