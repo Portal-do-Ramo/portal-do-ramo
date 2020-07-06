@@ -20,6 +20,22 @@ class PsiInscricaoDesinscricaoNotification extends Notification
     {
         $this->inscricao = $inscricao;
         $this->acao = $acao;
+
+        if($inscricao->tipo == 'projeto') //Projeto
+        {
+            $this->mensagem = "para participar do projeto {$this->inscricao->projeto->nome_projeto} na área: '{$this->inscricao->area_solicitada}', foi efetuada com sucesso.";
+        }
+        else if($inscricao->tipo == 'equipe') //Equipe
+        {
+            $this->mensagem = "para atuar como '{$this->inscricao->area_solicitada}' da equipe {$this->inscricao->equipe->nome_equipe} foi efetuada com sucesso.";
+        }
+        else //Gestão
+        {
+            $this->mensagem = "para o cargo de '{$this->inscricao->area_solicitada}' foi efetuada com sucesso.";
+        }
+
+        if($this->acao == 'inscrição')
+            $this->mensagem = $this->mensagem.' Boa sorte!! :-)';
     }
 
     /**
@@ -42,8 +58,8 @@ class PsiInscricaoDesinscricaoNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'titulo' => "Sua {$this->acao} foi realizada com sucesso!",
-            'mensagem' => "Sua {$this->acao} no {$this->inscricao->psi->nome_psi} referente a área '{$this->inscricao->area_solicitada}' foi confirmada.",
+            'titulo' => "PSI {$this->inscricao->psi->nome_psi} - Sua {$this->acao} foi realizada com sucesso!",
+            'mensagem' => "Sua {$this->acao} no Processo Seletivo Interno {$this->inscricao->psi->nome_psi} {$this->mensagem}",
             'link' => ""
         ];
     }

@@ -69,7 +69,7 @@ class Psi extends BaseModel
      */
     public function jaAbriu()
     {
-        return today() >= $this->data_inicio;
+        return now() >= $this->data_inicio;
     }
 
     /**

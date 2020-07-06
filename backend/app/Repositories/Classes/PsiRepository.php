@@ -98,9 +98,10 @@ class PsiRepository implements PsiRepositoryInterface
         $psi->update([
             'nome_psi' => $dadosValidos['nome_psi'],
             'data_inicio' => $dadosValidos['data_inicio'],
-            'data_fim' => $dadosValidos['data_fim'],
-            'gestao_areas_vagas' => $dadosValidos['gestao']
+            'data_fim' => $dadosValidos['data_fim']
         ]);
+
+        $this->storeGestao($psi, $dadosValidos);
 
         foreach ($dadosValidos['projetos'] as $projeto)
         {
@@ -238,7 +239,7 @@ class PsiRepository implements PsiRepositoryInterface
     private function atualizarGestao(Psi $psi, array $gestao, $gestaoPSI)
     {
         $dadosAtualizados = $gestaoPSI->put($gestaoPSI->where('nome_area_slug', $gestao['nome_area_slug'])->keys()->first(), $gestao);
-        $psi->update(['gestao_areas_vagas' => $dadosAtualizados  ]);
+        $psi->update(['gestao_areas_vagas' => $dadosAtualizados]);
     }
 
     public function destroyGestao(Psi $psi, $area_gestao, $gestao)
