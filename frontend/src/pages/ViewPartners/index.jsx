@@ -9,6 +9,7 @@ import Title from '../../components/Title';
 
 import { Screen, Card } from './styles';
 
+
 export default function ViewPartners() {
   document.title = "Parcerias";
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
@@ -16,6 +17,7 @@ export default function ViewPartners() {
 
   const [partners, setPartners] = useState([]);
   const [check, setCheck] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState([]);
 
   if (
     hierarquia !== 'Presidente' &&
@@ -64,10 +66,42 @@ export default function ViewPartners() {
           <div className="col-md-6">
             <div className="left-box-gray">
 
+              {/* <ViewResults>
+                <ul>
+                  {partners.map(partner => (
+                    <Card key={partner.nome_parceria} onClick={() => setSelectedPartner(partner)}>
+                      <li className="partner-item">
+                        <header>
+                          <img src={partner.logo_parceria} alt="logo"/>
+                          <div className="partner-info">
+                            <strong>{partner.nome_parceria}</strong>
+                            {partner.nivel_da_parceria}
+                          </div>
+                        </header>
+                      </li>
+                    </Card>
+                  ))}
+                </ul>
+              </ViewResults> */}
             </div>
           </div>
+
+
+
+
+
+
           <div className="col-md-6">
             <div className="right-box-blue-gradient">
+              <div className="viewPartner">
+                    <div className="center">
+                      {/* {(selectedPartner) ? <img src={selectedPartner.logo_parceria} className="img-thumbnail" alt="logo"/>:''}
+                      <h1>{(selectedPartner) ? selectedPartner.nome_parceria : ''} </h1>
+                      <h3>{(selectesPartner) ? selectedPartner.nivel_da_parceria : ''} </h3> */}
+                    </div>
+
+
+              </div>
 
             </div>
           </div>
