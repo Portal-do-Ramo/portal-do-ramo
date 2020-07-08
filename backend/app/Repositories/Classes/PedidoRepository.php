@@ -140,7 +140,7 @@ class PedidoRepository implements PedidoRepositoryInterface
 
     public function criarPedidoDeReembolso(PedidoDeCompra $pedidoDeCompra, string $foto_url, UsuarioSistema $usuario)
     {
-        $usuario->pedidos()->save(new PedidoDeReembolso(['dados_pedido' => $pedidoDeCompra->dados_pedido + ['foto_comprovante' => $foto_url, 'data_pedido_compra' => $pedidoDeCompra->data_criado], 'nome_projeto_solicitado' => $pedidoDeCompra->nome_projeto_solicitado, 'pedido_de_compra_relacionado' => $pedidoDeCompra->uuid]));
+        $usuario->pedidos()->save(new PedidoDeReembolso(['dados_pedido' => $pedidoDeCompra->dados_pedido + ['foto_comprovante' => $foto_url, 'data_pedido_compra' => $pedidoDeCompra->data_criado], 'nome_projeto_solicitado' => $pedidoDeCompra->nome_projeto_solicitado]));
     }
 
     public function criarPedidoDeCompra(array $dadosValidos)

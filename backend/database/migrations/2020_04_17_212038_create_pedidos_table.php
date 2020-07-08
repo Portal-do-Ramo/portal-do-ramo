@@ -18,7 +18,6 @@ class CreatePedidosTable extends Migration
             $table->string('tipo_pedido', 30);
             $table->char('matricula_membro_solicitou', 12);
             $table->string('nome_projeto_solicitado', 35)->nullable();
-            $table->uuid('pedido_de_compra_relacionado')->nullable();
             $table->json('dados_pedido');
             $table->date('data_aprovado')->nullable();
             $table->enum('situacao', ['Pendente', 'Aprovado', 'Recusado'])->default('Pendente');
@@ -26,7 +25,6 @@ class CreatePedidosTable extends Migration
             $table->foreign('matricula_membro_solicitou')->references('matricula')->on('usuarios')->onUpdate('cascade');
             $table->foreign('nome_projeto_solicitado')->references('nome_projeto_slug')->on('projetos')->onUpdate('cascade');
             $table->foreign('tipo_pedido')->references('nome_tipo_pedido_slug')->on('tipo_pedidos');
-            $table->foreign('pedido_de_compra_relacionado')->references('uuid')->on('pedidos');
 
             $table->timestamp('data_criado')->nullable();
             $table->timestamp('data_alterado')->nullable();

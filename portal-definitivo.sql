@@ -640,7 +640,6 @@ CREATE TABLE `pedidos` (
   `tipo_pedido` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `matricula_membro_solicitou` char(12) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nome_projeto_solicitado` varchar(35) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pedido_de_compra_relacionado` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dados_pedido` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`dados_pedido`)),
   `data_aprovado` date DEFAULT NULL,
   `situacao` enum('Pendente','Aprovado','Recusado') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pendente',
@@ -653,7 +652,6 @@ CREATE TABLE `pedidos` (
   CONSTRAINT `pedidos_matricula_membro_solicitou_foreign` FOREIGN KEY (`matricula_membro_solicitou`) REFERENCES `usuarios` (`matricula`) ON UPDATE CASCADE,
   CONSTRAINT `pedidos_nome_projeto_solicitado_foreign` FOREIGN KEY (`nome_projeto_solicitado`) REFERENCES `projetos` (`nome_projeto_slug`) ON UPDATE CASCADE,
   CONSTRAINT `pedidos_tipo_pedido_foreign` FOREIGN KEY (`tipo_pedido`) REFERENCES `tipo_pedidos` (`nome_tipo_pedido_slug`),
-  CONSTRAINT `pedidos_pedido_de_compra_relacionado_foreign` FOREIGN KEY (`pedido_de_compra_relacionado`) REFERENCES `pedidos` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
