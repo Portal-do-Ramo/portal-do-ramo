@@ -33,7 +33,7 @@ class PsiInscricaoAvaliadaNotification extends Notification
         if($this->inscricao->condicao == 'Aprovado') //Aprovado
             $this->mensagem = "Parabéns!!! Você foi aprovado ".$temp." :-)";
         else //Reprovado
-            $this->mensagem = "Infelizmente você não foi aprovado ".$temp." :-( Mas não fique triste, você pode tentar de novo no próximo processo!! ;-)";
+            $this->mensagem = "Infelizmente você não foi aprovado ".$temp.". Mas não fique triste, você pode tentar de novo no próximo processo!! ;-)";
     }
 
     /**
