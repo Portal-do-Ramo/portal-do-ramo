@@ -21,7 +21,7 @@ class PsiResource extends JsonResource
             'data_inicio'=> $this->data_inicio->format('Y-m-d'),
             'data_fim'=> $this->data_fim->format('Y-m-d'),
             'aberto' => $this->aberto,
-            'membro_criou' => $this->formatarMembroCriou($this->membroCriou),
+            'membro_criou' => $this->membroCriou->makeHidden(['email', 'situacao_id', 'data_fim_inatividade', 'data_desligado', 'assessor', 'marketing','data_criado','data_alterado'])->load('hierarquia'),
             'gestao_areas_vagas' => $this->gestao_areas_vagas,
             'projetos'=> $this->projetos()->select('projetos.nome_projeto','projetos.nome_projeto_slug','nome_equipe')->get(),
             'equipes'=> $this->equipes()->select('equipes.nome_equipe','equipes.nome_equipe_slug','matricula_coordenador')->get(),

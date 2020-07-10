@@ -38,7 +38,7 @@ class PsiRepository implements PsiRepositoryInterface
                             return $equipe;
                         });
 
-                        $psi['membro_inscrito'] = $psi->membroInscritoFormatado(Auth::id());
+                        $psi['inscricoes'] = $psi->buscaInscricaoMembro(Auth::id())->get();
 
                         return $psi;
                     });

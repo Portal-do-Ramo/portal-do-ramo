@@ -186,27 +186,6 @@ class Psi extends BaseModel
         return $membrosFormatados;
     }
 
-    /**
-     * Função pega todas as inscrições do membro indicado e as une no campo 'inscricoes'.
-     * Caso o membro não possua inscrição é retornado o valor null.
-     *
-     * @param $matriculaMembro
-     * @return array
-     */
-    public function membroInscritoFormatado($matriculaMembro)
-    {
-        $inscricoesMembro = $this->buscaInscricaoMembro($matriculaMembro)->get();
-
-        if($inscricoesMembro->isNotEmpty()){
-            $membroFormatado = $this->formatarMembro( $inscricoesMembro->pluck('membro')->first() );
-            $membroFormatado['inscricoes'] = $inscricoesMembro;
-        }
-        else
-            $membroFormatado = null;
-
-        return $membroFormatado;
-    }
-
     private function formatarMembro($membro)
     {
         return [
@@ -215,16 +194,6 @@ class Psi extends BaseModel
             'foto_url' => $membro->foto_url,
             'hierarquia' => $membro->hierarquia,
             'inscricoes' => []
-        ];
-    }
-
-    public function formatarMembroCriou($membro)
-    {
-        return [
-            'matricula' => $membro->matricula,
-            'nome_completo' => $membro->nome_completo,
-            'foto_url' => $membro->foto_url,
-            'hierarquia' => $membro->hierarquia,
         ];
     }
 }
