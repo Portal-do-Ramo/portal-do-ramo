@@ -83,7 +83,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
         return Usuario::whereHas('situacao', fn($query) => $query->whereNome('Desligado'))
             ->select('matricula', 'nome_completo', 'email', 'data_desligado', 'membros.telefones', 'pedidos.dados_pedido')
             ->join('membros', 'usuarios.matricula', '=', 'membros.matricula_usuario')
-            ->joinSub($pedidosDesligamento, 'pedidos', fn($join) => $join->on('usuarios.matricula', '=', 'pedidos.matricula_membro_solicitou'))
+            ->leftJoinSub($pedidosDesligamento, 'pedidos', fn($join) => $join->on('usuarios.matricula', '=', 'pedidos.matricula_membro_solicitou'))
             ->orderBy('data_desligado')
             ->withCasts(['telefones' => 'array', 'dados_pedidos' => 'array'])
             ->get()
@@ -91,7 +91,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
                 $usuario->nome_completo,
                 $usuario->email,
                 $usuario->telefones['telefone_principal'],
-                $usuario->dados_pedido['justificativa'],
+                $usuario->dados_pedido ? $usuario->dados_pedido['justificativa'] : 'Acúmulo de 3 strikes',
                 $usuario->data_desligado
             ]);
     }

@@ -651,7 +651,7 @@ CREATE TABLE `pedidos` (
   KEY `pedidos_tipo_pedido_foreign` (`tipo_pedido`),
   CONSTRAINT `pedidos_matricula_membro_solicitou_foreign` FOREIGN KEY (`matricula_membro_solicitou`) REFERENCES `usuarios` (`matricula`) ON UPDATE CASCADE,
   CONSTRAINT `pedidos_nome_projeto_solicitado_foreign` FOREIGN KEY (`nome_projeto_solicitado`) REFERENCES `projetos` (`nome_projeto_slug`) ON UPDATE CASCADE,
-  CONSTRAINT `pedidos_tipo_pedido_foreign` FOREIGN KEY (`tipo_pedido`) REFERENCES `tipo_pedidos` (`nome_tipo_pedido_slug`),
+  CONSTRAINT `pedidos_tipo_pedido_foreign` FOREIGN KEY (`tipo_pedido`) REFERENCES `tipo_pedidos` (`nome_tipo_pedido_slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

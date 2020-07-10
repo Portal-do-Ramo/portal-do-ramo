@@ -6,6 +6,7 @@ use App\Models\Falta;
 use App\Notifications\Falta\FaltaCriadaNotification;
 use App\Repositories\Interfaces\StrikeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class FaltaObserver
 {
@@ -33,7 +34,7 @@ class FaltaObserver
 
         if($strike)
         {
-            $strike += ['membro_recebeu' => $membro->matricula, 'membro_aplicou' => Auth::id(), 'situacao' => 'Aprovado'];
+            $strike += ['membro_recebeu' => $membro->matricula, 'membro_aplicou' => Auth::id(), 'situacao' => 'Aprovado', 'data_aprovado' => today()];
             $this->strikeRepository->createApproved($strike);
         }
     }

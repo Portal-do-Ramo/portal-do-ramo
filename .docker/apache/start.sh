@@ -12,7 +12,7 @@ fi
 if [ "$role" = "server" ]; then
     exec apache2-foreground
 elif [ "$role" = "queue" ]; then
-    php artisan queue:work --queue=strike-recebido,broadcast,default,audiencia-strike-mail,mensagem-sistema-mail,abrir-fechar-vaquinha,notificar-fim-inatividade
+    php artisan queue:work --queue=strike-recebido,broadcast,default,audiencia-strike-mail,mensagem-sistema-mail,abrir-fechar-vaquinha,notificar-fim-inatividade,desligar-acumulo-strikes
 elif [ "$role" = "scheduler" ]; then
     while [ true ]
     do

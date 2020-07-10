@@ -38,7 +38,7 @@ class Strike extends BaseModel
 
     protected $dates = ['data_aprovado', 'data_audiencia'];
 
-    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'createApproved', 'createdNormal', 'disapproved', 'sustained', 'removed'];
+    protected $observables = ['approved', 'audienceRequested', 'audienceScheduled', 'audienceRemoved', 'audienceRescheduled', 'createdApproved', 'createdNormal', 'disapproved', 'sustained', 'removed'];
 
     /**
      * Definição do escopo para recuperar somente os strikes que foram aprovados
@@ -105,7 +105,7 @@ class Strike extends BaseModel
     
     public function aprovar()
     {
-        $this->update(['data_aprovado' => now(), 'situacao' => 'Aprovado']);
+        $this->update(['data_aprovado' => today(), 'situacao' => 'Aprovado']);
         $this->fireModelEvent('approved', false);
     }
 
