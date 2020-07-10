@@ -83,8 +83,7 @@ class StrikeObserver
         $membros = $this->getMembros($strike);
 
         if($membroRecebeu->strikesRecebeuAprovados()->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])->count() === 3) {
-            $this->usuarioRepository->setDesligado($membroRecebeu);
-            Mail::to(UsuarioAtivo::diretoria()->get()->push($membroRecebeu)->unique('matricula')->map(fn($usuario) => ['name' => $usuario->nome_completo, 'email' => $usuario->email]))->queue(new DesligadoAcumuloStrikesMail($membroRecebeu));
+            DesligarMembroStrikesJob::dispatch($strike, $this->usuarioRepository)->onQueue('desligar-acumulo-strikes');
         }
         else {
             $membroRecebeu->notify(new StrikeRecebidoAprovadoNotification($strike));
@@ -114,12 +113,10 @@ class StrikeObserver
 
         $strike->membroAplicou->notify(new StrikeSolicitadoMantidoNotification($strike));
         
-        if($membroRecebeu->strikesRecebeuAprovados()->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])->count() === 3) {
-            $this->usuarioRepository->setDesligado($membroRecebeu);
-            Mail::to(UsuarioAtivo::diretoria()->get()->push($membroRecebeu)->unique('matricula')->map(fn($usuario) => ['name' => $usuario->nome_completo, 'email' => $usuario->email]))->queue(new DesligadoAcumuloStrikesMail($membroRecebeu));
-        } else {
+        if($membroRecebeu->strikesRecebeuAprovados()->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])->count() === 3) 
+            DesligarMembroStrikesJob::dispatch($strike, $this->usuarioRepository)->onQueue('desligar-acumulo-strikes');
+        else 
             $membroRecebeu->notify(new StrikeRecebidoMantidoNotification($strike));
-        }
     }
 
     private function getMembros(Strike $strike)

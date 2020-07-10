@@ -19,8 +19,7 @@ class PsiRepository implements PsiRepositoryInterface
      */
     public function index()
     {
-        return Psi::with(['projetos'=>function($projeto){return $projeto->join('equipes', 'equipes.nome_equipe_slug', '=', 'projetos.nome_equipe')->select('projetos.nome_projeto','nome_projeto_slug','equipes.nome_equipe');},
-                        'equipes'=>function($equipe){return $equipe->addSelect('equipes.nome_equipe','nome_equipe_slug');}])
+        return Psi::with(['projetos' => fn($projeto) => $projeto->join('equipes', 'equipes.nome_equipe_slug', '=', 'projetos.nome_equipe')->select('projetos.nome_projeto','nome_projeto_slug','equipes.nome_equipe'), 'equipes' => fn($equipe) => $equipe->addSelect('equipes.nome_equipe','nome_equipe_slug')])
                         ->get()->map(function($psi)
                     {
                         $psi['projetos']->map(function ($projeto)

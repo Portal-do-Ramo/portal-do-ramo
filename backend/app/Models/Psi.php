@@ -22,12 +22,10 @@ class Psi extends BaseModel
      * @var array
      */
     protected $casts = [
-        'data_inicio' => 'date:d/m/Y',
-        'data_fim' => 'date:d/m/Y',
         'gestao_areas_vagas' => 'array'
     ];
 
-    protected $hidden = ['membro_criou','data_criado','data_alterado','data_excluido'];
+    protected $hidden = ['membro_criou','data_criado','data_alterado'];
 
     /**
      * Determina que os atributos que vão ser convertidos automaticamente para uma instância de Carbon

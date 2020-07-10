@@ -14,9 +14,7 @@ class ParceriaRepository implements ParceriaRepositoryInterface
 
     public function indexPublicas()
     {
-        return Parceria::select('uuid', 'beneficios', 'equipes_beneficiadas', 'link_site_empresa', 'telefone_empresa', 'email_empresa')
-            ->whereConsolidada(true)
-            ->get();
+        return Parceria::select('uuid', 'beneficios', 'equipes_beneficiadas', 'link_site_empresa', 'telefone_empresa', 'email_empresa')->whereConsolidada(true)->get();
     }
 
     public function create(array $dadosValidos)

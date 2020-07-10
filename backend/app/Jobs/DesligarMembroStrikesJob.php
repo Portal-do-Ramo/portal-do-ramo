@@ -38,9 +38,8 @@ class DesligarMembroStrikesJob implements ShouldQueue
      */
     public function handle()
     {
-        if($this->strike->situacao === 'Aprovado') {
-            $membroRecebeu = $this->strike->membroRecebeu;
-
+        $membroRecebeu = $this->strike->membroRecebeu;
+        if($membroRecebeu->strikesRecebeuAprovados()->whereIn('strikes.situacao', ['Aprovado', 'Mantido'])->count() === 3) {
             $this->usuarioRepository->setDesligado($membroRecebeu);
             Mail::to(UsuarioAtivo::diretoria()->get()->push($membroRecebeu)->unique('matricula')->map(fn($usuario) => ['name' => $usuario->nome_completo, 'email' => $usuario->email]))->queue(new DesligadoAcumuloStrikesMail($membroRecebeu));
         }
