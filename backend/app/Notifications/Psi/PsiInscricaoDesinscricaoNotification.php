@@ -35,7 +35,7 @@ class PsiInscricaoDesinscricaoNotification extends Notification
         }
 
         if($this->acao == 'inscrição')
-            $this->mensagem = $this->mensagem.' Boa sorte!! :-)';
+            $this->mensagem = "{$this->mensagem} Boa sorte!! :-)";
     }
 
     /**

@@ -19,41 +19,20 @@ class PsiRepository implements PsiRepositoryInterface
      */
     public function index()
     {
-        return Psi::with(['projetos' => fn($projeto) => $projeto->join('equipes', 'equipes.nome_equipe_slug', '=', 'projetos.nome_equipe')->select('projetos.nome_projeto','nome_projeto_slug','equipes.nome_equipe'), 'equipes' => fn($equipe) => $equipe->addSelect('equipes.nome_equipe','nome_equipe_slug')])
-                        ->get()->map(function($psi)
-                    {
-                        $psi['projetos']->map(function ($projeto)
-                        {
-                            $areas_vagas = $projeto['pivot']['areas_vagas'];
-                            unset($projeto['pivot']);
-                            $projeto['areas_vagas'] = $areas_vagas;
-                            return $projeto;
-                        });
-
-                        $psi['equipes']->map(function ($equipe)
-                        {
-                            $areas_vagas = $equipe['pivot']['areas_vagas'];
-                            unset($equipe['pivot']);
-                            $equipe['areas_vagas'] = $areas_vagas;
-                            return $equipe;
-                        });
-
-                        $psi['inscricoes'] = $psi->buscaInscricaoMembro(Auth::id())->get();
-
-                        return $psi;
-                    });
+        return Psi::select('psis.nome_psi_slug', 'psis.nome_psi', 'psis.data_inicio', 'psis.data_fim', 'psis.gestao_areas_vagas')
+            ->with([
+                'projetos' => fn($projetos) => $projetos->join('equipes', 'equipes.nome_equipe_slug', '=', 'projetos.nome_equipe')->addSelect('projetos.nome_projeto','projetos.nome_projeto_slug','equipes.nome_equipe')->get()->map(fn($projeto) => ['nome_projeto_slug' => $projeto->nome_projeto_slug, 'nome_projeto' => $projeto->nome_projeto, 'nome_equipe' => $projeto->nome_equipe, 'areas_vagas' => $projeto->pivot->areas_vagas]), 
+                'equipes' => fn($equipes) => $equipes->addSelect('equipes.nome_equipe','nome_equipe_slug')->get()->map(fn($equipe) => ['nome_equipe_slug' => $equipe->nome_equipe_slug, 'nome_equipe' => $equipe->nome_equipe, 'areas_vagas' => $equipe->pivot->areas_vagas]),
+                'inscricoes' => fn($inscricoes) => $inscricoes->where('inscricoes_psis.membro_inscrito', Auth::id())->addSelect('id', 'nome_psi', 'nome_projeto', 'inscricoes_psis.nome_equipe', 'area_solicitada', 'condicao')
+            ])->get();
     }
 
     public function tiposAreas()
     {
         return [
             'projeto' => Projeto::select('nome_projeto_slug', 'nome_projeto', 'areas')->get(),
-            'equipe' => Equipe::select('nome_equipe_slug', 'nome_equipe')->get()->map(function ($equipe)
-                {
-                    $equipe['areas'] = ['Assessor de Coordenador'];
-                    return $equipe;
-            }),
-            'gestão' => [
+            'equipe' => Equipe::selectRaw("nome_equipe_slug, nome_equipe, 'Assessor de Coordenador' AS areas")->whereNull('matricula_assessor')->get(),
+            'gestao' => [
                 ['nome_slug' => 'assessor-de-gestao', 'nome' => 'Assessor de Gestão'],
                 ['nome_slug' => 'assessor-de-presidencia', 'nome' =>'Assessor de Presidência']
             ]

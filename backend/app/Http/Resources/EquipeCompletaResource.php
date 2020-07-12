@@ -26,8 +26,8 @@ class EquipeCompletaResource extends JsonResource
         return [
             'nome_equipe' => $this->nome_equipe,
             'foto_url' => $this->foto_url,
-            'coordenador' => $this->coordenador,
-            'assessor' => $this->assessor,
+            'coordenador' => $this->coordenador()->select('matricula', 'nome_completo', 'foto_url')->first(),
+            'assessor' => $this->assessor()->select('matricula', 'nome_completo', 'foto_url')->first(),
             'valor_caixa' => $this->caixaPrincipal->orcamento_atual,
             'porcentagem_caixa' => $this->caixaPrincipal->porcentagem_orcamento,
             'capitulo' => $this->capitulo,

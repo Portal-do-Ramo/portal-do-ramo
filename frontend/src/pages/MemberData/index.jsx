@@ -93,8 +93,8 @@ export default function MemberData() {
     const data_nascimento = document.getElementById('dtnasc_usuario').value.split('-');
     const data_nascimento_padrao = data_nascimento[2] + '/' + data_nascimento[1] + '/' + data_nascimento[0];
 
-    const data_fim_membresia = document.getElementById('data_fim_membresia').value.split('-');
-    const data_fim_membresia_padrao = data_fim_membresia[2] + '/' + data_fim_membresia[1] + '/' + data_fim_membresia[0];
+    const data_fim_membresia = !document.getElementById('data_fim_membresia').value === "" ? document.getElementById('data_fim_membresia').value.split('-') : null;
+    const data_fim_membresia_padrao = data_fim_membresia ? data_fim_membresia[2] + '/' + data_fim_membresia[1] + '/' + data_fim_membresia[0] : null;
 
     const hierarquia_nome = document.getElementById('hierarchy').value;
     let hierarquia_id = 0;

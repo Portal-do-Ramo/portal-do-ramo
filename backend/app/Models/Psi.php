@@ -25,8 +25,6 @@ class Psi extends BaseModel
         'gestao_areas_vagas' => 'array'
     ];
 
-    protected $hidden = ['membro_criou','data_criado','data_alterado'];
-
     /**
      * Determina que os atributos que vão ser convertidos automaticamente para uma instância de Carbon
      *

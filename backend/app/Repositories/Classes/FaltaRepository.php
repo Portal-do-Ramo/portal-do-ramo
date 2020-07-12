@@ -51,6 +51,7 @@ class FaltaRepository implements FaltaRepositoryInterface
             ->addSelect('tipo_faltas.nome')
             ->rightJoin('projetos', 'faltas.nome_projeto', '=', 'projetos.nome_projeto_slug')
             ->addSelect('projetos.nome_projeto')
+            ->orderBy('tipo_faltas.nome')
             ->get()
             ->map(fn($falta) => [
                 $falta->nome_completo,

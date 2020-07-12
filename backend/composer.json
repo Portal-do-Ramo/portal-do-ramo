@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "crazybooot/base64-validation": "^1.0.5",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "laravel/framework": "^7.0",

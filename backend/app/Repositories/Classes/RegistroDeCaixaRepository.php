@@ -15,6 +15,7 @@ class RegistroDeCaixaRepository implements RegistroDeCaixaRepositoryInterface
             ->leftJoin('caixas', 'registros_de_caixa.caixa_relacionado', '=', 'caixas.nome_caixa_slug')
             ->addSelect('caixas.nome_caixa_slug', 'caixas.nome_caixa')
             ->when(request('meses'), fn($query) => $query->whereDate('registros_de_caixa.data', '>=', today()->subMonths(request('meses'))))
+            ->where(fn($subQuery) => $subQuery->where(fn($subQuery) => $subQuery->where('caixas.tipo_relacionado', 'Equipe')->where('caixas.emergencial_equipe', false))->orWhereNull('caixas.tipo_relacionado'))
             ->orderBy('data')
             ->get();
     }

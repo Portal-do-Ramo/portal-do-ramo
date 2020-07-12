@@ -25,8 +25,8 @@ class EquipeResource extends JsonResource
     {
         return [
             'nome_equipe' => $this->nome_equipe,
-            'coordenador' => $this->coordenador,
-            'assessor' => $this->assessor,
+            'coordenador' => $this->coordenador()->select('matricula', 'nome_completo', 'foto_url')->first(),
+            'assessor' => $this->assessor()->select('matricula', 'nome_completo', 'foto_url')->first(),
             'foto_url' => $this->foto_url,
             'capitulo' => $this->capitulo,
             'projetos' => $this->equipeRepository->getProjetos($this->resource),

@@ -234,6 +234,7 @@ class UsuarioRepository implements UsuarioRepositoryInterface
 
     public function setHierarquia(string $matricula, int $hierarquia = 1)
     {
-        Usuario::find($matricula)->update(['hierarquia_id' => $hierarquia]);
+        $usuario = Usuario::find($matricula);
+        if($usuario->hierarquia_id < $hierarquia) $usuario->update(['hierarquia_id' => $hierarquia]);
     }
 }
