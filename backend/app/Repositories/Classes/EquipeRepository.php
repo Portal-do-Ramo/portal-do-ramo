@@ -80,9 +80,6 @@ class EquipeRepository implements EquipeRepositoryInterface
                     'emergencial_equipe' => true
                 ]
             ]);
-
-            $equipe->coordenador()->update(['hierarquia_id' => 7]);
-            if($dadosValidos['matricula_assessor']) $equipe->assessor()->update(['hierarquia_id' => 5]);
         });
     }
 

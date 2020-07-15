@@ -14,6 +14,12 @@ class EquipeObserver
         $this->usuarioRepository = $usuarioRepository;
     }
 
+    public function created(Equipe $equipe)
+    {
+        $this->usuarioRepository->setHierarquia($equipe->matricula_coordenador, 7);
+        if($equipe->matricula_assessor) $this->usuarioRepository->setHierarquia($equipe->matricula_assessor, 5);
+    }
+
     public function changedCoordinator(Equipe $equipe)
     {
         $this->usuarioRepository->setHierarquia($equipe->getOriginal('matricula_coordenador'));

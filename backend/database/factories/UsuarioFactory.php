@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Usuario::class, function (Faker $faker) {
     return [
-        'matricula' => $faker->regexify('[0-9]{7}[A-Z]{3,5}'),
+        'matricula' => $faker->regexify('/[0-9]{7}[A-Z]{3,5}/'),
         'senha' => 'i3ecefetrj',
         'nome_completo' => $faker->name,
         'email' => $faker->unique()->safeEmail,
