@@ -1,4 +1,4 @@
-FROM node:alpine as builder
+FROM node:12.18.0-alpine as builder
 ENV GENERATE_SOURCEMAP false
 
 WORKDIR /app

@@ -6,6 +6,12 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Matricula implements Rule
 {
+    protected $login;
+
+    public function __construct($login = false)
+    {
+        $this->login = $login;
+    }
     /**
      * Determine if the validation rule passes.
      *
@@ -25,6 +31,6 @@ class Matricula implements Rule
      */
     public function message()
     {
-        return 'O campo :attribute não está respeitando o formato de matrícula';
+        return $this->login ? 'Dados inválidos' : 'O campo :attribute não está respeitando o formato de matrícula';
     }
 }

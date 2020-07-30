@@ -20,8 +20,15 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'matricula_usuario' => ['bail', 'required', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
+            'matricula_usuario' => ['bail', 'required', new Matricula(true), Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
             'senha_usuario' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'exists' => 'Dados inválidos'
         ];
     }
 }

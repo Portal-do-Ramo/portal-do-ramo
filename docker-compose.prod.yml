@@ -46,11 +46,6 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: server
-            MAIL_MAILER: smtp
-            MAIL_HOST: smtp.mailtrap.io
-            MAIL_USERNAME: 6e9564fe670657
-            MAIL_PASSWORD: f19bd0dd74e55b
-            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 
@@ -61,7 +56,7 @@ services:
             - app-network
 
     mariadb:
-        image: mariadb
+        image: mariadb:10.5
         container_name: mariadb-container
         restart: unless-stopped
         environment: 
@@ -75,9 +70,10 @@ services:
             - app-network
             
     redis:
-        image: redis
+        image: redis:6.0.6-alpine
         restart: unless-stopped
         container_name: redis-container
+        command: ["redis-server", "--requirepass", "fZsuCu*=T3+HTkXG"]
         volumes: 
             - .docker/redis:/data
         networks: 
@@ -99,7 +95,7 @@ services:
             - app-network
 
     composer:
-        image: composer:latest
+        image: composer:2.0
         container_name: composer-container
         working_dir: /var/www/html
         volumes: 
@@ -114,11 +110,6 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: queue
-            MAIL_MAILER: smtp
-            MAIL_HOST: smtp.mailtrap.io
-            MAIL_USERNAME: 6e9564fe670657
-            MAIL_PASSWORD: f19bd0dd74e55b
-            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 
@@ -133,11 +124,6 @@ services:
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
             CONTAINER_ROLE: scheduler
-            MAIL_MAILER: smtp
-            MAIL_HOST: smtp.mailtrap.io
-            MAIL_USERNAME: 6e9564fe670657
-            MAIL_PASSWORD: f19bd0dd74e55b
-            MAIL_ENCRYPTION: tls
         volumes: 
             - ./backend:/var/www/html
         depends_on: 
