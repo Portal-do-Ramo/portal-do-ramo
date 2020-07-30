@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Screen = styled.div`
   padding-bottom: 50px;
-  
+
   .partner-info{
 
   }
@@ -29,7 +29,7 @@ export const Screen = styled.div`
 
     color: #FFF;
 
-    
+
   h1 {
     font-size: 18pt;
     margin: 20px;
@@ -183,11 +183,11 @@ export const Card = styled.button`
     background-color: #E9EDF5;
   }
 
-  
+
   `
   export const PartnerInfo = styled.div`
 
 
 
-  
+
   `

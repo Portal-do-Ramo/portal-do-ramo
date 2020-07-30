@@ -67,11 +67,11 @@ export default function ViewPartners() {
 
   function fadeInfo(id){
 
-    
+
 
   }
 
-  
+
 
   return (
     <Screen>
@@ -96,14 +96,14 @@ export default function ViewPartners() {
                               <strong>Nome da Empresa <img src={bronze} className="icon" alt="medal"/></strong><br/>
                               {partner.equipes_beneficiadas}
                             </div>
-                            
+
                           </header>
                         </li>
                       </Card>
                     ))}
                   </ul>
               </ViewResults>
-                
+
             </div>
           </div>
 
@@ -125,9 +125,9 @@ export default function ViewPartners() {
                       {/* <h3>{(selectedPartner) ? selectedPartner.nivel_parceria : ''} </h3> */}
                     </div>
 
-                  {(selectedPartner) ? 
+                  {(selectedPartner) ?
                     <div className="div-ul container-lg">
-                    
+
                       <ul>
                         <span ><strong> Site</strong></span>
                         <li id="site">{selectedPartner.link_site_empresa}</li>
@@ -137,8 +137,8 @@ export default function ViewPartners() {
                         <li id="email">{selectedPartner.email_empresa}</li>
                         <span><strong>Benefícios</strong></span>
                         <li><textarea readOnly value={selectedPartner.beneficios}></textarea></li>
-                      </ul>    
-                    </div> : 
+                      </ul>
+                    </div> :
                       <div className="center-flex"><h1>Selecione um Parceiro</h1></div>
                     }
               </div>
