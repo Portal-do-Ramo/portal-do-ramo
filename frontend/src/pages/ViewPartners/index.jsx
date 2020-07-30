@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Top_Left_Side_Menu from '../../components/Top_Left_Side_Menu';
@@ -7,7 +8,12 @@ import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
 import Header from '../../components/Home_Header';
 import Title from '../../components/Title';
 
-import { Screen, Card } from './styles';
+import { Screen, Card, ViewResults} from './styles';
+import bronze from './images/bronze.png';
+import silver from './images/silver.png';
+import gold from './images/gold.png';
+import tecci from './images/tecci.png';
+import yma from './images/yma.png';
 
 
 export default function ViewPartners() {
@@ -16,8 +22,7 @@ export default function ViewPartners() {
   const hierarquia = (useSelector(state => state.data[4]));
 
   const [partners, setPartners] = useState([]);
-  const [check, setCheck] = useState(false);
-  const [selectedPartner, setSelectedPartner] = useState([]);
+  const [selectedPartner, setSelectedPartner] = useState();
 
   if (
     hierarquia !== 'Presidente' &&
@@ -32,6 +37,14 @@ export default function ViewPartners() {
     .then(response => {
       console.log(response.data)
       setPartners(response.data)
+    })
+    .catch(error => console.log(error.response))
+  }, [])
+
+  useEffect(() => {
+    api.get('/api/equipes', { headers: { Authorization: access_token} })
+    .then(response => {
+      console.log(response.data)
     })
     .catch(error => console.log(error.response))
   }, [])
@@ -52,6 +65,14 @@ export default function ViewPartners() {
     // .catch(error => setAlert(`sucesso - ${error.response.data.message[0]}`))
   }
 
+  function fadeInfo(id){
+
+    
+
+  }
+
+  
+
   return (
     <Screen>
       <Top_Left_Side_Menu />
@@ -65,24 +86,24 @@ export default function ViewPartners() {
         <div className="row">
           <div className="col-md-6">
             <div className="left-box-gray">
-
-              {/* <ViewResults>
+              <ViewResults>
                 <ul>
-                  {partners.map(partner => (
-                    <Card key={partner.nome_parceria} onClick={() => setSelectedPartner(partner)}>
-                      <li className="partner-item">
-                        <header>
-                          <img src={partner.logo_parceria} alt="logo"/>
-                          <div className="partner-info">
-                            <strong>{partner.nome_parceria}</strong>
-                            {partner.nivel_da_parceria}
-                          </div>
-                        </header>
-                      </li>
-                    </Card>
-                  ))}
-                </ul>
-              </ViewResults> */}
+                    {partners.map(partner => (
+                      <Card key={partner.uuid} onClick={() =>  setSelectedPartner(partner)}>
+                        <li className="partner-item">
+                          <header>
+                            <div className="partner-info">
+                              <strong>Nome da Empresa <img src={bronze} className="icon" alt="medal"/></strong><br/>
+                              {partner.equipes_beneficiadas}
+                            </div>
+                            
+                          </header>
+                        </li>
+                      </Card>
+                    ))}
+                  </ul>
+              </ViewResults>
+                
             </div>
           </div>
 
@@ -94,30 +115,38 @@ export default function ViewPartners() {
           <div className="col-md-6">
             <div className="right-box-blue-gradient">
               <div className="viewPartner">
-                    <div className="center">
-                      {/* {(selectedPartner) ? <img src={selectedPartner.logo_parceria} className="img-thumbnail" alt="logo"/>:''}
-                      <h1>{(selectedPartner) ? selectedPartner.nome_parceria : ''} </h1>
-                      <h3>{(selectesPartner) ? selectedPartner.nivel_da_parceria : ''} </h3> */}
+                    <div className="center container-lg">
+                      {/* {(selectedPartner) ? <img src={selectedPartner.logo_parceria} className="img-thumbnail" alt="logo"/>:''} */}
+                      {(selectedPartner) ? <strong>Parceria Bronze</strong>:''}
+                      {(selectedPartner) ? <img src={bronze} className="medal" alt="medal"/> :''} <br/>
+                      {(selectedPartner) ? <img src={yma} className="imagem-do-parceiro" alt="logo"/> :''}
+
+                      {/* <h1> Nome do Parceiro </h1> */}
+                      {/* <h3>{(selectedPartner) ? selectedPartner.nivel_parceria : ''} </h3> */}
                     </div>
 
-
+                  {(selectedPartner) ? 
+                    <div className="div-ul container-lg">
+                    
+                      <ul>
+                        <span ><strong> Site</strong></span>
+                        <li id="site">{selectedPartner.link_site_empresa}</li>
+                        <span><strong>Telefone</strong></span>
+                        <li id="telefone">{selectedPartner.telefone_empresa}</li>
+                        <span><strong>E-mail</strong></span>
+                        <li id="email">{selectedPartner.email_empresa}</li>
+                        <span><strong>Benefícios</strong></span>
+                        <li><textarea readOnly value={selectedPartner.beneficios}></textarea></li>
+                      </ul>    
+                    </div> : 
+                      <div className="center-flex"><h1>Selecione um Parceiro</h1></div>
+                    }
               </div>
 
             </div>
           </div>
         </div>
       </div>
-
-
-      <button id="kelly" onClick={() => sendData()}>Enviar</button>
-
-      {/* <input type="checkbox" defaultValue={check} onChange={() => setCheck(!check)} /> */}
-
-      {/* {partners.map(partner => (
-        <Card key={partner.nome_parceira_slug}>
-          <h1>{partner.nome_parceria}</h1>
-        </Card>
-      ))} */}
     </Screen>
   )
 }
