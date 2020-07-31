@@ -52,8 +52,7 @@ export default function Top_Left_Side_Menu() {
       hierarquia === 'Presidente' ||
       hierarquia === 'Vice-Presidente' ||
       hierarquia === 'Diretor de Gestão de Pessoas' ||
-      hierarquia === 'Coordenador' ||
-      hierarquia === 'Assessor de Coordenador'
+      hierarquia === 'Diretor de Projetos'
     ) {
       return false;
     } else {
@@ -168,7 +167,7 @@ export default function Top_Left_Side_Menu() {
 
                 <Dropdown.Menu variant="dropdown-menu" className="dropdown-menu" id="dropdown-menu">
                   <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/teams/myteams" id="btn-my-teams-2">Minhas equipes</Dropdown.Item>
-                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/team/manageteams" id="btn-manage-teams" disabled={ statusGPButtons() }>Gerenciar equipes</Dropdown.Item>
+                  <Dropdown.Item variant="menu-dropdown-option" className="menu-dropdown-option" href="/team/manageteams" id="btn-manage-teams" disabled={ statusTeamsButtons() }>Gerenciar equipes</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
 
