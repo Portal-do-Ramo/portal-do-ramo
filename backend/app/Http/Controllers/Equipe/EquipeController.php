@@ -48,7 +48,7 @@ class EquipeController extends AbstractEquipeController
      */
     public function store(CriarEquipeRequest $request, VerificarExistenciaDiretorioService $service)
     {
-        CriarEquipeJob::dispatchNow($request->validated(), $this->equipeRepository, $service);
+        CriarEquipeJob::dispatch($request->validated(), $this->equipeRepository, $service);
         return response()->json('Equipe registrada com sucesso', 201);
     }
 
@@ -94,7 +94,7 @@ class EquipeController extends AbstractEquipeController
 
     public function updateLogo(AtualizarLogoEquipeRequest $request, Equipe $equipe, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
-        AlterarLogoEquipeJob::dispatchNow($equipe, $request->validated(), $this->equipeRepository, $service, $deletarService);       
+        AlterarLogoEquipeJob::dispatch($equipe, $request->validated(), $this->equipeRepository, $service, $deletarService);
         return response()->json('Logo da equipe alterado com sucesso', 200);
     }
 
@@ -106,7 +106,7 @@ class EquipeController extends AbstractEquipeController
             'updateCoordenador' => 'create',
             'showMember' => 'view',
             'showFully' => 'viewFully',
-            'update' => 'update', 
+            'update' => 'update',
             'updateLogo' => 'update',
             'updateAssessor' => 'update'
         ];

@@ -31,7 +31,7 @@ class EquipeRepository implements EquipeRepositoryInterface
     public function getMembros(Equipe $equipe)
     {
         $assessor = $equipe->assessor()->select('usuarios.matricula', 'usuarios.nome_completo', 'usuarios.foto_url')->first();
-        
+
         return $equipe->membros()->select('usuarios.matricula', 'usuarios.nome_completo', 'usuarios.foto_url')->get()
             ->map(fn($usuario) => $usuario->toArray() + ['funcao' => 'Membro'])
             ->push($equipe->coordenador()->select('usuarios.matricula', 'usuarios.nome_completo', 'usuarios.foto_url')->first()->toArray() + ['funcao' => 'Coordenador'])
@@ -68,7 +68,7 @@ class EquipeRepository implements EquipeRepositoryInterface
                 'capitulo' => $dadosValidos['capitulo'],
                 'foto_url' => $dadosValidos['foto_url'] ?? NULL
             ]);
-    
+
             $equipe->caixas()->createMany([
                 [
                     'nome_caixa' => "Caixa {$dadosValidos['nome_equipe']}",
@@ -81,8 +81,6 @@ class EquipeRepository implements EquipeRepositoryInterface
                 ]
             ]);
 
-            $equipe->coordenador()->update(['hierarquia_id' => 7]);
-            if($dadosValidos['matricula_assessor']) $equipe->assessor()->update(['hierarquia_id' => 5]);
         });
     }
 

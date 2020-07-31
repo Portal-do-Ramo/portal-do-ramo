@@ -23,7 +23,7 @@ class UsuarioController extends AbstractUsuarioController
 {
     public function __construct(UsuarioRepositoryInterface $usuarioRepository)
     {
-        parent::__construct($usuarioRepository); 
+        parent::__construct($usuarioRepository);
         $this->authorizeResource(Usuario::class, 'usuario');
     }
 
@@ -36,12 +36,12 @@ class UsuarioController extends AbstractUsuarioController
     {
         return $this->usuarioRepository->indexMensagens();
     }
-    
+
     public function search()
     {
         return $this->usuarioRepository->searchUsuario();
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -123,7 +123,7 @@ class UsuarioController extends AbstractUsuarioController
 
     public function updateFotoPerfil(AtualizarFotoPerfilRequest $request, Usuario $usuario, VerificarExistenciaDiretorioService $service, DeletarArquivoService $deletarService)
     {
-        AlterarFotoPerfilJob::dispatchNow($usuario, $request->validated(), $this->usuarioRepository, $service, $deletarService);
+        AlterarFotoPerfilJob::dispatch($usuario, $request->validated(), $this->usuarioRepository, $service, $deletarService);
         return response()->json('Foto de perfil alterada com sucesso', 200);
     }
 

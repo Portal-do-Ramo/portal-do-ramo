@@ -14,5 +14,7 @@ interface ParceriaRepositoryInterface
 
     public function update(Parceria $parceria, array $dadosValidos);
 
+    public function alterarLogoParceria(string $fotoUrl, Parceria $parceria);
+
     public function delete(Parceria $parceria);
 }

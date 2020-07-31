@@ -4,12 +4,12 @@ namespace App\Policies\Projetos;
 
 use App\Models\Equipe;
 use App\Models\UsuarioSistema;
-use App\Traits\ProjetosPolicies;
+use App\Traits\EquipesPolicies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EquipePolicy
 {
-    use HandlesAuthorization, ProjetosPolicies;
+    use HandlesAuthorization, EquipesPolicies;
 
     /**
      * Determine whether the user can view any equipes.

@@ -8,13 +8,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CriarEquipeJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     protected $dadosValidos;
     protected $equipeRepository;
@@ -43,7 +42,7 @@ class CriarEquipeJob implements ShouldQueue
             $pastaEquipes = $this->service->handle('Equipes');
             $pastaEquipe = $this->service->handle($this->dadosValidos['nome_equipe'], $pastaEquipes);
             $path = "$pastaEquipe/logo-".Str::slug($this->dadosValidos['nome_equipe']);
-    
+
             Storage::cloud()->put($path, base64_decode($this->dadosValidos['logo_equipe']));
             $this->dadosValidos['foto_url'] = Storage::cloud()->url($path);
         }
