@@ -83,7 +83,7 @@ return [
         'array'   => 'O campo :attribute não pode ter mais do que :max itens.',
     ],
     'mimes'                => 'O campo :attribute deve ser um arquivo do tipo: :values.',
-    'mimetypes'            => 'O campo :attribute deve ser um arquivo do tipo: :values.',
+    'mimetypes'            => 'A extensão do arquivo enviado no campo :attribute não é aceita.',
     'min' => [
         'numeric' => 'O campo :attribute deve ser pelo menos :min.',
         'file'    => 'O campo :attribute deve ter pelo menos :min kilobytes.',

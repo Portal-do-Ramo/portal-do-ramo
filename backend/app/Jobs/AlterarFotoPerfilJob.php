@@ -49,7 +49,7 @@ class AlterarFotoPerfilJob implements ShouldQueue
 
         $this->deletarService->handle($pasta, "foto-perfil-{$this->usuario->matricula}");
 
-        Storage::cloud()->put($path, base64_decode($this->dadosValidos['foto']));
+        Storage::cloud()->put($path, base64_decode(preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->dadosValidos['foto'])));
         $this->url = Storage::cloud()->url($path);
         $this->usuarioRepository->setFotoPerfil($this->usuario, $this->url);
     }

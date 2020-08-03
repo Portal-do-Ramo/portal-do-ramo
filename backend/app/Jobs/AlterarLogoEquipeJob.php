@@ -50,7 +50,7 @@ class AlterarLogoEquipeJob implements ShouldQueue
 
         $this->deletarService->handle($pastaEquipe, "logo-equipe-{$this->equipe->nome_equipe_slug}");
 
-        Storage::cloud()->put($path, base64_decode($this->logo));
+        Storage::cloud()->put($path, base64_decode(preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo)));
         $this->url = Storage::cloud()->url($path);
         $this->dadosValidos['foto_url'] = $this->url;
     }

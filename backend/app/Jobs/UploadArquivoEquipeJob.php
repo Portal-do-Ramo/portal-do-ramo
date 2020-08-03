@@ -48,7 +48,7 @@ class UploadArquivoEquipeJob implements ShouldQueue
         $pastaEquipe = $this->service->handle($this->equipe->nome_equipe, $pastaEquipes);
         $pasta = $this->service->handle('Arquivos', $pastaEquipe);
 
-        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
+        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode(preg_replace('/data:application\/(pdf|vnd.openxmlformats-officedocument.(wordprocessingml.document|spreadsheetml.sheet)+)+;base64,/', '', $this->dadosValidos['arquivo'])));
 
         $arquivo = $this->buscaService->handle($pasta, $this->dadosValidos['nome_arquivo']);
         $this->dadosValidos['path'] = $arquivo['path'];

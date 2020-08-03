@@ -24,7 +24,7 @@ class CriarEquipeRequest extends FormRequest
             'matricula_assessor' => ['bail','present', 'nullable', 'different:matricula_coordenador', new Matricula, Rule::exists('usuarios', 'matricula')->where(fn($query) => $query->where('situacao_id', '<>', 3))],
             'capitulo' => 'present|nullable',
             'porcentagem_orcamento' => 'required|numeric',
-            'logo_equipe' => 'present|nullable|base64image'
+            'logo_equipe' => 'present|nullable|base64image|base64mimetype:image/jpg,image/jpeg,image/png'
         ];
     }
 
@@ -44,10 +44,5 @@ class CriarEquipeRequest extends FormRequest
             'capitulo' => 'capítulo',
             'porcentagem_orcamento' => 'porcentagem do orçamento'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)]);
     }
 }

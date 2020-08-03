@@ -19,7 +19,7 @@ class CriarArquivoProjetoRequest extends FormRequest
     {
         return [
             'nome_arquivo' => ['required', Rule::unique('arquivos', 'nome')->where(fn($query) => $query->where('tipo_relacionado', 'Projeto')->where('id_relacionado', $this->route('projeto')->nome_projeto_slug))],
-            'arquivo' => 'required|base64file'
+            'arquivo' => 'required|base64file|base64mimetypes:application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
     }
 

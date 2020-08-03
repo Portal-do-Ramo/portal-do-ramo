@@ -26,7 +26,7 @@ class CriarUsuarioRequest extends FormRequest
             'telefone_principal' => 'bail|required|celular_com_ddd',
             'assessor' => 'bail|required|boolean',
             'marketing' => 'bail|required|boolean',
-            'foto' => 'present|nullable|base64image|base64max:1024'
+            'foto' => 'present|nullable|base64image|base64mimetypes:image/jpeg,image/jpeg,image/png'
         ];
     }
 
@@ -54,10 +54,5 @@ class CriarUsuarioRequest extends FormRequest
             'curso_usuario' => 'curso',
             'telefone_principal' => 'telefone principal'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(['foto' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->foto)]);
     }
 }

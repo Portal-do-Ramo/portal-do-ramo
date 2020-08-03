@@ -15,8 +15,8 @@ class StrikeRepository implements StrikeRepositoryInterface
     public function index()
     {
         return UsuarioSistema::getQueryFormatada()
-            ->with(['strikesRecebeuAprovados' => fn($query) => $query->select('uuid', 'motivo', 'data_criado', 'membro_recebeu')->whereSituacao('Aprovado'),'equipes:equipes.nome_equipe_slug', 'equipeCoordena:nome_equipe_slug,matricula_coordenador', 'equipesAssessora:nome_equipe_slug,matricula_assessor'])
-            ->withCount(['strikesRecebeuAprovados AS contagem_strikes' => fn($query) => $query->where('situacao', 'Aprovado')])
+            ->with(['strikesRecebeuAprovados:uuid,motivo,data_criado,membro_recebeu','equipes:equipes.nome_equipe_slug', 'equipeCoordena:nome_equipe_slug,matricula_coordenador', 'equipesAssessora:nome_equipe_slug,matricula_assessor'])
+            ->withCount(['strikesRecebeuAprovados AS contagem_strikes'])
             ->get()
             ->map(fn($usuario) => Arr::except($usuario->toArray(), ['equipes', 'equipe_coordena', 'equipes_assessora']) + ['equipes' => $usuario->equipes->merge($usuario->equipesAssessora)->push($usuario->equipeCoordena)->whereNotNull('nome_equipe_slug')->unique('nome_equipe_slug')->pluck('nome_equipe_slug')]);
     }
@@ -56,7 +56,7 @@ class StrikeRepository implements StrikeRepositoryInterface
     private function selecionarColunasStrike($estado)
     {
         return [
-            'strikes.uuid', 
+            'strikes.uuid',
             "usuarios.nome_completo AS nome_membro_$estado",
             "membro_$estado AS matricula_membro_$estado",
             'strikes.situacao',

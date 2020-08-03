@@ -43,7 +43,7 @@ class CriarEquipeJob implements ShouldQueue
             $pastaEquipe = $this->service->handle($this->dadosValidos['nome_equipe'], $pastaEquipes);
             $path = "$pastaEquipe/logo-".Str::slug($this->dadosValidos['nome_equipe']);
 
-            Storage::cloud()->put($path, base64_decode($this->dadosValidos['logo_equipe']));
+            Storage::cloud()->put($path, base64_decode(preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->dadosValidos['logo_equipe'])));
             $this->dadosValidos['foto_url'] = Storage::cloud()->url($path);
         }
 

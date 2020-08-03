@@ -17,7 +17,7 @@ class AtualizarLogoEquipeRequest extends FormRequest
     public function rules()
     {
         return [
-            'logo_equipe' => 'required|base64image'
+            'logo_equipe' => 'required|base64image|base64mimetypes:image/jpeg,image/jpeg,image/png'
         ];
     }
 
@@ -26,10 +26,5 @@ class AtualizarLogoEquipeRequest extends FormRequest
         return [
             'logo_equipe' => 'logo da equipe'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(['logo_equipe' => preg_replace('/data:image\/(jpg|jpeg|png);base64,/', '', $this->logo_equipe)]);
     }
 }

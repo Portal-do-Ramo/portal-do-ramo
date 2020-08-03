@@ -19,12 +19,7 @@ class CriarArquivoEquipeRequest extends FormRequest
     {
         return [
             'nome_arquivo' => ['required', Rule::unique('arquivos', 'nome')->where(fn($query) => $query->where('tipo_relacionado', 'Equipe')->where('id_relacionado', $this->route('equipe')->nome_equipe_slug))],
-            'arquivo' => 'required|base64file'
+            'arquivo' => 'required|base64file|base64mimetypes:application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(['arquivo' => preg_replace('/data:application\/(pdf|vnd.openxmlformats-officedocument.(wordprocessingml.document|spreadsheetml.sheet)+)+;base64,/', '', $this->arquivo)]);
     }
 }

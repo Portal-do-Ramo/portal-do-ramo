@@ -49,7 +49,7 @@ class UploadArquivoProjetoJob implements ShouldQueue
         $pastaProjetos = $this->service->handle('Projetos', $pastaEquipe);
         $pasta = $this->service->handle($this->projeto->nome_projeto, $pastaProjetos);
 
-        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode($this->dadosValidos['arquivo']));
+        Storage::cloud()->put("$pasta/{$this->dadosValidos['nome_arquivo']}", base64_decode(preg_replace('/data:application\/(pdf|vnd.openxmlformats-officedocument.(wordprocessingml.document|spreadsheetml.sheet)+)+;base64,/', '', $this->dadosValidos['arquivo'])));
 
         $arquivo = $this->buscaService->handle($pasta, $this->dadosValidos['nome_arquivo']);
         $this->dadosValidos['path'] = $arquivo['path'];
