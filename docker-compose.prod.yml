@@ -44,6 +44,7 @@ services:
         restart: unless-stopped
         environment: 
             APP_URL: https://portaldoramo.cefet-rj.br
+            APP_DEBUG: false
             APP_ENV: production
             CONTAINER_ROLE: server
         volumes: 
@@ -109,6 +110,7 @@ services:
         environment: 
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
+            APP_DEBUG: false
             CONTAINER_ROLE: queue
         volumes: 
             - ./backend:/var/www/html
@@ -123,6 +125,7 @@ services:
         environment: 
             APP_URL: https://portaldoramo.cefet-rj.br
             APP_ENV: production
+            APP_DEBUG: false
             CONTAINER_ROLE: scheduler
         volumes: 
             - ./backend:/var/www/html
@@ -141,6 +144,8 @@ services:
             - ./backend:/var/www/html
         depends_on:
             - mariadb
+        environment:
+            APP_DEBUG: false
         working_dir: /var/www/html
         entrypoint: ['php', 'artisan']
         networks:
