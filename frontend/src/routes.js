@@ -87,6 +87,9 @@ import MyRequests from './pages/MyRequests';
 
 /* MARKETING */
 import ViewPartners from './pages/ViewPartners';
+import ManagePartners from './pages/ManagePartners';
+import ControlPartner from './pages/ControlPartner';
+import NewPartner from './pages/NewPartner';
 
 import DownloadEstatuto from './pages/DownloadEstatuto';
 
@@ -190,7 +193,10 @@ export default function Routes () {
           <PrivateRoute path='/requests/historic' component={ () => <HistoricRequests /> } />
 
           {/* Routers - Marketing */}
-          {/* <PrivateRoute path='/partners' component={ () => <ViewPartners />} /> */}
+          {/* <PrivateRoute path='/partners' component={ () => <ViewPartners />} />
+          <PrivateRoute path='/managepartners' exact component={ () => <ManagePartners />} />
+          <PrivateRoute path='/managepartners/control-partner' component={ () => <ControlPartner />} />
+          <PrivateRoute path='/managepartners/new-partner' component={ () => <NewPartner />} /> */}
 
           {/* Outros */}
           <PrivateRoute path='/editprofile' component={ () => <EditProfile /> } />

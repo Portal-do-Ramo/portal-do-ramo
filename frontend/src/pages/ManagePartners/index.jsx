@@ -8,7 +8,7 @@ import Bottom_Right_Side_Menu from '../../components/Bottom_Right_Side_Menu';
 import Header from '../../components/Home_Header';
 import Title from '../../components/Title';
 
-import { Screen, Card, ViewResults} from './styles';
+import { Screen, Card, ViewResults, PartnerInfo} from './styles';
 import bronze from './images/bronze.png';
 import silver from './images/silver.png';
 import gold from './images/gold.png';
@@ -16,7 +16,7 @@ import tecci from './images/tecci.png';
 import yma from './images/yma.png';
 
 
-export default function ViewPartners() {
+export default function ManagePartners() {
   document.title = "Parcerias";
   const access_token = 'Bearer'.concat(sessionStorage.getItem("access_token"));
   const hierarquia = (useSelector(state => state.data[4]));
@@ -115,11 +115,20 @@ export default function ViewPartners() {
           <div className="col-md-6">
             <div className="right-box-blue-gradient">
               <div className="viewPartner">
+                    
+
+                    <div className="d-flex flex-row-reverse tab-content">
+                      {(selectedPartner) ? <img  src={bronze} href="#nivel-info" className="active medal" alt="medal"/> :''}
+                      {(selectedPartner) ? <h3 className="fade " id="nivel-info" >Parceria Bronze </h3> :''}
+                      
+                      
+                    </div>
+
                     <div className="center container-lg">
                       {/* {(selectedPartner) ? <img src={selectedPartner.logo_parceria} className="img-thumbnail" alt="logo"/>:''} */}
-                      {(selectedPartner) ? <strong>Parceria Bronze</strong>:''}
-                      {(selectedPartner) ? <img src={bronze} className="medal" alt="medal"/> :''} <br/>
-                      {(selectedPartner) ? <img src={yma} className="imagem-do-parceiro" alt="logo"/> :''}
+                      
+                      
+                      {(selectedPartner) ? <img src={yma} className="imagem-do-parceiro shadow-lg" alt="logo"/> :''}
 
                       {/* <h1> Nome do Parceiro </h1> */}
                       {/* <h3>{(selectedPartner) ? selectedPartner.nivel_parceria : ''} </h3> */}
@@ -131,6 +140,10 @@ export default function ViewPartners() {
                       <ul>
                         <span ><strong> Site</strong></span>
                         <li id="site">{selectedPartner.link_site_empresa}</li>
+                        <span><strong>Telefone</strong></span>
+                        <li id="telefone">{selectedPartner.telefone_empresa}</li>
+                        <span><strong>E-mail</strong></span>
+                        <li id="email">{selectedPartner.email_empresa}</li>
                         <span><strong>Benefícios</strong></span>
                         <li><textarea readOnly value={selectedPartner.beneficios}></textarea></li>
                       </ul>
