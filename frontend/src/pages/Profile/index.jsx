@@ -114,7 +114,7 @@ export default function Profile(){
                   <ul>
                     {projects.map(project => (
                       <li key={project.nome_projeto_slug}>
-                        <button className="card" onClick={() => window.location.href=`/projects/view?${project.nome_equipe_slug}`}>
+                        <button className="card" onClick={() => window.location.href=`/projects/view?${project.nome_projeto_slug}`}>
                           <div>
                             <img src={project.foto_url} alt="logo" />
                             <div>

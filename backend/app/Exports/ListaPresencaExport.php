@@ -16,7 +16,6 @@ class ListaPresencaExport implements FromCollection, Responsable, ShouldAutoSize
     use Exportable;
 
     private $fileName = 'lista-presenca.xlsx';
-
     protected $usuarioRepository;
 
     public function __construct(UsuarioRepositoryInterface $usuarioRepository)

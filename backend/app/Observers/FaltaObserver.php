@@ -6,7 +6,6 @@ use App\Models\Falta;
 use App\Notifications\Falta\FaltaCriadaNotification;
 use App\Repositories\Interfaces\StrikeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class FaltaObserver
 {
@@ -19,13 +18,12 @@ class FaltaObserver
 
     public function created(Falta $falta)
     {
-        $falta->usuario->notify(new FaltaCriadaNotification($falta));
-
         $strike = null;
         $tipo = $falta->tipo;
         $membro = $falta->usuario;
         $quantidadeFaltas = $membro->getQuantidadeFaltas($tipo->nome, $falta->nome_projeto);
 
+        $membro->notify(new FaltaCriadaNotification($falta));
 
         if($quantidadeFaltas % $tipo->quantidade_para_strike == 0)
         {

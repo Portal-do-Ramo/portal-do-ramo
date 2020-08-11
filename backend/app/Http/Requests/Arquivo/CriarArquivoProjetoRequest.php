@@ -22,9 +22,4 @@ class CriarArquivoProjetoRequest extends FormRequest
             'arquivo' => 'required|base64file|base64mimetypes:application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
     }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(['arquivo' => preg_replace('/data:application\/(pdf|vnd.openxmlformats-officedocument.(wordprocessingml.document|spreadsheetml.sheet)+)+;base64,/', '', $this->arquivo)]);
-    }
 }

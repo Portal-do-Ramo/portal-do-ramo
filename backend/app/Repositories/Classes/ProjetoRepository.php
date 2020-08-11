@@ -141,8 +141,8 @@ class ProjetoRepository implements ProjetoRepositoryInterface
     {
         DB::transaction(function () use($inscricao, $dadosValidos)
         {
-            if($inscricao->funcao != 'Líder' and $dadosValidos['funcao'] == 'Líder')
-                $inscricao->projeto->lider->first()->update(['funcao' => 'Membro']);
+            if($inscricao->funcao != 'Líder' and $dadosValidos['funcao'] == 'Líder' and $inscricaoLider = $inscricao->projeto->inscricoes()->whereAtivo(true)->whereFuncao('Líder')->first())
+                $inscricaoLider->update(['funcao' => 'Membro']);
 
             $inscricao->update(['funcao' => $dadosValidos['funcao'], 'area' => $dadosValidos['area']]);
         });

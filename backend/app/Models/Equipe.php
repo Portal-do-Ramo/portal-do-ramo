@@ -80,7 +80,7 @@ class Equipe extends BaseModel
         $this->matricula_coordenador = $matricula_coordenador;
         $this->save();
 
-        $this->fireModelEvent('changedCordinator', false);
+        $this->fireModelEvent('changedCoordinator', false);
     }
 
     public function mudarAssessor(string $matricula_assessor)

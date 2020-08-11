@@ -121,7 +121,7 @@ class StrikeRepository implements StrikeRepositoryInterface
 
     public function addReavaliacao(Strike $strike, array $dadosValidos)
     {
-        $strike->reavaliacoes()->save(new Reavaliacao($dadosValidos));
+        $strike->reavaliacoes()->create($dadosValidos);
     }
 
     public function getReavaliacoes(Strike $strike)

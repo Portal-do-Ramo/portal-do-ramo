@@ -71,12 +71,12 @@ services:
             - app-network
             
     redis:
-        image: redis:6.0.6-alpine
-        restart: unless-stopped
+        build:
+            context: .docker/redis
         container_name: redis-container
-        command: ["redis-server", "--requirepass", "fZsuCu*=T3+HTkXG"]
+        restart: unless-stopped
         volumes: 
-            - .docker/redis:/data
+            - .docker/redis/data:/data
         networks: 
             - app-network
 

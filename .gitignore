@@ -1,5 +1,5 @@
 .docker/database
-.docker/redis
+.docker/redis/data
 .docker/nginx/certbot
 .docker/echo/laravel-echo-server.lock
 
