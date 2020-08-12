@@ -38,6 +38,6 @@ class LimparEventos extends Command
      */
     public function handle()
     {
-        DB::table('eventos')->whereDate('data_evento', '<=', today()->subMonth())->delete();
+        DB::table('eventos')->whereDate('data_evento', '<=', today()->subYear())->delete();
     }
 }

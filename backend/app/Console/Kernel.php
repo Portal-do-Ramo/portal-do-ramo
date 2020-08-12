@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('auth:clear-resets')->daily();
         $schedule->command('clear:notifications')->monthly();
-        $schedule->command('clear:eventos')->monthly();
+        $schedule->command('clear:eventos')->yearly();
     }
 
     /**

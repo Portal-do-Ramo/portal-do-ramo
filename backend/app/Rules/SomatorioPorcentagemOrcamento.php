@@ -15,7 +15,7 @@ class SomatorioPorcentagemOrcamento implements Rule
      */
     public function passes($attribute, $value)
     {
-        return array_reduce($value, fn($carry, $item) => $carry + $item['porcentagem'], 0) === 100;
+        return array_reduce($value, fn($carry, $item) => $carry + $item['porcentagem_orcamento'], 0) === 100;
     }
 
     /**
