@@ -19,7 +19,7 @@ class AtualizarPorcentagemCaixaRequest extends FormRequest
     {
         return [
             'caixas' => ['required', 'array', new SomatorioPorcentagemOrcamento],
-            'caixas.*.nome_caixa_slug' => 'required|exists:caixas,nome_caixa_slug',
+            'caixas.*.nome_caixa' => 'required|exists:caixas,nome_caixa_slug',
             'caixas.*.porcentagem_orcamento' => 'required'
         ];
     }
