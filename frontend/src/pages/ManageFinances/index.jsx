@@ -47,8 +47,8 @@ export default function ManageFinances () {
   // IN/OUT CASH
   const [isInputExclusive, setIsInputExclusive] = useState(false);
   const [isOutputExclusive, setIsOutputExclusive] = useState(false);
-  const [selectedInputCash, setSelectedInputCash] = useState('emergencial');
-  const [selectedOutputCash, setSelectedOutputCash] = useState('emergencial');
+  const [selectedInputCash, setSelectedInputCash] = useState('administrativo');
+  const [selectedOutputCash, setSelectedOutputCash] = useState('administrativo');
   const [selectedLCIMember, setSelectedLCIMember] = useState();
 
   // CHARTS
@@ -158,7 +158,6 @@ export default function ManageFinances () {
     .then(response => setGastosMensais(response.data))
     .catch(() => window.location.href = '/error')
   }, [])
-
 
   useEffect(() => {
     api.get(`/api/registros-de-caixa/gastos-anuais-equipes?ano=${selectedYear}`, { headers: { Authorization: access_token } })

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\RegistroDeCaixa;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\RegistroDeCaixa\CriarRegistroDeCaixaRequest;
-use App\Models\Equipe;
 use App\Models\RegistroDeCaixa;
 use App\Repositories\Interfaces\RegistroDeCaixaRepositoryInterface;
 
@@ -16,7 +15,7 @@ class RegistroDeCaixaController extends ApiController
     {
         parent::__construct();
         $this->registroCaixaRepository = $registroCaixaRepository;
-        $this->authorizeResource(RegistroDeCaixa::class);    
+        $this->authorizeResource(RegistroDeCaixa::class);
     }
 
     /**
