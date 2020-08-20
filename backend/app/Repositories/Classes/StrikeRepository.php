@@ -26,7 +26,7 @@ class StrikeRepository implements StrikeRepositoryInterface
         $strikesRecebeu = Auth::user()->strikesRecebeuAprovados()
             ->join('usuarios', 'strikes.membro_aplicou', '=', 'usuarios.matricula')
             ->select($this->selecionarColunasStrike('aplicou'))
-            ->orWhere('strikes.situacao', 'Retirado')
+            ->orWhere(fn($query) => $query->where('strikes.situacao', 'Retirado')->where('membro_recebeu', Auth::id()))
             ->get();
 
         $strikesEnviou = Auth::user()->strikesAplicou()
