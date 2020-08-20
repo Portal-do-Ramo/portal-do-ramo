@@ -11,13 +11,13 @@ use App\Repositories\Interfaces\StrikeRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class StrikeController extends AbstractStrikeController
-{    
+{
     public function __construct(StrikeRepositoryInterface $strikeRepository)
     {
         parent::__construct($strikeRepository);
         $this->authorizeResource(Strike::class, 'strike');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -34,12 +34,12 @@ class StrikeController extends AbstractStrikeController
     }
 
     public function historico(Usuario $usuario)
-    {        
+    {
         return new HistoricoStrikeResource($usuario, $this->strikeRepository);
     }
 
     public function strikesSolicitados()
-    {        
+    {
         return $this->strikeRepository->getStrikesSolicitados();
     }
 
@@ -51,7 +51,7 @@ class StrikeController extends AbstractStrikeController
      */
     public function store(CriarStrikeRequest $request)
     {
-        $this->strikeRepository->create($request->validated() + ['membro_aplicou' => Auth::id()]);
+        $this->strikeRepository->create($request->validated());
         return response()->json('Registro de strike criado com sucesso', 201);
     }
 
@@ -69,7 +69,7 @@ class StrikeController extends AbstractStrikeController
      * @return \Illuminate\Http\Response
      */
     public function aprovar(Strike $strike)
-    {       
+    {
         $strike->aprovar();
         return response()->json('Strike aprovado com sucesso', 200);
     }
@@ -82,7 +82,7 @@ class StrikeController extends AbstractStrikeController
      * @return \Illuminate\Http\Response
      */
     public function manter(Strike $strike)
-    {       
+    {
         $strike->manter();
         return response()->json('Strike mantido com sucesso', 200);
     }
@@ -100,7 +100,7 @@ class StrikeController extends AbstractStrikeController
             $strike->retirar();
             return response()->json('Strike retirado com sucesso', 200);
         }
-            
+
         $strike->reprovar();
         return response()->json('Strike reprovado com sucesso', 200);
     }
