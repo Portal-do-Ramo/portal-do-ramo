@@ -8,7 +8,6 @@ use App\Http\Resources\HistoricoStrikeResource;
 use App\Models\Strike;
 use App\Models\Usuario;
 use App\Repositories\Interfaces\StrikeRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
 
 class StrikeController extends AbstractStrikeController
 {
