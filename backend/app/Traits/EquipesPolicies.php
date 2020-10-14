@@ -8,7 +8,7 @@ trait EquipesPolicies
 {
     public function before(Usuario $user, $ability)
     {
-        if($user->isPresidencia() or $user->isDiretor('de Projetos') or $user->isDiretor('de Gestão de Pessoas'))
+        if($user->isPresidencia() or $user->isDiretor('de Projetos') or $user->isDiretor('de Gestão de Pessoas') or $user->isDiretor('Financeiro'))
             return true;
     }
 }
